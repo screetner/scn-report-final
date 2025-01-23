@@ -31,6 +31,20 @@
 \usepackage{pdflscape} % for landscape figures and tables. 
 \usepackage{import}
 
+\usepackage{listings} % For Code block
+
+\lstset{
+    basicstyle=\ttfamily\footnotesize, % Sets the font to typewriter
+    breaklines=true,      % Enables automatic line breaking
+    columns=fullflexible,  % Ensures proper alignment of text
+    showstringspaces=false, % Hides spaces in strings
+    inputencoding=utf8,
+    literate={-}{{\texttt{-}}}1 {:}{{\texttt{:}}}1 {T}{{\texttt{T}}}1 {.}{{\texttt{.}}}1 Z{{\texttt{Z}}}1
+    % Somehow, this allow us to user hyphens in code blocks.
+    % So don't delete these 3 lines, please.
+}
+
+
 %% Some other useful packages. Look these up to find out how to use
 %% them.
 % \usepackage{natbib}    % for author-year citation styles

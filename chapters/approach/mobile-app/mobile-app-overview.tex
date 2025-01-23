@@ -1,0 +1,149 @@
+\section{\ifenglish Mobile Applcation \else ระบบแอปพลิเคชั่นโทรศัพท์ \fi}
+\ifenglish
+\else
+ลอเรม อิปซุม (Talk about tech stack or something)
+    
+\fi
+\subsection{\ifenglish Mobile Application Use Cases \else การใช้งานแอปพลิเคชั่นโทรศัพท์ \fi}
+The mobile application serves as the platform for recording and uploading the necessary data for the object detection process. The system encompasses four primary use cases: login, recording video sessions, uploading video sessions, and deleting video sessions, which are illustrated in the following diagram.
+\begin{enumerate}
+    \item \textbf{Login Use Case}: This use case enables the user to log in to the mobile application by invoking the login API provided by the backend service. Note that user registration cannot be performed through the mobile application. Details about the sign-up process are explained in Section 3.2.2. % TODO, reference
+    \item \textbf{Record Video Session Use Case}: This use case allows the user to record a video session on their device. A video session encapsulates the data required for processing billboards and their locations, including the video files, location records, and timestamps. This use case is divided into three sub-use cases:  
+    \begin{enumerate}
+        \item \textbf{Start Recording}: This sub-use case initiates or resumes the recording of a video session.  
+        \item \textbf{Pause Recording}: This sub-use case pauses the video session recording. The user can resume the recording later by invoking the Start Recording sub-use case. Pausing helps reduce the size of the video session, conserving device storage and minimizing computation time for the object detection service.  
+        \item \textbf{Stop Recording}: This sub-use case stops and finalizes the video session recording, making the session ready for upload.  
+    \end{enumerate}
+    \item \textbf{Upload Video Session Use Case}: This use case enables the user to upload video sessions to Azure Blob Storage using the tusd resumable upload protocol. With this protocol, uploads can be resumed if interrupted (e.g., due to network issues) without data loss. Once a video session is successfully uploaded, the object detection service will automatically retrieve and process the data from the cloud storage.  
+    \item \textbf{Delete Video Session Use Case}: This use case allows the user to delete video sessions from their mobile device. This functionality is helpful for freeing up storage space. While users are encouraged to delete video sessions only after they have been successfully uploaded to the cloud, they are still allowed to delete sessions even if the upload process is incomplete or has not started.  
+\end{enumerate}
+The following state diagram illustrates the sequence of transitions from starting a video recording to deleting it, including both ideal and non-ideal states. Solid lines represent ideal transitions, while dashed lines indicate non-ideal transitions.
+
+\subsection{\ifenglish Mobile Application Interface \else หน้าการใช้งานแอปพลิเคชั่นโทรศัพท์ \fi}
+
+\subsection{\ifenglish Mobile Application Structure \else สถาปัตยกรรมระบบแอปพลิเคชั่นโทรศัพท์ \fi}
+For mobile applciation structure, the application components are divided into 5 major types as shown in the following diagram.
+\begin{enumerate}
+    \item \textbf{Pages}: These are the user interfaces of the application, each designed to serve specific functionalities. Users can navigate between different pages of the application, as described below:  
+    \begin{enumerate}  
+        \item \textbf{Login Page}: This page appears when the user opens the application for the first time or lacks valid tokens to authenticate API requests to the back-end server. Users can log in by entering their credentials to retrieve tokens and access the application.  
+        \item \textbf{Home Page}: This page lists all video sessions stored on the device. From here, users can initiate video session uploads or delete video sessions.  
+        \item \textbf{Recording Page}: This page facilitates recording video sessions. Users can start, pause, or stop video session recordings.  
+        \item \textbf{Information Page}: This page displays the current user's information and provides an option to log out of the application.  
+    \end{enumerate}  
+    All pages, except the login and recording pages, can be accessed via the bottom navigation bar. The bottom navigation bar is a shared component displayed across applicable pages, featuring buttons that correspond to each page.  
+    
+    Additionally, the application remembers the last page the user visited, allowing users to navigate back to it by pressing the back button on their mobile device.      
+
+    \item \textbf{Components}: Components are reusable building blocks of the application's pages. Each component encapsulates specific functionality or visual elements and can be integrated into different pages. The components are specifically designed to improve modularity and reusability within the application.
+    
+    \item \textbf{Providers}: Providers serve as the bridge between the user interface and the application's computational logic. They are responsible for supplying essential data and enabling communication with device features, such as notifications. Additionally, providers may store immutable application configuration settings. Major providers in the application include:
+    \begin{enumerate}
+        \item \textbf{Image Location Record Controller}: This provider manages the simultanious recording of video and location data, with both processes running independently. It handles the application's three core functionalities: starting, pausing, and stopping video recording. When recording is stopped, this provider saves the video and location data to the device's storage.
+        \item \textbf{Video Metadata Provider}: This provider supplies metadata for all video sessions stored on the device, enabling their display on the home page. It also generates thumbnails for each video session.  
+        \item \textbf{Notification Manager}: This provider acts as an interface between other providers and the device's notification system, managing the display of notifications to the user.  
+        \item \textbf{Directory Upload Manager}: This provider initializes a WorkManager task to upload video sessions to cloud storage. It also configures the environment necessary for WorkManager to perform uploads correctly. Additional details are provided in Section 3.3.5. % TODO: Reference the correct section.  
+        \item \textbf{Progress Isolate Manager}: This provider retrieves and monitors the upload progress of each video session from the device's storage. Since the upload tasks are executed by WorkManager in an isolated environment, which neither shares memory with the main application nor inherently provides upload progress, this provider bridges that gap.
+    \end{enumerate}
+    
+    \item \textbf{Services}: Services are utility modules that encapsulate complex or reusable functionalities and support providers. Unlike providers, services are more general-purpose and modular, allowing for reusability across different parts of the application. Services manage API requests, responses, and represent complex classes. They also interact with device kernels like file saving and may assist with data management. Major services in the application include:
+    \begin{enumerate}  
+        \item \textbf{Authentication Service}: This service handles authentication-related API calls, including user login and token retrieval from the server.  
+        \item \textbf{Video Session Service}: This service manages interactions with the video session API, such as creating new video sessions in the back-end service's database and requesting uploads to Azure Blob Storage.  
+        \item \textbf{Location Recorder}: Responsible solely for managing the location recording process, this service does not handle video recording, which is managed by a library provided by the Flutter framework.  
+        \item \textbf{Directory Upload Client}: This service manages the upload of video sessions to Azure Blob Storage using the Tus upload client. Since the Tus client can track the state of a single file upload only, this service coordinates the upload process for all files in a video session.  
+        \item \textbf{Secure Storage Cache}: Mobile applications commonly store sensitive data, such as user credentials and tokens, in encrypted device-provided secure storage. To improve performance, this service caches sensitive data from secure storage into the application's memory, reducing decryption delays during retrieval.  
+        \item \textbf{Directory Upload State Store}: This service stores the state of a video session's upload process in the device's storage. It tracks three components: files that have been uploaded, the file currently being uploaded, and files queued for upload. This ensures the upload process can resume seamlessly if interrupted.  
+        \item \textbf{Progress File Store}: This service maintains the upload progress of each video session as a percentage. These are the files that the Progress Isolate Manager reads to retrieve and display the upload progress for each session.
+    \end{enumerate}  
+    
+    \item \textbf{Assets}: Assets encompass the static resources used by the application, such as images, fonts, icons, and other media files. These resources are accessed by components and pages. Organizing assets in a structured manner ensures efficient retrieval and reuse throughout the application.
+\end{enumerate}
+
+\subsection{\ifenglish API Request Flow and Error Handling \else กระบวนการเรียกใช้งานเอพีไอและการจัดการข้อผิดพลาด \fi}
+When using token authentication for API requests, tokens may occasionally expire, creating potential disruptions for users. Manually handling token refreshes can degrade the user experience. To streamline this, the application implements automatic token refreshment. This functionality is achieved using Dio’s interceptors, which enable seamless handling of API requests and responses. The interceptors are designed as follows:
+\begin{enumerate}
+    \item \textbf{Request Interceptor}: Before sending an API request, the request interceptor verifies whether the access token has expired. If the token is valid, the request proceeds as usual. If the token has expired, the interceptor automatically refreshes it by invoking the refresh token API. Upon successfully retrieving a new token, the interceptor updates the access token and resumes the request. In cases where both the access token and refresh token have expired, the application redirects the user to the login page. This process is depicted in the accompanying diagram.  
+
+    \item \textbf{Response Interceptor}: After receiving an API response, the response interceptor checks the status code to determine if it indicates an expired token. If the token is expired and the refresh token is still valid, the interceptor automatically refreshes the access token by invoking the refresh token API. Once a new token is obtained, the interceptor updates the access token and resends the original request. This seamless process ensures that user requests are handled without disruption. The steps involved in this process are illustrated in the accompanying diagram.      
+\end{enumerate}
+\subsection{\ifenglish Video Session Record Process \else กระบวนการบันทึกเซสชันวิดีโอ \fi}
+After starting the recording, the application invokes the \textbf{Image Location Record Controller} to begin recording both the video and its corresponding location data. These two processes—video recording and location recording—operate independently and simultaneously. The location recording is handled by the \textbf{Location Recorder service}, which creates a record whenever the device detects a change in location through the \textbf{Geolocator library} (via the \texttt{getPositionStream} function). The video recording, on the other hand, is managed by the camera library.
+
+We refer to the combination of video and location data as an \textbf{image-location record}. Since both processes independently record their respective data, the system associates a timestamp with each location record. This timestamp is essential for the object detection service to match detected objects with their corresponding locations. This protocol of recording timestamp-location pairs is called a \textbf{Tloc file}.
+
+The Tloc file is named identically to the video file. For example, \texttt{1725683830.tloc} corresponds to the location data for the video file \texttt{1725683830.mp4}. The structure of a Tloc file is as follows:
+\begin{enumerate}
+    \item\textbf{Header (\texttt{4 bytes})}. This section contains an integers:
+    \begin{itemize}
+        \item \textbf{\texttt{n} (Number of Timestamp-Locations)}: Represents the number of timestamp-location entries.
+    \end{itemize}
+    
+    \item \textbf{Location Data (\texttt{n * 24 bytes})}. This section contains n blocks, each 24 bytes long, representing the timestamp and geographic location of each location entry. Each block consists of three numbers:
+    \begin{itemize}
+        \item \textbf{Unix Timestamp}: The timestamp in Unix format (8 bytes).
+        \item \textbf{Latitude}: The latitude corresponding to the timestamp (8 bytes).
+        \item \textbf{Longitude}: The longitude corresponding to the timestamp (8 bytes).
+    \end{itemize}
+
+However, each video session may have multiple image-location records. As for each video session pausing and stopping, will generate an image-location record. After the user decide to stop, the application will finalize all image-location records and combine it as a single video session. Where each video session has an information JSON file which represents the order and the image-location records. The information JSON file has the structure as such:
+\begin{lstlisting}
+    {
+        "videoCount": number,
+        "sessionStartTime": string,
+        "videoTlocTuples": {
+            "videoName": string, 
+            "tlocName": string 
+        }[],
+        "videoSessionId": string,
+    }
+\end{lstlisting}
+\begin{itemize}
+    \item \textbf{\texttt{videoCount}}: The total number of videos in the session (integer).
+    \item \textbf{\texttt{sessionStartTime}}: The start time of the session in UTC in ISO 8601 format.
+    \item \textbf{\texttt{videoTlocTuples}}: An array of objects mapping video names to Tloc names.
+    \begin{itemize}
+        \item \textbf{\texttt{videoName}}: The name of the video file.
+        \item \textbf{\texttt{tlocName}}: The name of the corresponding Tloc file.
+    \end{itemize}
+    \item \textbf{\texttt{videoSessionId}}: The unique id for the video session.
+\end{itemize}
+Example of the information JSON file:
+\begin{lstlisting}
+    {
+        "videoCount": 1,
+        "sessionStartTime": "2024-09-20T02:45:38.497588Z",
+        "videoTlocTuples":[
+            {
+                "videoName":"1726800338506.mp4",
+                "tlocName":"1726800338506.tloc"
+            }
+        ],
+        "videoSessionId": "samble-video-session-id"
+    }
+\end{lstlisting}
+And the Image Location Record Controller stores all files of a video session in application's storage which has the structure as provided:
+\begin{lstlisting}
+    . app_flutter
+    |-records
+    | |-${videoSessionName}     #e.g., 1725683830
+    | | |-${video1}.mp4         #e.g., 1725683830.mp4
+    | | |-${video2}.mp4
+    | | |-${video1}.tloc        #e.g., 1725683830.tloc
+    | | |-${video2}.tloc
+    | | |-information.json
+\end{lstlisting}
+\end{enumerate}
+
+\subsection{\ifenglish Video Session Upload Process \else กระบวนการอัพโหลดเซสชันวิดีโอ \fi}
+When the user chooses to upload a video session, the \textbf{Directory Upload Manager} initializes a background process using the WorkManager, which handles the upload process in a headless manner. The upload manager ensures that all necessary application context is provided to manage the processes, including the file upload process handled by the \textbf{Directory Upload Client} and the device notification process managed by the \textbf{Notification Manager}.
+
+The directory upload process utilizes a resumable upload mechanism. The underlying technology used is the Tus protocol, which involves a tus server on the receiving end. This server handles incoming file packets from the mobile application and routes them into Azure Blob Storage. The mobile application streams the file in smaller chunks and tracks the upload progress locally. This process is managed by the Tus client.
+
+However, the Tus client only supports resumable uploads for a single file at a time. To handle uploads for an entire directory, the application employs a wrapper called the \textbf{Directory Upload Client}. This client iterates over each file in the directory, managing their individual upload processes while tracking which files are uploaded, in progress, or pending upload. Additionally, the client tracks the overall progress of the video session upload through the \textbf{Progress File Store} service, which provides the data necessary to display upload progress on the home page.
+
+The complete video session upload process is illustrated in the accompanying diagram.
+% TODO: reference tus protocol
+
+
+\subsection{\ifenglish Unused Protocols and Technologies in Final System \else โปรโตคอลและเทคโนโลยีที่ไม่ได้ใช้งานในระบบสุดท้าย \fi}
