@@ -1,0 +1,48 @@
+\subsection{\ifenglish Mobile Application Structure \else สถาปัตยกรรมระบบแอปพลิเคชั่นโทรศัพท์ \fi}
+For mobile applciation structure, the application components are divided into 5 major types as shown in the following diagram.
+
+\begin{figure}[ht]
+    \begin{center}
+    \text{Add Components Diagram Here}
+    \end{center}
+    \newcommand{\MobileAppComponentDiagram}{\ifenglish Mobile Application Component Diagram \else แผนภาพองค์ประกอบของแอปพลิเคชันมือถือ \fi}
+    \caption[\MobileAppComponentDiagram]{\MobileAppComponentDiagram}
+    \label{fig:mobile app component diagram}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{Pages}: These are the user interfaces of the application, each designed to serve specific functionalities. Users can navigate between different pages of the application, as described below:  
+    \begin{enumerate}  
+        \item \textbf{Login Page}: This page appears when the user opens the application for the first time or lacks valid tokens to authenticate API requests to the back-end server. Users can log in by entering their credentials to retrieve tokens and access the application.  
+        \item \textbf{Home Page}: This page lists all video sessions stored on the device. From here, users can initiate video session uploads or delete video sessions.  
+        \item \textbf{Recording Page}: This page facilitates recording video sessions. Users can start, pause, or stop video session recordings.  
+        \item \textbf{Information Page}: This page displays the current user's information and provides an option to log out of the application.  
+    \end{enumerate}  
+    All pages, except the login and recording pages, can be accessed via the bottom navigation bar. The bottom navigation bar is a shared component displayed across applicable pages, featuring buttons that correspond to each page.  
+    
+    Additionally, the application remembers the last page the user visited, allowing users to navigate back to it by pressing the back button on their mobile device.      
+
+    \item \textbf{Components}: Components are reusable building blocks of the application's pages. Each component encapsulates specific functionality or visual elements and can be integrated into different pages. The components are specifically designed to improve modularity and reusability within the application.
+    
+    \item \textbf{Providers}: Providers serve as the bridge between the user interface and the application's computational logic. They are responsible for supplying essential data and enabling communication with device features, such as notifications. Additionally, providers may store immutable application configuration settings. Major providers in the application include:
+    \begin{enumerate}
+        \item \textbf{Image Location Record Controller}: This provider manages the simultanious recording of video and location data, with both processes running independently. It handles the application's three core functionalities: starting, pausing, and stopping video recording. When recording is stopped, this provider saves the video and location data to the device's storage.
+        \item \textbf{Video Metadata Provider}: This provider supplies metadata for all video sessions stored on the device, enabling their display on the home page. It also generates thumbnails for each video session.  
+        \item \textbf{Notification Manager}: This provider acts as an interface between other providers and the device's notification system, managing the display of notifications to the user.  
+        \item \textbf{Directory Upload Manager}: This provider initializes a WorkManager task to upload video sessions to cloud storage. It also configures the environment necessary for WorkManager to perform uploads correctly. Additional details are provided in Section 3.3.5. % TODO: Reference the correct section.  
+        \item \textbf{Progress Isolate Manager}: This provider retrieves and monitors the upload progress of each video session from the device's storage. Since the upload tasks are executed by WorkManager in an isolated environment, which neither shares memory with the main application nor inherently provides upload progress, this provider bridges that gap.
+    \end{enumerate}
+    
+    \item \textbf{Services}: Services are utility modules that encapsulate complex or reusable functionalities and support providers. Unlike providers, services are more general-purpose and modular, allowing for reusability across different parts of the application. Services manage API requests, responses, and represent complex classes. They also interact with device kernels like file saving and may assist with data management. Major services in the application include:
+    \begin{enumerate}  
+        \item \textbf{Authentication Service}: This service handles authentication-related API calls, including user login and token retrieval from the server.  
+        \item \textbf{Video Session Service}: This service manages interactions with the video session API, such as creating new video sessions in the back-end service's database and requesting uploads to Azure Blob Storage.  
+        \item \textbf{Location Recorder}: Responsible solely for managing the location recording process, this service does not handle video recording, which is managed by a library provided by the Flutter framework.  
+        \item \textbf{Directory Upload Client}: This service manages the upload of video sessions to Azure Blob Storage using the Tus upload client. Since the Tus client can track the state of a single file upload only, this service coordinates the upload process for all files in a video session.  
+        \item \textbf{Secure Storage Cache}: Mobile applications commonly store sensitive data, such as user credentials and tokens, in encrypted device-provided secure storage. To improve performance, this service caches sensitive data from secure storage into the application's memory, reducing decryption delays during retrieval.  
+        \item \textbf{Directory Upload State Store}: This service stores the state of a video session's upload process in the device's storage. It tracks three components: files that have been uploaded, the file currently being uploaded, and files queued for upload. This ensures the upload process can resume seamlessly if interrupted.  
+        \item \textbf{Progress File Store}: This service maintains the upload progress of each video session as a percentage. These are the files that the Progress Isolate Manager reads to retrieve and display the upload progress for each session.
+    \end{enumerate}  
+    
+    \item \textbf{Assets}: Assets encompass the static resources used by the application, such as images, fonts, icons, and other media files. These resources are accessed by components and pages. Organizing assets in a structured manner ensures efficient retrieval and reuse throughout the application.
+\end{enumerate}

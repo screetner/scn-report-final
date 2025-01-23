@@ -1,0 +1,77 @@
+\subsection{\ifenglish Video Session Record Process \else กระบวนการบันทึกเซสชันวิดีโอ \fi}
+After starting the recording, the application invokes the \textbf{Image Location Record Controller} to begin recording both the video and its corresponding location data. These two processes—video recording and location recording—operate independently and simultaneously. The overall workflow for this recording process is illustrated in \autoref{fig:video session recording work flow}. 
+
+The location recording is handled by the \textbf{Location Recorder service}, which creates a record whenever the device detects a change in location through the \textbf{Geolocator library} (via the \texttt{getPositionStream} function). The video recording, on the other hand, is managed by the camera library.
+
+We refer to the combination of video and location data as an \textbf{image-location record}. Since both processes independently record their respective data, the system associates a timestamp with each location record. This timestamp is essential for the object detection service to match detected objects with their corresponding locations. This protocol of recording timestamp-location pairs is called a \textbf{Tloc file}.
+
+The Tloc file is named identically to the video file. For example, \texttt{1725683830.tloc} corresponds to the location data for the video file \texttt{1725683830.mp4}. The structure of a Tloc file is as follows:
+\begin{enumerate}
+    \item\textbf{Header (\texttt{4 bytes})}. This section contains an integers:
+    \begin{itemize}
+        \item \textbf{\texttt{n} (Number of Timestamp-Locations)}: Represents the number of timestamp-location entries.
+    \end{itemize}
+    
+    \item \textbf{Location Data (\texttt{n * 24 bytes})}. This section contains n blocks, each 24 bytes long, representing the timestamp and geographic location of each location entry. Each block consists of three numbers:
+    \begin{itemize}
+        \item \textbf{Unix Timestamp}: The timestamp in Unix format (8 bytes).
+        \item \textbf{Latitude}: The latitude corresponding to the timestamp (8 bytes).
+        \item \textbf{Longitude}: The longitude corresponding to the timestamp (8 bytes).
+    \end{itemize}
+
+However, each video session may have multiple image-location records. As for each video session pausing and stopping, will generate an image-location record. After the user decide to stop, the application will finalize all image-location records and combine it as a single video session. Where each video session has an information JSON file which represents the order and the image-location records. The information JSON file has the structure as such:
+\begin{lstlisting}
+    {
+        "videoCount": number,
+        "sessionStartTime": string,
+        "videoTlocTuples": {
+            "videoName": string, 
+            "tlocName": string 
+        }[],
+        "videoSessionId": string,
+    }
+\end{lstlisting}
+\begin{itemize}
+    \item \textbf{\texttt{videoCount}}: The total number of videos in the session (integer).
+    \item \textbf{\texttt{sessionStartTime}}: The start time of the session in UTC in ISO 8601 format.
+    \item \textbf{\texttt{videoTlocTuples}}: An array of objects mapping video names to Tloc names.
+    \begin{itemize}
+        \item \textbf{\texttt{videoName}}: The name of the video file.
+        \item \textbf{\texttt{tlocName}}: The name of the corresponding Tloc file.
+    \end{itemize}
+    \item \textbf{\texttt{videoSessionId}}: The unique id for the video session.
+\end{itemize}
+Example of the information JSON file:
+\begin{lstlisting}
+    {
+        "videoCount": 1,
+        "sessionStartTime": "2024-09-20T02:45:38.497588Z",
+        "videoTlocTuples":[
+            {
+                "videoName":"1726800338506.mp4",
+                "tlocName":"1726800338506.tloc"
+            }
+        ],
+        "videoSessionId": "samble-video-session-id"
+    }
+\end{lstlisting}
+And the Image Location Record Controller stores all files of a video session in application's storage which has the structure as provided:
+\begin{lstlisting}
+    . app_flutter
+    |-records
+    | |-${videoSessionName}     #e.g., 1725683830
+    | | |-${video1}.mp4         #e.g., 1725683830.mp4
+    | | |-${video2}.mp4
+    | | |-${video1}.tloc        #e.g., 1725683830.tloc
+    | | |-${video2}.tloc
+    | | |-information.json
+\end{lstlisting}
+\end{enumerate}
+\begin{figure}[ht]
+    \begin{center}
+    \includesvg[\svgSettings]{resources/mobile-app/video-session-record-transition.svg}
+    \end{center}
+    \newcommand{\VideoSessionRecordTransition}{\ifenglish Mobile Application Workflow for Video Session Recording \else กระบวนการทำงานของแอปพลิเคชันมือถือในการบันทึกเซสชันวิดีโอ \fi}
+    \caption[\VideoSessionRecordTransition]{\VideoSessionRecordTransition}
+    \label{fig:video session recording work flow}
+\end{figure}

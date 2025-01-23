@@ -1,0 +1,33 @@
+\subsection{\ifenglish Mobile Application Use Cases \else การใช้งานแอปพลิเคชั่นโทรศัพท์ \fi}
+The mobile application serves as the platform for recording and uploading the necessary data for the object detection process. The system encompasses four primary use cases: login, recording video sessions, uploading video sessions, and deleting video sessions, which are illustrated in the following diagram.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includesvg[\svgSettings]{resources/mobile-app/mobile-app-use-cases.svg}
+    \end{center}
+    \newcommand{\MobileAppUseCaseDiagram}{\ifenglish Mobile Application Use Case Diagram \else แผนภาพการใช้งานแอปพลิเคชันมือถือ\fi}
+    \caption[\MobileAppUseCaseDiagram]{\MobileAppUseCaseDiagram}
+    \label{fig:mobile app use case diagram}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{Login Use Case}: This use case enables the user to log in to the mobile application by invoking the login API provided by the backend service. Note that user registration cannot be performed through the mobile application. Details about the sign-up process are explained in Section 3.2.2. % TODO, reference
+    \item \textbf{Record Video Session Use Case}: This use case allows the user to record a video session on their device. A video session encapsulates the data required for processing billboards and their locations, including the video files, location records, and timestamps. This use case is divided into three sub-use cases:  
+    \begin{enumerate}
+        \item \textbf{Start Recording}: This sub-use case initiates or resumes the recording of a video session.  
+        \item \textbf{Pause Recording}: This sub-use case pauses the video session recording. The user can resume the recording later by invoking the Start Recording sub-use case. Pausing helps reduce the size of the video session, conserving device storage and minimizing computation time for the object detection service.  
+        \item \textbf{Stop Recording}: This sub-use case stops and finalizes the video session recording, making the session ready for upload.  
+    \end{enumerate}
+    \item \textbf{Upload Video Session Use Case}: This use case enables the user to upload video sessions to Azure Blob Storage using the tusd resumable upload protocol. With this protocol, uploads can be resumed if interrupted (e.g., due to network issues) without data loss. Once a video session is successfully uploaded, the object detection service will automatically retrieve and process the data from the cloud storage.  
+    \item \textbf{Delete Video Session Use Case}: This use case allows the user to delete video sessions from their mobile device. This functionality is helpful for freeing up storage space. While users are encouraged to delete video sessions only after they have been successfully uploaded to the cloud, they are still allowed to delete sessions even if the upload process is incomplete or has not started.  
+\end{enumerate}
+The following state diagram illustrates the sequence of transitions from starting a video recording to deleting it, including both ideal and non-ideal states. Solid lines represent ideal transitions, while dashed lines indicate non-ideal transitions.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includesvg[\svgSettings]{resources/mobile-app/mobile-app-state-diagram.svg}
+    \end{center}
+    \newcommand{\MobileAppUserJourner}{\ifenglish User's Video Session Recording Workflow \else ขั้นตอนการบันทึกเซสชันวิดีโอของผู้ใช้ \fi}
+    \caption[\MobileAppUserJourner]{\MobileAppUserJourner}
+    \label{fig:video session record state diagram}
+\end{figure}

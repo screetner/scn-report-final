@@ -1,0 +1,55 @@
+\subsection{\ifenglish Video Session Upload Process \else กระบวนการอัพโหลดเซสชันวิดีโอ \fi}
+When the user chooses to upload a video session, the \textbf{Directory Upload Manager} initializes a background process using the WorkManager, which handles the upload process in a headless manner. The upload manager ensures that all necessary application context is provided to manage the processes, including the file upload process handled by the \textbf{Directory Upload Client} and the device notification process managed by the \textbf{Notification Manager}.
+
+\begin{figure}[h]
+    \begin{center}
+    \includesvg[\svgSettingsSmall]{resources/mobile-app/workmanager-instantiation.svg}
+    \end{center}
+    \newcommand{\WorkManagerInstantiation}{\ifenglish Upload Process Task Instantiation \else กระบวนการสร้างงานสำหรับการอัปโหลด \fi}
+    \caption[\WorkManagerInstantiation]{\WorkManagerInstantiation}
+    \label{fig:workmanager instantiation}
+\end{figure}
+
+The directory upload process utilizes a resumable upload mechanism. The underlying technology used is the Tus protocol, which involves a tus server on the receiving end. This server handles incoming file packets from the mobile application and routes them into Azure Blob Storage. The mobile application streams the file in smaller chunks and tracks the upload progress locally. This process is managed by the Tus client.
+
+\begin{figure}[h]
+    \begin{center}
+    \includesvg[\svgSettingsSmall]{resources/mobile-app/file-upload-sequence.svg}
+    \end{center}
+    \newcommand{\FileUploadSequence}{\ifenglish File Upload Sequence \else กระบวนการอัพโหลดไฟล์ \fi}
+    \caption[\FileUploadSequence]{\FileUploadSequence}
+    \label{fig file upload quence}
+\end{figure}
+
+However, the Tus client only supports resumable uploads for a single file at a time. To handle uploads for an entire directory, the application employs a wrapper called the \textbf{Directory Upload Client}. This client iterates over each file in the directory, managing their individual upload processes while tracking which files are uploaded, in progress, or pending upload. Additionally, the client tracks the overall progress of the video session upload through the \textbf{Progress File Store} service, which provides the data necessary to display upload progress on the home page.
+% TODO: reference tus protocol
+
+\begin{figure}[h]
+    \begin{center}
+    \includesvg[\svgSettingsSmall]{resources/mobile-app/directory-upload-sequence.svg}
+    \end{center}
+    \newcommand{\DirectoryUploadSequence}{\ifenglish File Upload Sequence \else กระบวนการอัพโหลดไดเรกทอรี  \fi}
+    \caption[\DirectoryUploadSequence]{\DirectoryUploadSequence}
+    \label{fig directory upload quence}
+\end{figure}
+
+
+It is essential to understand that a WorkManager task operates independently of the main application once it is initialized. WorkManager utilizes its own memory space, separate from the main application, which prevents direct communication between the two.
+
+However, the application's home page requires the upload progress to be displayed in real time. To address this, the \textbf{Progress Isolate Manager} is employed. This component retrieves upload progress data from the \textbf{Progress File Store}, where WorkManager tasks save progress information. The manager then communicates this progress to the home page.
+
+One challenge arises because the Progress Isolate Manager is unaware of when the WorkManager task updates the progress file in storage. Consequently, it must poll the storage for updated progress data—a process that is computationally expensive and inefficient for the main application.
+
+To mitigate this inefficiency, the system leverages the concept of \textbf{isolates}. An isolate functions similarly to a thread but operates with its own dedicated memory, separate from the main thread (referred to as the main isolate). Unlike WorkManager tasks, isolates can communicate with one another, including with the main isolate, making them an effective solution for bridging the gap between WorkManager tasks and the main application.
+
+% TODO: Add reference to Flutter isolates
+
+\begin{figure}[h]
+    \begin{center}
+    \includesvg[\svgSettingsSmall]{resources/mobile-app/upload-progress-polling.svg}
+    \end{center}
+    \newcommand{\UploadProgressPolling}{\ifenglish Upload Progress Polling \else การดึงข้อมูลความคืบหน้าในการอัปโหลด \fi}
+    \caption[\UploadProgressPolling]{\UploadProgressPolling}
+    \label{fig directory upload quence}
+\end{figure}
+
