@@ -144,6 +144,14 @@ However, the Tus client only supports resumable uploads for a single file at a t
 
 The complete video session upload process is illustrated in the accompanying diagram.
 % TODO: reference tus protocol
+It is essential to understand that a WorkManager task operates independently of the main application once it is initialized. WorkManager utilizes its own memory space, separate from the main application, which prevents direct communication between the two.
 
+However, the application's home page requires the upload progress to be displayed in real time. To address this, the \textbf{Progress Isolate Manager} is employed. This component retrieves upload progress data from the \textbf{Progress File Store}, where WorkManager tasks save progress information. The manager then communicates this progress to the home page.
+
+One challenge arises because the Progress Isolate Manager is unaware of when the WorkManager task updates the progress file in storage. Consequently, it must poll the storage for updated progress data—a process that is computationally expensive and inefficient for the main application.
+
+To mitigate this inefficiency, the system leverages the concept of \textbf{isolates}. An isolate functions similarly to a thread but operates with its own dedicated memory, separate from the main thread (referred to as the main isolate). Unlike WorkManager tasks, isolates can communicate with one another, including with the main isolate, making them an effective solution for bridging the gap between WorkManager tasks and the main application.
+
+% TODO: Add reference to Flutter isolates
 
 \subsection{\ifenglish Unused Protocols and Technologies in Final System \else โปรโตคอลและเทคโนโลยีที่ไม่ได้ใช้งานในระบบสุดท้าย \fi}
