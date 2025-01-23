@@ -6,6 +6,16 @@
 \fi
 \subsection{\ifenglish Mobile Application Use Cases \else การใช้งานแอปพลิเคชั่นโทรศัพท์ \fi}
 The mobile application serves as the platform for recording and uploading the necessary data for the object detection process. The system encompasses four primary use cases: login, recording video sessions, uploading video sessions, and deleting video sessions, which are illustrated in the following diagram.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includesvg[\svgSettings]{resources/mobile-app/mobile-app-use-cases.svg}
+    \end{center}
+    \newcommand{\MobileAppUseCaseDiagram}{\ifenglish Mobile Application Use Case Diagram \else แผนภาพการใช้งานแอปพลิเคชันมือถือ\fi}
+    \caption[\MobileAppUseCaseDiagram]{\MobileAppUseCaseDiagram}
+    \label{fig:mobile app use case diagram}
+\end{figure}
+
 \begin{enumerate}
     \item \textbf{Login Use Case}: This use case enables the user to log in to the mobile application by invoking the login API provided by the backend service. Note that user registration cannot be performed through the mobile application. Details about the sign-up process are explained in Section 3.2.2. % TODO, reference
     \item \textbf{Record Video Session Use Case}: This use case allows the user to record a video session on their device. A video session encapsulates the data required for processing billboards and their locations, including the video files, location records, and timestamps. This use case is divided into three sub-use cases:  
@@ -19,10 +29,29 @@ The mobile application serves as the platform for recording and uploading the ne
 \end{enumerate}
 The following state diagram illustrates the sequence of transitions from starting a video recording to deleting it, including both ideal and non-ideal states. Solid lines represent ideal transitions, while dashed lines indicate non-ideal transitions.
 
+\begin{figure}[ht]
+    \begin{center}
+    \includesvg[\svgSettings]{resources/mobile-app/mobile-app-state-diagram.svg}
+    \end{center}
+    \newcommand{\MobileAppUserJourner}{\ifenglish User's Video Session Recording Workflow \else ขั้นตอนการบันทึกเซสชันวิดีโอของผู้ใช้ \fi}
+    \caption[\MobileAppUserJourner]{\MobileAppUserJourner}
+    \label{fig:video session record state diagram}
+\end{figure}
+
 \subsection{\ifenglish Mobile Application Interface \else หน้าการใช้งานแอปพลิเคชั่นโทรศัพท์ \fi}
 
 \subsection{\ifenglish Mobile Application Structure \else สถาปัตยกรรมระบบแอปพลิเคชั่นโทรศัพท์ \fi}
 For mobile applciation structure, the application components are divided into 5 major types as shown in the following diagram.
+
+\begin{figure}[ht]
+    \begin{center}
+    \text{Add Components Diagram Here}
+    \end{center}
+    \newcommand{\MobileAppComponentDiagram}{\ifenglish Mobile Application Component Diagram \else แผนภาพองค์ประกอบของแอปพลิเคชันมือถือ \fi}
+    \caption[\MobileAppComponentDiagram]{\MobileAppComponentDiagram}
+    \label{fig:mobile app component diagram}
+\end{figure}
+
 \begin{enumerate}
     \item \textbf{Pages}: These are the user interfaces of the application, each designed to serve specific functionalities. Users can navigate between different pages of the application, as described below:  
     \begin{enumerate}  
@@ -64,11 +93,22 @@ For mobile applciation structure, the application components are divided into 5 
 When using token authentication for API requests, tokens may occasionally expire, creating potential disruptions for users. Manually handling token refreshes can degrade the user experience. To streamline this, the application implements automatic token refreshment. This functionality is achieved using Dio’s interceptors, which enable seamless handling of API requests and responses. The interceptors are designed as follows:
 \begin{enumerate}
     \item \textbf{Request Interceptor}: Before sending an API request, the request interceptor verifies whether the access token has expired. If the token is valid, the request proceeds as usual. If the token has expired, the interceptor automatically refreshes it by invoking the refresh token API. Upon successfully retrieving a new token, the interceptor updates the access token and resumes the request. In cases where both the access token and refresh token have expired, the application redirects the user to the login page. This process is depicted in the accompanying diagram.  
+    
+    \begin{figure}[ht]
+        \begin{center}
+        \includesvg[\svgSettings]{resources/mobile-app/mobile-app-on-request.svg}
+        \end{center}
+        \newcommand{\RequestInterceptor}{\ifenglish API Request Interceptor Workflow \else ขั้นตอนการทำงานของตัวดักจับคำขอเอพีไอ\fi}
+        \caption[\RequestInterceptor]{\RequestInterceptor}
+        \label{fig:mobile app request interceptor}
+    \end{figure}
 
     \item \textbf{Response Interceptor}: After receiving an API response, the response interceptor checks the status code to determine if it indicates an expired token. If the token is expired and the refresh token is still valid, the interceptor automatically refreshes the access token by invoking the refresh token API. Once a new token is obtained, the interceptor updates the access token and resends the original request. This seamless process ensures that user requests are handled without disruption. The steps involved in this process are illustrated in the accompanying diagram.      
 \end{enumerate}
 \subsection{\ifenglish Video Session Record Process \else กระบวนการบันทึกเซสชันวิดีโอ \fi}
-After starting the recording, the application invokes the \textbf{Image Location Record Controller} to begin recording both the video and its corresponding location data. These two processes—video recording and location recording—operate independently and simultaneously. The location recording is handled by the \textbf{Location Recorder service}, which creates a record whenever the device detects a change in location through the \textbf{Geolocator library} (via the \texttt{getPositionStream} function). The video recording, on the other hand, is managed by the camera library.
+After starting the recording, the application invokes the \textbf{Image Location Record Controller} to begin recording both the video and its corresponding location data. These two processes—video recording and location recording—operate independently and simultaneously. The overall workflow for this recording process is illustrated in \autoref{fig:video session recording work flow}. 
+
+The location recording is handled by the \textbf{Location Recorder service}, which creates a record whenever the device detects a change in location through the \textbf{Geolocator library} (via the \texttt{getPositionStream} function). The video recording, on the other hand, is managed by the camera library.
 
 We refer to the combination of video and location data as an \textbf{image-location record}. Since both processes independently record their respective data, the system associates a timestamp with each location record. This timestamp is essential for the object detection service to match detected objects with their corresponding locations. This protocol of recording timestamp-location pairs is called a \textbf{Tloc file}.
 
@@ -134,16 +174,51 @@ And the Image Location Record Controller stores all files of a video session in 
     | | |-information.json
 \end{lstlisting}
 \end{enumerate}
+\begin{figure}[ht]
+    \begin{center}
+    \includesvg[\svgSettings]{resources/mobile-app/video-session-record-transition.svg}
+    \end{center}
+    \newcommand{\VideoSessionRecordTransition}{\ifenglish Mobile Application Workflow for Video Session Recording \else กระบวนการทำงานของแอปพลิเคชันมือถือในการบันทึกเซสชันวิดีโอ \fi}
+    \caption[\VideoSessionRecordTransition]{\VideoSessionRecordTransition}
+    \label{fig:video session recording work flow}
+\end{figure}
 
 \subsection{\ifenglish Video Session Upload Process \else กระบวนการอัพโหลดเซสชันวิดีโอ \fi}
 When the user chooses to upload a video session, the \textbf{Directory Upload Manager} initializes a background process using the WorkManager, which handles the upload process in a headless manner. The upload manager ensures that all necessary application context is provided to manage the processes, including the file upload process handled by the \textbf{Directory Upload Client} and the device notification process managed by the \textbf{Notification Manager}.
 
+\begin{figure}[h]
+    \begin{center}
+    \includesvg[\svgSettingsSmall]{resources/mobile-app/workmanager-instantiation.svg}
+    \end{center}
+    \newcommand{\WorkManagerInstantiation}{\ifenglish Upload Process Task Instantiation \else กระบวนการสร้างงานสำหรับการอัปโหลด \fi}
+    \caption[\WorkManagerInstantiation]{\WorkManagerInstantiation}
+    \label{fig:workmanager instantiation}
+\end{figure}
+
 The directory upload process utilizes a resumable upload mechanism. The underlying technology used is the Tus protocol, which involves a tus server on the receiving end. This server handles incoming file packets from the mobile application and routes them into Azure Blob Storage. The mobile application streams the file in smaller chunks and tracks the upload progress locally. This process is managed by the Tus client.
 
-However, the Tus client only supports resumable uploads for a single file at a time. To handle uploads for an entire directory, the application employs a wrapper called the \textbf{Directory Upload Client}. This client iterates over each file in the directory, managing their individual upload processes while tracking which files are uploaded, in progress, or pending upload. Additionally, the client tracks the overall progress of the video session upload through the \textbf{Progress File Store} service, which provides the data necessary to display upload progress on the home page.
+\begin{figure}[h]
+    \begin{center}
+    \includesvg[\svgSettingsSmall]{resources/mobile-app/file-upload-sequence.svg}
+    \end{center}
+    \newcommand{\FileUploadSequence}{\ifenglish File Upload Sequence \else กระบวนการอัพโหลดไฟล์ \fi}
+    \caption[\FileUploadSequence]{\FileUploadSequence}
+    \label{fig file upload quence}
+\end{figure}
 
-The complete video session upload process is illustrated in the accompanying diagram.
+However, the Tus client only supports resumable uploads for a single file at a time. To handle uploads for an entire directory, the application employs a wrapper called the \textbf{Directory Upload Client}. This client iterates over each file in the directory, managing their individual upload processes while tracking which files are uploaded, in progress, or pending upload. Additionally, the client tracks the overall progress of the video session upload through the \textbf{Progress File Store} service, which provides the data necessary to display upload progress on the home page.
 % TODO: reference tus protocol
+
+\begin{figure}[h]
+    \begin{center}
+    \includesvg[\svgSettingsSmall]{resources/mobile-app/directory-upload-sequence.svg}
+    \end{center}
+    \newcommand{\DirectoryUploadSequence}{\ifenglish File Upload Sequence \else กระบวนการอัพโหลดไดเรกทอรี  \fi}
+    \caption[\DirectoryUploadSequence]{\DirectoryUploadSequence}
+    \label{fig directory upload quence}
+\end{figure}
+
+
 It is essential to understand that a WorkManager task operates independently of the main application once it is initialized. WorkManager utilizes its own memory space, separate from the main application, which prevents direct communication between the two.
 
 However, the application's home page requires the upload progress to be displayed in real time. To address this, the \textbf{Progress Isolate Manager} is employed. This component retrieves upload progress data from the \textbf{Progress File Store}, where WorkManager tasks save progress information. The manager then communicates this progress to the home page.
@@ -153,5 +228,14 @@ One challenge arises because the Progress Isolate Manager is unaware of when the
 To mitigate this inefficiency, the system leverages the concept of \textbf{isolates}. An isolate functions similarly to a thread but operates with its own dedicated memory, separate from the main thread (referred to as the main isolate). Unlike WorkManager tasks, isolates can communicate with one another, including with the main isolate, making them an effective solution for bridging the gap between WorkManager tasks and the main application.
 
 % TODO: Add reference to Flutter isolates
+
+\begin{figure}[h]
+    \begin{center}
+    \includesvg[\svgSettingsSmall]{resources/mobile-app/upload-progress-polling.svg}
+    \end{center}
+    \newcommand{\UploadProgressPolling}{\ifenglish Upload Progress Polling \else การดึงข้อมูลความคืบหน้าในการอัปโหลด \fi}
+    \caption[\UploadProgressPolling]{\UploadProgressPolling}
+    \label{fig directory upload quence}
+\end{figure}
 
 \subsection{\ifenglish Unused Protocols and Technologies in Final System \else โปรโตคอลและเทคโนโลยีที่ไม่ได้ใช้งานในระบบสุดท้าย \fi}

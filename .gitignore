@@ -18,4 +18,5 @@
 *.synctex.gz
 *.synctex(busy)
 __latexindent*
+/svg-inkscape/
 # sampleReport.pdf
