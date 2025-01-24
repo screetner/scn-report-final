@@ -48,6 +48,27 @@
     % So don't delete these 3 lines, please.
 }
 
+\newcommand{\insertPDFfigure}[4][page=1,width=140]{
+  \begin{figure}[ht]
+    \begin{center}
+      \includegraphics[#1]{#2}
+    \end{center}
+    \caption[#3]{#3}
+    \label{fig:#4}
+  \end{figure}
+}
+
+\newcommand{\insertPDFfigureLandscape}[3]{
+  \begin{figure}[p]
+    \begin{center}
+      \includegraphics[height=0.9\textheight, keepaspectratio]{#1}
+    \end{center}
+    \caption[#2]{#2}
+    \label{fig:#3}
+  \end{figure}
+}
+
+
 
 %% Some other useful packages. Look these up to find out how to use
 %% them.
