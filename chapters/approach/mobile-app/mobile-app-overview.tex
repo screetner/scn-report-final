@@ -1,8 +1,9 @@
 \section{\ifenglish Mobile Applcation \else ระบบแอปพลิเคชั่นโทรศัพท์ \fi}
-\ifenglish
-\else
-ลอเรม อิปซุม (Talk about tech stack or something) 
-\fi
+The mobile application is an integral component of the overall system, designed to record traffic for object detection services. We chose to implement this functionality within a mobile application for several reasons. 
+
+Firstly, smartphones are ubiquitous in modern society, making the system cost-effective and accessible. Secondly, smartphones possess the necessary hardware capabilities to provide sufficient data for our use cases. Finally, smartphones are highly portable, allowing them to be easily mounted in a car, which aligns with the application's intended use case.
+
+The application is developed using Flutter, a UI toolkit created by Google. Flutter enables the development of natively compiled applications for mobile, web, and desktop platforms from a single codebase. It offers several advantages that make it an ideal choice for this project. Flutter supports the creation of applications for both Android and iOS. Additionally, its ease of use and extensive library of plugins streamline the development process, allowing for the efficient implementation of required features.
 \newcommand{\dir}{chapters/approach/mobile-app}
 \import{\dir}{mobile-app-use-case.tex}
 \import{\dir}{mobile-app-interface.tex}
