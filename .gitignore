@@ -19,4 +19,5 @@
 *.synctex(busy)
 __latexindent*
 /svg-inkscape/
+*.DS_Store
 # sampleReport.pdf
