@@ -3,14 +3,9 @@ When using token authentication for API requests, tokens may occasionally expire
 \begin{enumerate}
     \item \textbf{Request Interceptor}: Before sending an API request, the request interceptor verifies whether the access token has expired. If the token is valid, the request proceeds as usual. If the token has expired, the interceptor automatically refreshes it by invoking the refresh token API. Upon successfully retrieving a new token, the interceptor updates the access token and resumes the request. In cases where both the access token and refresh token have expired, the application redirects the user to the login page. This process is depicted in the accompanying diagram.  
     
-    \begin{figure}[ht]
-        \begin{center}
-        \includesvg[\svgSettings]{resources/mobile-app/mobile-app-on-request.svg}
-        \end{center}
-        \newcommand{\RequestInterceptor}{\ifenglish API Request Interceptor Workflow \else ขั้นตอนการทำงานของตัวดักจับคำขอเอพีไอ\fi}
-        \caption[\RequestInterceptor]{\RequestInterceptor}
-        \label{fig:mobile app request interceptor}
-    \end{figure}
-
+    \insertPDFfigure[page=1,width=140mm]
+    {resources/mobile-app/mobile-app-on-request.pdf}
+    {\ifenglish API Request Interceptor Workflow \else ขั้นตอนการทำงานของตัวดักจับคำขอเอพีไอ\fi}
+    {mobile app request interceptor}
     \item \textbf{Response Interceptor}: After receiving an API response, the response interceptor checks the status code to determine if it indicates an expired token. If the token is expired and the refresh token is still valid, the interceptor automatically refreshes the access token by invoking the refresh token API. Once a new token is obtained, the interceptor updates the access token and resends the original request. This seamless process ensures that user requests are handled without disruption. The steps involved in this process are illustrated in the accompanying diagram.      
 \end{enumerate}
