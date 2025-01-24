@@ -1,1 +1,6 @@
 \subsection{\ifenglish Unused Protocols and Technologies in Final System \else โปรโตคอลและเทคโนโลยีที่ไม่ได้ใช้งานในระบบสุดท้าย \fi}
+\begin{enumerate}
+    \item The RTMP protocol is not implemented in the final system. While RTMP is designed for real-time transmission of video and data over the internet, it is unsuitable for our use case due to the substantial amount of data involved. In most scenarios, users are likely recording while in a car, relying on mobile data, which is often limited and less stable compared to Wi-Fi. Streaming large volumes of data under these conditions would be impractical and inconvenient for users. Additionally, the application would need to stream two separate data channels simultaneously—one for the video and another for the image timestamp data—further increasing bandwidth and processing demands. Consequently, we decided to abandon this approach and instead save all the data locally before transmitting it via the Tus protocol.
+
+    \item 
+\end{enumerate}
