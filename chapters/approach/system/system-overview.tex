@@ -1,5 +1,27 @@
 \section{สถาปัตยกรรมระบบ}
-โครงงานนี้ได้ออกแบบสถาปัตยกรรมระบบให้เป็นแบบ Microservices ทั้งนี้ ในส่วนนี้ได้ได้อธิบายถึงเรื่องการออกแบบทั้งระบบไม่ว่าจะเป็น ระบบการพัฒนาระบบ เน็ตเวิร์ค รวมถึงการสื่อสารระหว่างระบบ และการจัดการข้อมูล โดยที่สถาปัตยกรรมทั้งหมดสามารถอธิบายได้ดังรูป \ref{fig:system-architecture}
+\ifenglish
+This project is designed with a microservices architecture. This section explains the overall system design, including system development, networking, inter-system communication, and data management. The entire architecture can be illustrated in Figure \ref{fig:system-architecture}. 
+
+The architecture is divided into three main components: 
+\begin{enumerate}
+    \item \textbf{User Interface Layer}: This includes the web and mobile applications that users interact with backend services.
+    \item \textbf{Service Layer}: This is the core of the system, consisting of various backend services that handle business logic and processing.
+    \item \textbf{Cloud Service Layer}: This consists of the cloud services utilized by the system, which in this project is primarily Azure.
+\end{enumerate}
+\else
+โครงงานนี้ได้ออกแบบสถาปัตยกรรมระบบให้เป็นแบบ Microservices ทั้งนี้ ในส่วนนี้ได้ได้อธิบายถึงเรื่องการออกแบบทั้งระบบ ไม่ว่าจะเป็น ระบบการพัฒนาระบบ เน็ตเวิร์ค รวมถึงการสื่อสารระหว่างระบบ และการจัดการข้อมูล โดยที่สถาปัตยกรรมทั้งหมดสามารถอธิบายได้ดังรูป \ref{fig:system-architecture} 
+
+โดยที่จะแบ่งออกเป็น 3 ส่วนหลัก ๆ ได้แก่
+\begin{enumerate}
+    \item \textbf{ส่วนของผู้ใช้งานระบบ}: ไม่ว่าจะเป็นทางเว็บไซต์และแอปพลิเคชัน ซึ่งการใช้งานเหล่านั้นก็จะต้องติดต่อสื่อสารไปยังเซอร์วิสหลังบ้าน
+    \item \textbf{ส่วนของเซอร์วิสของระบบ}: ซึ่งเป็นส่วนที่ดูแลการประมวลผลและตรรกะของระบบ
+    \item \textbf{ส่วนของคราวด์เซอร์วิส}: ที่ระบบของเรานำมาใช้อย่าง Azure
+\end{enumerate}
+\fi
+
+
+\import{chapters/approach/system}{system-user.tex}
+\import{chapters/approach/system}{system-services.tex}
 
 \clearpage
 \begin{landscape}
