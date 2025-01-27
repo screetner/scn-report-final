@@ -6,6 +6,21 @@
 ฟังก์ชันใน Auth Services
 
 \begin{itemize}
-    \item \textbf{findUser(body: LoginBodyType): Promise<string>}: สร้างโทเคน (Token) จากข้อมูลผู้ใช้
+    \item \textbf{findUser(body: LoginBodyType): Promise<loginData>}: ฟังก์ชันนี้จะค้นหาผู้ใช้จากฐานข้อมูลโดยใช้ข้อมูลการเข้าสู่ระบบที่ผู้ใช้ให้มา
 \end{itemize}
+ข้อมูลการเข้าสู่ระบบ (Login Data) มีโครงสร้างดังนี้:
+\begin{lstlisting}
+    {
+        "username": string, 
+        "password": string, 
+        "userId": string, 
+        "email": string, 
+        "role": {
+            "roleId": string, 
+            "roleName": string, 
+            "abilityScope": unknown,
+            "organizationId": string,"organization": {}
+        }
+    } | undefined
+\end{lstlisting}
 \fi

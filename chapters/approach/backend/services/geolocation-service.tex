@@ -1,0 +1,19 @@
+\subsubsection{Geolocation Service}
+\ifenglish
+\else
+บริการตำแหน่งที่ตั้ง (Geolocation Service) จัดการการดำเนินการที่เกี่ยวข้องกับตำแหน่งที่ตั้งขององค์กร เช่น ปรับเปลี่ยนตำแหน่งที่นั่งขององค์กร และค้นหาตำแหน่งที่ตั้งขององค์กร
+
+ฟังก์ชันใน Geolocation Service
+\begin{itemize}
+    \item \textbf{postGeo(body: PostGeoBodyType, organizationId: string): Promise<\{id: string\}>}: สร้างตำแหน่งที่ตั้งใหม่ขององค์กรจากข้อมูลที่ส่งมา และคืนค่ารหัสขององค์กรคืนมา
+    \item \textbf{getGeo(organizationId: string): Promise<geolocationData[]>}: ค้นหาตำแหน่งที่ตั้งขององค์กรจากรหัสองค์กรที่ส่งมา
+\end{itemize}
+
+ข้อมูลใน geolocationData ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "latitude": number, 
+        "longitude": number
+    }
+\end{lstlisting}
+\fi

@@ -1,0 +1,31 @@
+\subsubsection{Dashboard Service}
+\ifenglish
+\else
+บริการแดชบอร์ด (Dashboard Service) จัดการการดำเนินการที่เกี่ยวข้องกับการแสดงผลข้อมูลในส่วนที่เกี่ยวข้องกับสมาชิกเช่น นับจำนวนสมาชิกในองค์กร นับจำนวนการเชิญสมาชิกในองค์กร และนับจำนวนผู้ดูแลระบบขององค์กร
+
+ฟังก์ชันใน Dashboard Service
+
+\begin{itemize}
+    \item \textbf{countMembers(organizationId: string): Promise<memberInformation>}: นับจำนวนสมาชิกในองค์กรจากรหัสองค์กรที่มีอยู่ในฐานข้อมูล พร้อมกับคำนวนเปอร์เซ็นต์การเพิ่มขึ้นของสมาชิกในองค์กรในเดือนล่าสุด
+    \item \textbf{countInvitations(organizationId: string): Promise<invitationInformation>}: นับจำนวนการเชิญสมาชิกในองค์กรจากรหัสองค์กรที่มีอยู่ในฐานข้อมูล พร้อมกับดูว่ามีการตอบรับคำเชิญไปแล้วกี่คำเชิญ
+    \item \textbf{countAdmins(organizationId: string): Promise<number>}: นับจำนวนผู้ดูแลระบบขององค์กรจากรหัสองค์กรที่มีอยู่ในฐานข้อมูล
+\end{itemize}
+
+ข้อมูลใน memberInformation ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "allMembers": number,
+        "percentageIncrease": number
+    }
+\end{lstlisting}
+
+ข้อมูลใน invitationInformation ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "inviteTotal": number,
+        "inviteActivate": number
+    }
+\end{lstlisting}
+\fi
+
+\clearpage
