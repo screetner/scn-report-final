@@ -1,0 +1,11 @@
+\subsection{\ifenglish Services \else บริการ \fi}
+
+\ifenglish
+The service layer in our application is responsible for handling business logic and communication between the controllers and the data access layer. It ensures that data is processed correctly before being sent to the client or stored in the database. Each service module encapsulates specific functionalities related to different parts of the application.
+\else
+ชั้นบริการ (Service Layer) ในแอปพลิเคชันของเรามีหน้าที่จัดการกฎ อัลกอริทึมและการสื่อสารระหว่างตัวควบคุม (Controllers) และชั้นการเข้าถึงข้อมูล (Data Access Layer) มันช่วยให้แน่ใจว่าข้อมูลถูกประมวลผลอย่างถูกต้องก่อนที่จะถูกส่งไปยังไคลเอนต์หรือเก็บในฐานข้อมูล แต่ละส่วนของบริการจะครอบคลุมฟังก์ชันการทำงานเฉพาะที่เกี่ยวข้องกับส่วนต่าง ๆ ของแอปพลิเคชัน
+\fi
+
+\newcommand{\serviceDir}{chapters/approach/backend/services}
+\import{\serviceDir}{asset-service.tex}
+\import{\serviceDir}{auth-service.tex}
