@@ -3,12 +3,13 @@
 \else
 บริการการตรวจสอบสิทธิ์ (Auth Services) จัดการการตรวจสอบสิทธิ์ของผู้ใช้ การสร้างและตรวจสอบโทเคน (Token) และการเข้าสู่ระบบ บริการส่วนนี้จะทำงานร่วมกับฐานข้อมูลเพื่อดึงและจัดการข้อมูลผู้ใช้
 
-ฟังก์ชันใน Auth Services
+ฟังก์ชันใน Auth Services ประกอบด้วย
 
 \begin{itemize}
     \item \textbf{findUser(body: LoginBodyType): Promise<loginData>}: ฟังก์ชันนี้จะค้นหาผู้ใช้จากฐานข้อมูลโดยใช้ข้อมูลการเข้าสู่ระบบที่ผู้ใช้ให้มา
 \end{itemize}
-ข้อมูลการเข้าสู่ระบบ (Login Data) มีโครงสร้างดังนี้:
+
+ข้อมูลใน loginData ถูกจัดเก็บในรูปแบบดังนี้:
 \begin{lstlisting}
     {
         "username": string, 
@@ -22,5 +23,15 @@
             "organizationId": string,"organization": {}
         }
     } | undefined
+\end{lstlisting}
+
+\clearpage
+
+ข้อมูลใน LoginBodyType ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "username": string, 
+        "password": string
+    }
 \end{lstlisting}
 \fi
