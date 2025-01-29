@@ -1,6 +1,15 @@
 \subsection{API}
 
-\subsubsection{Endpoints}
-\begin{itemize}
-    \item assets
-\end{itemize}
+\ifenglish
+\else
+API ของระบบหลังบ้านของเราถูกออกแบบให้เป็น RESTful API ซึ่งเป็นมาตรฐานที่ใช้ในการสื่อสารระหว่างเซิร์ฟเวอร์และไคลเอนต์ โดยใช้ HTTP methods เช่น GET, POST, PUT, DELETE และ PATCH ในการจัดการข้อมูล และใช้ JSON ในการส่งข้อมูลระหว่างเซิร์ฟเวอร์และไคลเอนต์ โดยจะมีการแบ่งเป็นส่วนต่างๆ ตามฟังก์ชันการทำงานของแอปพลิเคชันดังนี้
+
+\import{\backendDir}{apis/auth-api.tex}
+\import{\backendDir}{apis/asset-api.tex}
+\import{\backendDir}{apis/user-api.tex}
+\import{\backendDir}{apis/geolocation-api.tex}
+\import{\backendDir}{apis/python-api.tex}
+\import{\backendDir}{apis/dashboard-api.tex}
+\import{\backendDir}{apis/register-api.tex}
+\import{\backendDir}{apis/role-api.tex}
+\fi
