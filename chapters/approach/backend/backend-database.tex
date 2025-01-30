@@ -1,0 +1,162 @@
+\subsection{\ifenglish Database \else ฐานข้อมูล \fi}
+
+\ifenglish
+The database schema is a crucial part of the backend system. It defines the structure of the database, including the tables, fields, and relationships between them. This schema ensures that data is organized and accessible in an efficient manner, which is essential for the performance and reliability of the system. The database schema used in this project can be described as shown in the figure \ref{fig:DB}.
+\else
+สคีมาฐานข้อมูลเป็นส่วนสำคัญของระบบหลังบ้าน มันกำหนดโครงสร้างของฐานข้อมูล รวมถึงตาราง ฟิลด์ และความสัมพันธ์ระหว่างพวกมัน สคีมานี้ช่วยให้ข้อมูลถูกจัดระเบียบและเข้าถึงได้อย่างมีประสิทธิภาพ ซึ่งเป็นสิ่งสำคัญสำหรับประสิทธิภาพและความน่าเชื่อถือของระบบ โดยที่สคีมาฐานข้อมูลที่ใช้ในโปรเจกต์นี้สามารถอธิบายได้ดังรูป \ref{fig:DB}
+\fi
+
+\insertPDFfigure{resources/backend/screetner-database.pdf}{\ifenglish Database schema \else สคีมาฐานข้อมูล\fi}{DB}
+
+\clearpage
+
+\ifenglish
+\subsubsection{Structure}
+The database schema consists of several tables, each with specific fields and data types. The main tables include Users, Orgrnizations, Roles, Invites, Assets, AssetTypes, and VideoSessions.
+
+\subsubsection{Table Details}
+\begin{itemize}
+    \item \textbf{Users}: This table stores user information such as user ID, role ID, name, email, password, SAS token, SAS token expiration date, created date, and updated date.
+    \item \textbf{Organizations}: This table stores organization information such as organization ID, organization name, and other details.
+    \item \textbf{Roles}: This table stores role information such as role ID, role name, and access permissions.
+    \item \textbf{Invites}: This table stores invite information such as invite ID, recipient email, and invite status.
+    \item \textbf{Assets}: This table stores asset information such as asset ID, asset name, and other details.
+    \item \textbf{AssetTypes}: This table stores asset type information such as type ID, type name, and other details.
+    \item \textbf{VideoSessions}: This table stores video session information such as session ID, user ID, and other details.
+\end{itemize}
+
+\subsubsection{Relationships}
+The relationships between tables are defined as follows:
+\begin{itemize}
+    \item \textbf{Users}:
+        \begin{itemize}
+            \item Many-to-one relationship with Roles, where each user has one role.
+            \item One-to-many relationship with Assets, where each user can have multiple assets.
+            \item One-to-many relationship with Invites, where each user can send multiple invites.
+        \end{itemize}
+    \item \textbf{Organizations}:
+        \begin{itemize}
+            \item One-to-many relationship with Users, where each organization can have multiple users.
+        \end{itemize}
+    \item \textbf{Roles}:
+        \begin{itemize}
+            \item One-to-many relationship with Users, where each role can be assigned to multiple users.
+        \end{itemize}
+    \item \textbf{Invites}:
+        \begin{itemize}
+            \item Many-to-one relationship with Users, where each invite is sent by one user.
+        \end{itemize}
+    \item \textbf{Assets}:
+        \begin{itemize}
+            \item Many-to-one relationship with Users, where each asset is owned by one user.
+            \item Many-to-one relationship with AssetTypes, where each asset belongs to one asset type.
+        \end{itemize}
+    \item \textbf{AssetTypes}:
+        \begin{itemize}
+            \item One-to-many relationship with Assets, where each asset type can have multiple assets.
+        \end{itemize}
+    \item \textbf{VideoSessions}:
+        \begin{itemize}
+            \item Many-to-one relationship with Users, where each video session is associated with one user.
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{Primary Keys}
+\begin{itemize}
+    \item \textbf{Users}: userId
+    \item \textbf{Organizations}: orgrnizationId
+    \item \textbf{Roles}: roleId
+    \item \textbf{Invites}: inviteId
+    \item \textbf{AssetTypes}: inviteId
+    \item \textbf{Assets}: assetId
+    \item \textbf{VideoSessions}: videoSessionId
+\end{itemize}
+
+\clearpage
+
+\subsubsection{Foreign Keys}
+\begin{itemize}
+    \item \textbf{Users}: roleId references roles(roleId)
+    \item \textbf{Roles}: organizationId references organizations(organizationId)
+    \item \textbf{Invites}: organizationId references organizations(organizationId), userId references users(userId)
+    \item \textbf{Assets}: assetTypeId references assetTypes(assetTypeId), recordedUser references users(userId)
+    \item \textbf{VideoSessions}: uploadUserId references users(userId)
+\end{itemize}
+
+\else
+\subsubsection{โครงสร้าง}
+สคีมาฐานข้อมูลประกอบด้วยหลายตาราง แต่ละตารางมีฟิลด์และประเภทข้อมูลเฉพาะ ตารางที่มีได้แก่ ผู้ใช้ องค์กร บทบาท คำเชิญ ทรัพย์สิน ประเภททรัพย์สิน และเซสชันวิดีโอ
+
+\subsubsection{รายละเอียดของตาราง}
+\begin{itemize}
+    \item \textbf{ผู้ใช้ (Users)}: ตารางนี้เก็บข้อมูลผู้ใช้ ได้แก่ รหัสผู้ใช้ รหัสบทบาท ชื่อผู้ใช้ อีเมล รหัสผ่าน สร้างวันไหน และอัปเดตวันไหน
+    \item \textbf{องค์กร (Organizations)}: ตารางนี้เก็บข้อมูลองค์กร ได้แก่ รหัสองค์กร ชื่อองค์กร ขอบเขตขององค์กร โทเค็น SAS วันหมดอายุของโทเค็น SAS สร้างวันไหน และอัปเดตวันไหน
+    \item \textbf{บทบาท (Roles)}: ตารางนี้เก็บข้อมูลบทบาทของผู้ใช้ในองค์กร ได้แก่ รหัสบทบาท รหัสองค์กร ชื่อบทบาท ขอบเขตความสามารถ สร้างวันไหน และอัปเดตวันไหน
+    \item \textbf{คำเชิญ (Invites)}: ตารางนี้เก็บข้อมูลคำเชิญผู้ใช้เข้าร่วมองค์กร ได้แก่ รหัสคำเชิญ รหัสองค์กร รหัสผู้เชิญ โทเค็น สร้างวันไหน ตอบรับวันไหน และอีเมลผู้รับคำเชิญ
+    \item \textbf{ประเภททรัพย์สิน (AssetTypes)}: ตารางนี้เก็บข้อมูลประเภททรัพย์สิน ได้แก่ รหัสประเภททรัพย์สิน ชื่อประเภททรัพย์สิน สร้างวันไหน และอัปเดตวันไหน
+    \item \textbf{ทรัพย์สิน (Assets)}: ตารางนี้เก็บข้อมูลทรัพย์สิน ได้แก่ รหัสทรัพย์สิน ตำแหน่งทรัพย์สิน รหัสประเภททรัพย์สิน ลิงก์รูปภาพ บันทึกวันไหน สร้างวันไหน และอัปเดตวันไหน
+    \item \textbf{เซสชันวิดีโอ (VideoSessions)}: ตารางนี้เก็บข้อมูลเซสชันวิดีโอ เช่น รหัสเซสชัน รหัสผู้บันทึก เปอร์เซ็นต์การอัปโหลด ชื่อวิดีโอ สถานะของวิดีโอ สร้างวันไหน อัปเดตวันไหน และชื่อเซสชันวิดีโอ
+\end{itemize}
+
+\subsubsection{ความสัมพันธ์}
+ความสัมพันธ์ระหว่างตารางถูกกำหนดดังนี้
+\begin{itemize}
+    \item \textbf{ผู้ใช้ (Users)}: 
+        \begin{itemize} 
+            \item มีความสัมพันธ์แบบ many-to-one กับ บทบาท โดยแต่ละผู้ใช้จะมีบทบาทหนึ่งเท่านั้น
+            \item มีความสัมพันธ์แบบ one-to-many กับ ทรัพย์สิน โดยแต่ละผู้ใช้สามารถมีทรัพย์สินได้หลายรายการ
+            \item มีความสัมพันธ์แบบ one-to-many กับ คำเชิญ โดยแต่ละผู้ใช้สามารถมีการส่งคำเชิญได้หลายรายการ
+        \end{itemize}
+    \item \textbf{องค์กร (Organizations)}:
+        \begin{itemize}
+            \item มีความสัมพันธ์แบบ one-to-many กับ ผู้ใช้ โดยแต่ละองค์กรสามารถมีผู้ใช้ได้หลายรายการ
+            \item มีความสัมพันธ์แบบ one-to-many กับ คำเชิญ โดยแต่ละองค์กรสามารถมีการส่งคำเชิญได้หลายรายการ
+        \end{itemize}
+    \item \textbf{บทบาท (Roles)}:
+        \begin{itemize}
+            \item มีความสัมพันธ์แบบ many-to-one กับ องค์กร โดยแต่ละบทบาทเป็นขององค์กรหนึ่งเท่านั้น
+            \item มีความสัมพันธ์แบบ one-to-many กับ ผู้ใช้ โดยแต่ละบทบาทสามารถมีผู้ใช้ได้หลายคน
+        \end{itemize}
+    \item \textbf{คำเชิญ (Invites)}:
+        \begin{itemize}
+            \item มีความสัมพันธ์แบบ many-to-one กับ ผู้ใช้ โดยแต่ละคำเชิญจะมีผู้เชิญหนึ่งคนเท่านั้น
+            \item มีความสัมพันธ์แบบ many-to-one กับ องค์กร โดยแต่ละคำเชิญจะเป็นขององค์กรหนึ่งเท่านั้น
+        \end{itemize}
+    \item \textbf{ประเภททรัพย์สิน (AssetTypes)}:
+        \begin{itemize}
+            \item มีความสัมพันธ์แบบ one-to-many กับ ทรัพย์สิน โดยแต่ละประเภททรัพย์สินสามารถมีทรัพย์สินได้หลายรายการ
+        \end{itemize}
+    \item \textbf{ทรัพย์สิน (Assets)}:
+        \begin{itemize}
+            \item มีความสัมพันธ์แบบ many-to-one กับ ประเภททรัพย์สิน โดยทรัพย์สินแต่ละทรัพย์สินนั้น จะมีประเภททรัพย์สินหนึ่งเท่านั้น
+            \item มีความสัมพันธ์แบบ many-to-one กับ ผู้ใช้ โดยแต่ละทรัพย์สินจะมีผู้ใช้หนึ่งคนเท่านั้น
+        \end{itemize}
+    \item \textbf{เซสชันวิดีโอ (VideoSessions)}:
+        \begin{itemize}
+            \item มีความสัมพันธ์แบบ many-to-one กับ ผู้ใช้ โดยแต่ละเซสชันวิดีโอจะมีผู้ใช้บันทึกหนึ่งคนเท่านั้น
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{Primary Keys}
+\begin{itemize}
+    \item \textbf{ผู้ใช้ (Users)}: userId
+    \item \textbf{องค์กร (Organizations)}: orgrnizationId
+    \item \textbf{บทบาท (Roles)}: roleId
+    \item \textbf{คำเชิญ (Invites)}: inviteId
+    \item \textbf{ประเภททรัพย์สิน (AssetTypes)}: inviteId
+    \item \textbf{ทรัพย์สิน (Assets)}: assetId
+    \item \textbf{เซสชันวิดีโอ (VideoSessions)}: videoSessionId
+\end{itemize}
+
+\clearpage
+
+\subsubsection{Foreign Keys}
+\begin{itemize}
+    \item \textbf{ผู้ใช้ (Users)}: roleId อ้างอิงจาก roles(roleId)
+    \item \textbf{บทบาท (Roles)}: organizationId อ้างอิงจาก organizations(organizationId)
+    \item \textbf{คำเชิญ (Invites)}: organizationId อ้างอิงจาก organizations(organizationId), userId อ้างอิงจาก users(userId)
+    \item \textbf{ทรัพย์สิน (Assets)}: assetTypeId อ้างอิงจาก assetTypes(assetTypeId), recordedUser อ้างอิงจาก users(userId)
+    \item \textbf{เซสชันวิดีโอ (VideoSessions)}: uploadUserId อ้างอิงจาก users(userId)
+\end{itemize}
+
+\fi

@@ -1,0 +1,123 @@
+\subsubsection{Role Service}
+
+\ifenglish
+\else
+บริการบทบาท (Role Service) ใช้สำหรับจัดการกับบทบาทของผู้ใช้งานในระบบ 
+
+ฟังก์ชันใน Role Service ประกอบด้วย
+\begin{itemize}
+    \item \textbf{getRoleOrganization(
+        organizationId: string
+      ): Promise<roleInOrg[]>}: สำหรับทำการดึงข้อมูลบทบาทขั้นต้นขององค์กรออกมา
+    \item \textbf{getUnassignedRole(
+        organizationId: string
+      ): \\Promise<roleMemberInformation[]>}: สำหรับทำการดึงข้อมูลของสมาชิกภายในองค์กรที่ยังไม่มีบทบาทเป็นของตัวเองออกมา
+    \item \textbf{getRoleInformation(
+        roleId: string,
+        organizationId: string
+      ):\\Promise<roleManagement>}: สำหรับทำการดึงข้อมูลของบทบาทที่เลือกออกมา ซึ่งจะรวมถึงข้อมูลเบื้งต้นของสมาชิกที่มีบทบาทดังกล่าวด้วย
+    \item \textbf{assignRole(
+        userIds: string[],
+        roleId: string,
+        organizationId: string
+      ): \\Promise<updateRoleUser[]>}: สำหรับทำการกำหนดบทบาทให้กับสมาชิกที่เลือก
+    \item \textbf{unassignRole(
+        userId: string,
+        organizationId: string
+      ): \\Promise<updateRoleUser>}: สำหรับทำการลบบทบาทของสมาชิกที่เลือก
+    \item \textbf{changeRoleName(
+        roleId: string,
+        roleName: string,
+        organizationId: string
+      ): \\Promise<updateRoleName>}: สำหรับทำการเปลี่ยนชื่อของบทบาทที่เลือก
+    \item \textbf{deleteRole(
+        roleId: string,
+        organizationId: string
+      ): Promise<roleInformation>}: สำหรับทำการลบบทบาทที่เลือก
+    \item \textbf{createRole(
+        organizationId: string
+      ): Promise<roleInformation>}: สำหรับทำการสร้างบทบาทใหม่
+    \item \textbf{updateRolePermission(
+        roleId: string,
+        permission: rolePermission,\\
+        organizationId: string
+      ): Promise<roleInformation>}: สำหรับทำการปรับเปลี่ยนสิทธิ์ของบทบาทที่เลือก
+    \item \textbf{getAdminId(organizationId: string): Promise<string>}: สำหรับทำการดึงรหัสบทบาทของผู้ดูแลระบบขององค์กร
+\end{itemize}
+
+ข้อมูลใน roleInOrg ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "roleId": string,
+        "roleName": string,
+        "members": number,
+    }
+\end{lstlisting}
+
+\clearpage
+
+ข้อมูลใน roleMemberInformation ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "userId": string,
+        "username": string,
+        "email": string,
+    }
+\end{lstlisting}
+
+ข้อมูลใน roleInformation ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "roleId": string,
+        "roleName": string,
+    }
+\end{lstlisting}
+
+ข้อมูลใน rolePermission ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "mobile": {
+            "access": boolean,
+            "videosProcess": boolean,
+        },
+        "web": {
+            "access": boolean,
+            "manageGeometry": boolean,
+            "member": {
+                "invite": boolean,
+            },
+            "role": {
+                "create": boolean,
+                "delete": boolean,
+                "managePermission": boolean,
+                "manageMember": boolean,
+            },
+        },
+    }
+\end{lstlisting}
+
+ข้อมูลใน roleManagement ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "roleInfo": roleInformation,
+        "roleMembers": roleMemberInformation[],
+        "rolePermissions": rolePermission,
+    }
+\end{lstlisting}
+
+ข้อมูลใน updateRoleUser ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "userId": string,
+    }
+\end{lstlisting}
+
+ข้อมูลใน updateRoleName ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "roleId": string,
+        "oldName": string,
+        "newName": string,
+    }
+\end{lstlisting}
+\fi

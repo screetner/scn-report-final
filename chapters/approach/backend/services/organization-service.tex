@@ -1,0 +1,64 @@
+\subsubsection{Organization Service}
+
+\ifenglish
+\else
+บริการองค์กร (Organization Service) ใช้สำหรับจัดการข้อมูลขององค์กรต่างๆ ที่ใช้สำหรับคนที่เป็นเจ้าของเว็บไซต์
+
+ฟังก์ชันใน Organization Service ประกอบไปด้วย
+
+\begin{itemize}
+    \item \textbf{getAllOrganization(): Promise<organizationData[]>}: ดึงข้อมูลขององค์กรทั้งหมด
+    \item \textbf{createOrganization(name: string): Promise<createOrganizationResult>}: สร้าองค์กรใหม่ขึ้นมา
+    \item \textbf{getOrganizationInformation(orgId: string): Promise<organizationInformation>}: ดึงข้อมูลโดยละเอียดขององค์กรนั้นมา
+    \item \textbf{getInviteList(orgId: string): Promise<inviteData[]>}:\\ ดึงข้อมูลของคำเชิญทั้งหมดขององค์กรนั้น
+    \item \textbf{getSAS(orgId: string): Promise<string>}: ดึง SAS Token ขององค์กรนั้น
+\end{itemize}
+
+ข้อมูลใน organizationData ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "orgId": string,
+        "orgName": string,
+        "orgMember": number,
+        "orgAssets": number
+    }
+\end{lstlisting}
+
+ข้อมูลใน createOrganizationResult ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "orgId": string,
+        "defaultRoleId": string,
+        "adminRoleId": string
+    }
+\end{lstlisting}
+
+\clearpage
+
+ข้อมูลใน organizationInformation ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "name": string,
+        "border": borderData[] | null,
+        "createdAt": Date | null,
+        "updatedAt": Date | null
+    }
+\end{lstlisting}
+
+ข้อมูลใน borderData ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "latitude": number,
+        "longitude": number
+    }
+\end{lstlisting}
+
+ข้อมูลใน inviteData ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "inviterEmail": string | null,
+        "inviteeEmail": string,
+        "time": Date | null
+    }
+\end{lstlisting}
+\fi

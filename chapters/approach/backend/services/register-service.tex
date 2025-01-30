@@ -1,0 +1,16 @@
+\subsubsection{Register Service}
+
+\ifenglish
+\else
+บริการ Register จัดการการดำเนินการที่เกี่ยวข้องกับการลงทะเบียนของผู้ใช้งาน เช่น สร้างบัญชีผู้ใช้งานใหม่ และตรวจสอบความถูกต้องของข้อมูลที่ส่งมา
+
+ฟังก์ชันใน Register Service ประกอบด้วย
+\begin{itemize}
+    \item \textbf{addNewMember(
+        memberData: register,
+        jwtInvite: JWTInvitePayload,
+        token: string
+        ): Promise<\{userId: string\}>}: สร้างบัญชีผู้ใช้งานใหม่จากข้อมูลที่ส่งมา และคืนค่ารหัสของผู้ใช้งานคืนมา
+    \item \textbf{checkMemberToken(token: string): Promise<void>}: ตรวจสอบความถูกต้องของการลงทะเบียนด้วย Token ที่ส่งมา
+\end{itemize}
+\fi

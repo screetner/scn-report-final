@@ -1,0 +1,33 @@
+\subsubsection{Role API}
+
+\ifenglish
+\else
+\begin{itemize}
+    \item \textbf{GET}
+    \begin{itemize}
+        \item \textbf{role/} : ใช้สำหรับการดึงข้อมูลของบทบาททั้งหมดขององค์กรที่กำหนดเอาไว้ \\โดยไม่ต้องระบุองค์กร เนื่องจากเป็นการใช้งานสำหรับคนภายในองค์กรดังกล่าวเท่านั้น
+        \item \textbf{role/org/\{orgId\}} : ใช้สำหรับการดึงข้อมูลของบทบาททั้งหมดขององค์กรที่กำหนดเอาไว้ โดยต้องระบุองค์กรเนื่องจากเป็นการใช้งานสำหรับเจ้าของเว็บไซต์เท่านั้น
+        \item \textbf{role/options} : ใช้สำหรับการดึงข้อมูลของบทบาททั้งหมดขององค์กรที่กำหนดเอาไว้ โดยไม่ต้องระบุองค์กร และจะส่งกลับมาในรูปแบบที่เหมาะสำหรับการใช้งานในการเลือกบทบาท
+        \item \textbf{role/unassigned} : ใช้สำหรับการดึงข้อมูลของสมาชิกในองค์กรที่ยังไม่ได้รับการกำหนดบทบาท
+        \item \textbf{role/\{roleId\}} : ใช้สำหรับการดึงข้อมูลของบทบาทที่กำหนดเอาไว้ขององค์กรที่ผู้ใช้งานอยู่เท่านั้น
+    \end{itemize}
+    \item \textbf{POST}
+    \begin{itemize}
+        \item \textbf{role/new-role} : ใช้สำหรับการสร้างบทบาทใหม่ขององค์กรที่กำหนดเอาไว้
+    \end{itemize}
+    \item \textbf{PUT}
+    \begin{itemize}
+        \item \textbf{role/permission} : ใช้สำหรับการปรับเปลี่ยนสิทธิ์การใช้งานของบทบาทที่กำหนดเอาไว้ \\ขององค์กรดังกล่าว
+    \end{itemize}
+    \item \textbf{PATCH}
+    \begin{itemize}
+        \item \textbf{role/assign-role} : ใช้สำหรับการใส่บทบาทให้กับสมาชิกในองค์กรของผู้ที่ใช้งาน
+        \item \textbf{role/unassign-role} : ใช้สำหรับการถอนบทบาทออกจากสมาชิกในองค์กรของผู้ที่ใช้งาน
+        \item \textbf{role/update-role-name} : ใช้สำหรับการปรับเปลี่ยนชื่อของบทบาทที่กำหนดเอาไว้
+    \end{itemize}
+    \item \textbf{DELETE}
+    \begin{itemize}
+        \item \textbf{role/remove/\{roleId\}} : ใช้สำหรับลบบทบาทที่กำหนดเอาไว้ออกไปจากองค์กรของผู้ใช้งาน
+    \end{itemize}
+\end{itemize}
+\fi
