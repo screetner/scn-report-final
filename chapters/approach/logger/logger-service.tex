@@ -1,0 +1,43 @@
+\subsection{\ifenglish Service \else บริการ \fi}
+
+\ifenglish
+\else
+บริการของระบบ Log ใช้สำหรับการจัดการข้อมูล Log ของผู้ใช้งานในระบบ 
+
+ฟังก์ชันใน Log Services ประกอบด้วย
+\begin{itemize}
+    \item \textbf{getInstance(): LogService}: เป็นฟังก์ชันที่ใช้ในการสร้างหรือเรียกใช้งาน instance ของ \\LogService โดยใช้ Singleton pattern เพื่อให้แน่ใจว่ามีเพียง instance เดียวเท่านั้นที่ถูกสร้างขึ้นในระบบ
+    \item \textbf{createLog(logData: ILog): Promise<\{success: boolean, data: ILogDocument\}>}: เป็นฟังก์ชันที่ใช้ในการสร้าง Log ใหม่ลงไปในฐานข้อมูลของระบบ Log
+    \item \textbf{getLogs(query: FilterQuery<ILogDocument> = \{\}, options: optionType = \{\}): \\Promise<\{success: boolean, data: log :ILogDocument\}>}: เป็นฟังก์ชันที่ใช้ในการดึงข้อมูล Log ของผู้ใช้งานได้ โดยสามารถกำหนดเงื่อนไขเรื่องของกำหนดของเขตกับการข้ามในการค้นหาข้อมูลได้
+    \item \textbf{getUserLogs(userId: string): Promise<\{success: boolean, data: ILogDocument\}>}: เป็นฟังก์ชันที่ใช้ในการดึงข้อมูล Log ของผู้ใช้งานได้ โดยจะส่งเป็นข้อมูลของ 7 วันล่าสุดเท่านั้น
+\end{itemize}
+
+ข้อมูลใน LogStatus ประกอบไปด้วย
+\begin{lstlisting}
+    {
+        "SUCCESS": "success",
+        "FAILED": "failed"
+    }
+\end{lstlisting}
+
+ข้อมูลใน ILog ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "userId": string,
+        "description": string,
+        "status": LogStatus,
+        "timestamp": Date
+    }
+\end{lstlisting}
+
+ข้อมูลใน ILogDocument ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "userId": string,
+        "description": string,
+        "status": LogStatus,
+        "timestamp": Date,
+        "_id": string
+    }
+\end{lstlisting}
+\fi
