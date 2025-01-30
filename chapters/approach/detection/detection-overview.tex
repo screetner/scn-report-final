@@ -1,49 +1,10 @@
-\section{\ifenglish Object Detection Process \else ระบบการตรวจจับวัตถุ \fi}
-The Object Detection Process is a component of the application responsible for identifying objects within a video stream. It operates by downloading a video session directory from Azure Blob Storage, processing the video for object detection, and finally converting the results into structured records for storage in a database. 
+\section{\ifenglish Detection Service \else ระบบการตรวจจับวัตถุ \fi}
+The Detection Service is a component of the application responsible for identifying objects within a video stream. It operates by downloading a video session directory from Azure Blob Storage, processing the video for object detection, and finally converting the results into structured records for storage in a database. 
 
-This pipeline is implemented in Python using Ultralytics' YOLO for object detection and tracking. The entire process consists of four main sub-processes, orchestrated by the main process:
-\begin{enumerate}
-    \item\textbf{Main Process}
-    The main process serves as the controller of the workflow. First, it downloads the necessary files from Azure Blob Storage. For each image location data in the video session, it launches three subprocesses to handle different tasks concurrently. These subprocesses include the Detection Process, the Object Mapping Process, and the Upload Process. These subprocesses interact through a buffered queue, following the producer-consumer pattern. This concurrent execution allows for efficient processing and handling of video frames.
+This pipeline is implemented in Python using Ultralytics' YOLO for object detection and tracking. The entire process consists of three sub-processes, orchestrated by the main process.
 
-    \item\textbf{Detection Process}
-    The Detection Process focuses on performing object detection and tracking across video frames using Ultralytics' YOLO model. The process is designed to identify objects in each frame and assign a unique tracking ID to each object. This ensures consistent tracking of objects across multiple frames. The output from this process includes several key components: the detected frame object from YOLO, the Unix timestamp indicating when the frame was recorded, and a list of detected objects. Each object is accompanied by its tracking ID and bounding box coordinates, allowing for precise identification and localization within the frame.
-    \begin{lstlisting}
-    {
-        "frame": object,
-        "recordedAt": long,
-        "trackingBoxes": {
-            "trackId": number, 
-            "box": (int, int, int, int) 
-        }[],
-    }
-    \end{lstlisting}
-
-    \item\textbf{Object Mapping Process}
-    The Object Mapping Process groups identical objects across multiple frames and assigns them relevant attributes. To achieve this, the system maintains a mapping of object IDs to the frames in which they appear. When an object is not detected for a predefined number of consecutive frames, the process assumes that the recorder has moved past the object. At this point, the mapping of the object ID to its associated frames is used to determine its final location.
-
-    The object's location is inferred from the last detected frame by correlating its timestamp with the closest recorded location timestamp. Given that timestamps are stored alongside location coordinates, the location of the object is determined by finding the closest matching timestamp in the location data. Additionally, the image representing the object in the system's interface is chosen from the third quartile of its detected frames. This selection ensures that the image is sufficiently large for visibility while avoiding frames that might have the object partially out of view.
-
-    Finally, the processed data is sent to the queue in the following structured format:
-    \begin{lstlisting}
-    {
-        "frame": object,
-        "tloc": {
-            "timestamp": long,
-            "latitute": float,
-            "longitude": float
-        },
-        "recordedAt": long
-    }
-    \end{lstlisting}
-
-    \item\textbf{Upload Process}
-    The Upload Process serves as the final stage in the object detection pipeline, ensuring that both image data and metadata are stored. This process is responsible for handling the processed frames and corresponding object location data, transferring them to their respective storage destinations.
-
-    The workflow begins by retrieving the processed detection data from the queue. Each detection consists of a video frame and its associated metadata, including the object's timestamped location (tloc). The image frame is first encoded into a JPEG format before being converted into a byte stream, preparing it for upload.
-
-    % TODO what structure convention
-    % What special link metadata
-    The encoded image is then stored in Azure Blob Storage under a structured naming convention that includes the video name and frame index. Simultaneously, the object's metadata—including its latitude, longitude, and the timestamp at which the frame was recorded—is stored in a database. Each uploaded image is referenced within this metadata, ensuring a direct link between the visual representation and its recorded spatial data.
-\end{enumerate}
 \newcommand{\dir}{chapters/approach/detection}
+\import{\dir}{detection-main-process.tex}
+\import{\dir}{detection-tracking-process.tex}
+\import{\dir}{dectection-association-process.tex}
+\import{\dir}{detection-upload-process.tex}
