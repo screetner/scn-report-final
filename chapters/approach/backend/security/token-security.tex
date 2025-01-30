@@ -1,0 +1,46 @@
+\subsubsection{Token Security}
+
+\ifenglish
+\else
+ในส่วนของ Token Security เป็นการอธิบายถึงวิธีการที่ระบบใช้ในการสร้างและใช้งาน Token เพื่อยืนยันตัวตนของผู้ใช้งาน Token จะช่วยป้องกันการแอบอ้างตัวตนและการดักจับข้อมูลโดยผู้ไม่ประสงค์ดี โดย Token จะถูกสร้างขึ้นจากข้อมูลที่เป็นเฉพาะตัวของผู้ใช้งานและถูกเก็บไว้ในระบบเพื่อใช้ในการยืนยันตัวตนในครั้งถัด ๆ ไป
+
+ระบบหลังบ้านมีการใช้งาน Token 4 ประเภท ได้แก่ Access Token, Refresh Token, Tusd Token และ Invite Token ซึ่งแต่ละประเภทมีหน้าที่และวิธีการใช้งานที่แตกต่างกันดังต่อไปนี้
+
+\paragraph{Access Token}
+เป็น Token ที่ใช้สำหรับการยืนยันตัวตนในการเข้าถึง API โดยจะถูกสร้างขึ้นเมื่อผู้ใช้ทำการเข้าสู่ระบบสำเร็จ การใช้งาน Access Token จะถูกส่งไปพร้อมกับคำขอ API เพื่อยืนยันตัวตนของผู้ใช้ โดยที่จะมีอายุการใช้งานอยู่ที่ 1 นาที
+
+\paragraph{Refresh Token}
+เป็น Token ที่ใช้สำหรับการขอ Access Token ใหม่เมื่อ Access Token หมดอายุ การสร้าง Refresh Token จะเกิดขึ้นพร้อมกับการสร้าง Access Token โดยจะทำการแนบ Refresh Token ไปพร้อมกับ Access Token ที่ส่งกลับมาให้ผู้ใช้ การใช้งาน Refresh Token จะถูกส่งไปพร้อมกับคำขอ API เพื่อขอ Access Token ใหม่ โดยที่จะมีอายุการใช้งานอยู่ที่ 7 วัน
+
+\paragraph{Tusd Token}
+เป็น Token ที่ใช้สำหรับการอัปโหลดไฟล์ผ่าน Tusd Server การสร้าง Tusd Token จะเกิดขึ้นเมื่อผู้ใช้ต้องการอัปโหลดไฟล์ และจะถูกใช้ในการยืนยันตัวตนของผู้ใช้ในระหว่างการอัปโหลด โดยที่จะมีอายุการใช้งานอยู่ที่ 7 วัน
+
+\paragraph{ข้อมูลที่ใช้ในการสร้าง Access Token, Refresh Token และ Tusd Token}
+การสร้าง Token ทั้งสามประเภทนี้ใช้ข้อมูลดังต่อไปนี้:
+\begin{lstlisting}
+    {
+        "userId" : string,
+        "username" : string,
+        "roleId" : string,
+        "roleName" : string,
+        "abilityScope" : permission,
+        "email" : string,
+        "orgId" : string,
+        "orgName" : string,
+        "isOwner" : boolean
+    }
+\end{lstlisting}
+
+\paragraph{Invite Token}
+เป็น Token ที่ใช้สำหรับการเชิญผู้ใช้เข้าร่วมองค์กร การสร้าง Invite Token จะเกิดขึ้นเมื่อผู้ดูแลระบบส่งคำเชิญไปยังผู้ใช้ใหม่ และจะถูกใช้ในการยืนยันตัวตนของผู้ใช้เมื่อเข้าร่วมองค์กร โดยที่จะมีอายุการใช้งานอยู่ที่ 7 วัน
+
+\paragraph{ข้อมูลที่ใช้ในการสร้าง Invite Token}
+การสร้าง Invite Token ใช้ข้อมูลดังต่อไปนี้:
+\begin{lstlisting}
+    {
+        "email" : string,
+        "orgId" : string,
+        "roleId" : string
+    }
+\end{lstlisting}
+\fi
