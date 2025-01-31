@@ -1,4 +1,4 @@
-\subsection{\ifenglish Object Association Process\else กระดำเนินการเชื่อมโยงวัตถุ\fi}
+\subsection{\ifenglish Object Association Process\else การดำเนินการเชื่อมโยงวัตถุ\fi}
 The Object Association Process groups identical objects across multiple frames and assigns them relevant attributes. To achieve this, the system maintains a mapping of object IDs to the frames in which they appear. When an object is not detected for a predefined number of consecutive frames, the process assumes that the recorder has moved past the object. At this point, the mapping of the object ID to its associated frames is used to determine its final location.
 
 The object's location is inferred from the last detected frame by correlating its timestamp with the closest recorded location timestamp. Given that timestamps are stored alongside location coordinates, the location of the object is determined by finding the closest matching timestamp in the location data. Additionally, the image representing the object in the system's interface is chosen from the third quartile of its detected frames. This selection ensures that the image is sufficiently large for visibility while avoiding frames that might have the object partially out of view.
@@ -15,3 +15,8 @@ Finally, the processed data is sent to the queue in the following structured for
     "recordedAt": long
 }
 \end{lstlisting}
+
+\insertPDFfigure
+{resources/detection/detection-association-process.pdf}
+{\ifenglish Tracking Association Workflow\else ขั้นตอนการทำงานของการดำเนินการเชื่อมโยงวัตถุ\fi}
+{tracking association workflow}
