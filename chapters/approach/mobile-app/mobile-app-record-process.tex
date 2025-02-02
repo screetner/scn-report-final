@@ -1,13 +1,29 @@
 \subsection{\ifenglish Video Session Record Process \else กระบวนการบันทึกเซสชันวิดีโอ \fi}
+
+\ifenglish
 After starting the recording, the application invokes the \textbf{Image Location Record Controller} to begin recording both the video and its corresponding location data. These two processes—video recording and location recording—operate independently and simultaneously. The overall workflow for this recording process is illustrated in \autoref{fig:video session recording work flow}. 
 
 The location recording is handled by the \textbf{Location Recorder service}, which creates a record whenever the device detects a change in location through the \textbf{Geolocator library} (via the \texttt{getPositionStream} function). The video recording, on the other hand, is managed by the camera library.
+\else
+เมื่อเริ่มบันทึก แอปพลิเคชันจะเรียกใช้ \textbf{Image Location Record Controller} เพื่อเริ่มบันทึกทั้งวิดีโอและข้อมูลตำแหน่งที่เกี่ยวข้อง กระบวนการบันทึกวิดีโอและการบันทึกตำแหน่งจะทำงานแยกจากกันและดำเนินการพร้อมกัน เวิร์กโฟลว์โดยรวมของกระบวนการบันทึกนี้แสดงอยู่ใน \autoref{fig:video session recording work flow} 
 
+การบันทึกตำแหน่งถูกจัดการโดย \textbf{Location Recorder service} ซึ่งสร้างบันทึกเมื่ออุปกรณ์ตรวจพบการเปลี่ยนแปลงของตำแหน่งผ่านทาง \textbf{Geolocator library} (โดยใช้ฟังก์ชัน \texttt{getPositionStream}) ในขณะที่การบันทึกวิดีโอถูกจัดการโดยไลบรารีกล้อง
+\fi
+
+\ifenglish
 We refer to the combination of video and location data as an \textbf{image-location record}. Since both processes independently record their respective data, the system associates a timestamp with each location record. This timestamp is essential for the object detection service to match detected objects with their corresponding locations. This protocol of recording timestamp-location pairs is called a \textbf{Tloc file}.
+\else
+เราเรียกข้อมูลที่รวมระหว่างวิดีโอและตำแหน่งที่บันทึกว่า \textbf{image-location record} เนื่องจากทั้งสองกระบวนการบันทึกข้อมูลของตนเองแยกจากกัน ระบบจึงต้องแนบค่าเวลาที่บันทึก (timestamp) ไว้กับแต่ละตำแหน่งที่บันทึกไว้ ค่าเวลานี้มีส่วนเกี่ยวข้องกับตรวจจับวัตถุเพื่อให้สามารถจับคู่วัตถุที่ตรวจพบกับตำแหน่งที่เกี่ยวข้องได้ โดยโปรโตคอลการบันทึกคู่ของเวลาและตำแหน่งนี้เรียกว่า \textbf{Tloc file}
+\fi
 
+\ifenglish
 The Tloc file is named identically to the video file. For example, \texttt{1725683830.tloc} corresponds to the location data for the video file \texttt{1725683830.mp4}. The structure of a Tloc file is as follows:
+\else
+ไฟล์ Tloc จะถูกตั้งชื่อให้เหมือนกับไฟล์วิดีโอ ตัวอย่างเช่น \texttt{1725683830.tloc} เป็นข้อมูลตำแหน่งของไฟล์วิดีโอ \texttt{1725683830.mp4} โครงสร้างของไฟล์ Tloc มีดังนี้:
+\fi
+\ifenglish
 \begin{enumerate}
-    \item\textbf{Header (\texttt{4 bytes})}. This section contains an integers:
+    \item \textbf{Header (\texttt{4 bytes})}. This section contains an integer:
     \begin{itemize}
         \item \textbf{\texttt{n} (Number of Timestamp-Locations)}: Represents the number of timestamp-location entries.
     \end{itemize}
@@ -18,8 +34,30 @@ The Tloc file is named identically to the video file. For example, \texttt{17256
         \item \textbf{Latitude}: The latitude corresponding to the timestamp (8 bytes).
         \item \textbf{Longitude}: The longitude corresponding to the timestamp (8 bytes).
     \end{itemize}
+\end{enumerate}
+\else
+\begin{enumerate}
+    \item \textbf{Header (\texttt{4 ไบต์})}. ส่วนนี้ประกอบด้วยจำนวนเต็ม:
+    \begin{itemize}
+        \item \textbf{\texttt{n} (จำนวน Timestamp-Locations)}: แสดงจำนวนรายการคู่ของเวลาและตำแหน่ง
+    \end{itemize}
+    
+    \item \textbf{ข้อมูลตำแหน่ง (\texttt{n * 24 ไบต์})}. ส่วนนี้ประกอบด้วย n บล็อก แต่ละบล็อกยาว 24 ไบต์ แสดงข้อมูลเวลาและพิกัดทางภูมิศาสตร์ โดยแต่ละบล็อกประกอบด้วยตัวเลขสามตัว:
+    \begin{itemize}
+        \item \textbf{Unix Timestamp}: การประทับเวลาในรูปแบบ Unix (8 ไบต์).
+        \item \textbf{Latitude}: ละติจูดที่สอดคล้องกับการประทับเวลา (8 ไบต์).
+        \item \textbf{Longitude}: ลองจิจูดที่สอดคล้องกับการประทับเวลา (8 ไบต์).
+    \end{itemize}
+\end{enumerate}
+\fi
 
-However, each video session may have multiple image-location records. As for each video session pausing and stopping, will generate an image-location record. After the user decide to stop, the application will finalize all image-location records and combine it as a single video session. Where each video session has an information JSON file which represents the order and the image-location records. The information JSON file has the structure as such:
+
+\ifenglish
+However, each video session may have multiple image-location records. As for each video session pausing and stopping, will generate an image-location record. After the user decides to stop, the application will finalize all image-location records and combine them into a single video session. Each video session contains an information JSON file, which represents the order and details of the image-location records. The structure of the information JSON file is as follows:
+\else
+นอกจากนี้ แต่ละเซสชันวิดีโออาจมีหลาย image-location record โดยทุกครั้งที่มีการหยุดชั่วคราวหรือหยุดการบันทึกเซสชัน แอปพลิเคชันสร้างหนึ่ง image-location record ใหม่ หลังจากที่ผู้ใช้ตัดสินใจหยุดบันทึก แอปพลิเคชันจะทำการรวม image-location record ทั้งหมดเข้าเป็นเซสชันวิดีโอเดียว ซึ่งแต่ละเซสชันวิดีโอจะมีไฟล์ JSON ข้อมูลที่แสดงลำดับและรายละเอียดของ image-location record โครงสร้างของไฟล์ JSON มีดังนี้:
+\fi
+
 \begin{lstlisting}
     {
         "videoCount": number,
@@ -31,6 +69,8 @@ However, each video session may have multiple image-location records. As for eac
         "videoSessionId": string,
     }
 \end{lstlisting}
+
+\ifenglish
 \begin{itemize}
     \item \textbf{\texttt{videoCount}}: The total number of videos in the session (integer).
     \item \textbf{\texttt{sessionStartTime}}: The start time of the session in UTC in ISO 8601 format.
@@ -39,9 +79,26 @@ However, each video session may have multiple image-location records. As for eac
         \item \textbf{\texttt{videoName}}: The name of the video file.
         \item \textbf{\texttt{tlocName}}: The name of the corresponding Tloc file.
     \end{itemize}
-    \item \textbf{\texttt{videoSessionId}}: The unique id for the video session.
+    \item \textbf{\texttt{videoSessionId}}: The unique ID for the video session.
 \end{itemize}
+\else
+\begin{itemize}
+    \item \textbf{\texttt{videoCount}}: จำนวนวิดีโอทั้งหมดในเซสชัน (จำนวนเต็ม)
+    \item \textbf{\texttt{sessionStartTime}}: เวลาที่เริ่มเซสชันในรูปแบบ UTC ตามมาตรฐาน ISO 8601
+    \item \textbf{\texttt{videoTlocTuples}}: อาร์เรย์ของอ็อบเจ็กต์ที่เชื่อมโยงชื่อวิดีโอกับชื่อไฟล์ Tloc
+    \begin{itemize}
+        \item \textbf{\texttt{videoName}}: ชื่อไฟล์วิดีโอ
+        \item \textbf{\texttt{tlocName}}: ชื่อไฟล์ Tloc ที่เกี่ยวข้อง
+    \end{itemize}
+    \item \textbf{\texttt{videoSessionId}}: รหัสเฉพาะของเซสชันวิดีโอ
+\end{itemize}
+\fi
+
+\ifenglish
 Example of the information JSON file:
+\else
+ตัวอย่างไฟล์ JSON ข้อมูล:
+\fi
 \begin{lstlisting}
     {
         "videoCount": 1,
@@ -55,7 +112,13 @@ Example of the information JSON file:
         "videoSessionId": "samble-video-session-id"
     }
 \end{lstlisting}
-And the Image Location Record Controller stores all files of a video session in application's storage which has the structure as provided:
+
+\ifenglish
+And the Image Location Record Controller stores all files of a video session in the application's storage, which has the following structure:
+\else
+และ Image Location Record Controller จะจัดเก็บไฟล์ทั้งหมดของเซสชันวิดีโอไว้ในที่เก็บข้อมูลของแอปพลิเคชัน โดยมีโครงสร้างดังนี้:
+\fi
+
 \begin{lstlisting}
     . app_flutter
     |-records
@@ -66,7 +129,7 @@ And the Image Location Record Controller stores all files of a video session in 
     | | |-${video2}.tloc
     | | |-information.json
 \end{lstlisting}
-\end{enumerate}
+
 \insertPDFfigure
 {resources/mobile-app/video-session-record-transition.pdf}
 {\ifenglish Mobile Application Workflow for Video Session Recording \else กระบวนการทำงานของแอปพลิเคชันมือถือในการบันทึกเซสชันวิดีโอ \fi}

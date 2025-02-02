@@ -1,5 +1,10 @@
 \subsection{\ifenglish Mobile Application Structure \else สถาปัตยกรรมระบบแอปพลิเคชั่นโทรศัพท์ \fi}
-For mobile applciation structure, the application components are divided into 5 major types as shown in the following diagram.
+
+\ifenglish
+For mobile application structure, the application components are divided into 5 major types as shown in the following diagram.
+\else
+ในส่วนของสถาปัตยกรรมแอปพลิเคชันมือถือ ส่วนประกอบของแอปพลิเคชันถูกแบ่งออกเป็น 5 ประเภทหลักตามที่แสดงในแผนภาพด้านล่าง
+\fi
 
 \begin{figure}[ht]
     \begin{center}
@@ -10,6 +15,7 @@ For mobile applciation structure, the application components are divided into 5 
     \label{fig:mobile app component diagram}
 \end{figure}
 
+\ifenglish
 \begin{enumerate}
     \item \textbf{Pages}: These are the user interfaces of the application, each designed to serve specific functionalities. Users can navigate between different pages of the application, as described below:  
     \begin{enumerate}  
@@ -18,7 +24,7 @@ For mobile applciation structure, the application components are divided into 5 
         \item \textbf{Recording Page}: This page facilitates recording video sessions. Users can start, pause, or stop video session recordings.  
         \item \textbf{Information Page}: This page displays the current user's information and provides an option to log out of the application.  
     \end{enumerate}  
-    All pages, except the login and recording pages, can be accessed via the bottom navigation bar. The bottom navigation bar is a shared component displayed across applicable pages, featuring buttons that correspond to each page.  
+    All pages, except the login, can be accessed via the bottom navigation bar. The bottom navigation bar is a shared component displayed across applicable pages, featuring buttons that correspond to each page.  
     
     Additionally, the application remembers the last page the user visited, allowing users to navigate back to it by pressing the back button on their mobile device.      
 
@@ -26,7 +32,7 @@ For mobile applciation structure, the application components are divided into 5 
     
     \item \textbf{Providers}: Providers serve as the bridge between the user interface and the application's computational logic. They are responsible for supplying essential data and enabling communication with device features, such as notifications. Additionally, providers may store immutable application configuration settings. Major providers in the application include:
     \begin{enumerate}
-        \item \textbf{Image Location Record Controller}: This provider manages the simultanious recording of video and location data, with both processes running independently. It handles the application's three core functionalities: starting, pausing, and stopping video recording. When recording is stopped, this provider saves the video and location data to the device's storage.
+        \item \textbf{Image Location Record Controller}: This provider manages the simultaneous recording of video and location data, with both processes running independently. It handles the application's three core functionalities: starting, pausing, and stopping video recording. When recording is stopped, this provider saves the video and location data to the device's storage.
         \item \textbf{Video Metadata Provider}: This provider supplies metadata for all video sessions stored on the device, enabling their display on the home page. It also generates thumbnails for each video session.  
         \item \textbf{Notification Manager}: This provider acts as an interface between other providers and the device's notification system, managing the display of notifications to the user.  
         \item \textbf{Directory Upload Manager}: This provider initializes a WorkManager task to upload video sessions to cloud storage. It also configures the environment necessary for WorkManager to perform uploads correctly. Additional details are provided in Section 3.3.5. % TODO: Reference the correct section.  
@@ -46,3 +52,41 @@ For mobile applciation structure, the application components are divided into 5 
     
     \item \textbf{Assets}: Assets encompass the static resources used by the application, such as images, fonts, icons, and other media files. These resources are accessed by components and pages. Organizing assets in a structured manner ensures efficient retrieval and reuse throughout the application.
 \end{enumerate}
+\else
+\begin{enumerate}
+    \item \textbf{Pages}: คืออินเทอร์เฟซผู้ใช้ของแอปพลิเคชัน ซึ่งแต่ละหน้าถูกออกแบบมาเพื่อให้บริการฟังก์ชันเฉพาะ และผู้ใช้ยังสามารถสลับเปลี่ยนระหว่างหน้าต่าง ๆ ของแอปพลิเคชันได้ดังดังกล่าว:  
+    \begin{enumerate}  
+        \item \textbf{Login Page}: หน้าดังกล่าวจะปรากฏขึ้นเมื่อผู้ใช้เปิดแอปพลิเคชันเป็นครั้งแรกหรือไม่มีโทเค็นที่ถูกต้องในการยืนยันการร้องขอ API ไปยังเซิร์ฟเวอร์หลังบ้าน ผู้ใช้สามารถเข้าสู่ระบบโดยการกรอกข้อมูลประจำตัวเพื่อรับโทเค็นและเข้าถึงแอปพลิเคชัน  
+        \item \textbf{Home Page}: หน้าดังกล่าวแสดงรายการเซสชันวิดีโอทั้งหมดที่จัดเก็บในอุปกรณ์  และทำการเริ่มการอัปโหลดเซสชันวิดีโอหรือลบเซสชันวิดีโอ  
+        \item \textbf{Recording Page}: หน้าดังกล่าวช่วยให้สามารถบันทึกเซสชันวิดีโอ  หยุดชั่วคราว หรือหยุดการบันทึกได้  
+        \item \textbf{Information Page}: หน้าดังกล่าวจะแสดงข้อมูลของผู้ใช้ปัจจุบัน และให้ตัวเลือกในการล็อกเอาท์ออกจากแอปพลิเคชัน
+    \end{enumerate}  
+    หน้าทั้งหมด ยกเว้น Login Page  สามารถเข้าถึงได้จากแถบนำทางด้านล่าง (Navigation Bar) ซึ่งเป็นองค์ประกอบที่แสดงบนหน้าที่เกี่ยวข้อง โดยมีปุ่มที่สอดคล้องกับแต่ละหน้าสำหรับการสลับเปลี่ยนระหว่างหน้าต่าง ๆ  
+    
+    นอกจากนี้ แอปพลิเคชันจะจดจำหน้าที่ผู้ใช้เยี่ยมชมล่าสุด ทำให้ผู้ใช้สามารถกลับไปยังหน้านั้นโดยการกดปุ่มย้อนกลับบนอุปกรณ์มือถือของตนได้      
+
+    \item \textbf{Components}: คือบล็อกสำหรับการสร้างหน้าของแอปพลิเคชันที่สามารถนำกลับมาใช้ใหม่ ซึ่งแต่ละส่วนประกอบห่อหุ้มฟังก์ชันหรือรูปภาพที่สามารถใส่ประกอบเข้ากับหน้าต่าง ๆ ได้ ส่วนประกอบเหล่าดังกล่าวจะถูกออกแบบมาเพื่อเพิ่มความยืดหยุ่นและความสามารถในการนำกลับมาใช้ใหม่ภายในแอปพลิเคชัน
+    
+    \item \textbf{Providers}: Providers ทำหน้าที่เป็นตัวเชื่อมระหว่างอินเทอร์เฟซผู้ใช้และการคำนวณต่าง ๆ ของแอปพลิเคชัน โดยมีหน้าที่ในการจัดสรรข้อมูลสำคัญและเปิดฟังชั่นใช้งานการสื่อสารกับฟีเจอร์ของอุปกรณ์ เช่น การแจ้งเตือน และ การเก็บการตั้งค่าของแอปพลิเคชัน (Application Configuration) โดย Providers หลักในแอปพลิเคชันมีตัวอย่างดังนี้
+    \begin{enumerate}
+        \item \textbf{Image Location Record Controller}: Provider ดังกล่าวจัดการการบันทึกวิดีโอและข้อมูลตำแหน่งพร้อมกัน โดยกระบวนการทั้งสองทำงานแยกจากกัน โดยที่จะสามารถทำฟังก์ชันหลักสามอย่างของแอปพลิเคชัน ได้แก่ การเริ่มอัดวิดีโอ การหยุดชั่วคราว และการหยุดการบันทึกวิดีโอ เมื่อการบันทึกหยุดลง Provider ดังกล่าวจะบันทึกข้อมูลวิดีโอและตำแหน่งไปยังที่เก็บข้อมูลในอุปกรณ์
+        \item \textbf{Video Metadata Provider}: Provider ดังกล่าวจัดหาข้อมูลที่เกี่ยวข้องกับเซสชันวิดีโอทั้งหมดที่จัดเก็บในอุปกรณ์ ซึ่งช่วยให้สามารถแสดงผลบนหน้าหลักของแอปพลิเคชันได้ และยังสร้างภาพขนาดย่อสำหรับแต่ละเซสชันวิดีโอ  
+        \item \textbf{Notification Manager}: Provider ดังกล่าวทำหน้าที่เป็นอินเทอร์เฟซระหว่าง Providers อื่น ๆ และระบบการแจ้งเตือนของอุปกรณ์ โดยจัดการการแสดงผลการแจ้งเตือนแก่ผู้ใช้  
+        \item \textbf{Directory Upload Manager}: Provider ดังกล่าวจะเริ่มการงานของ WorkManager เพื่ออัปโหลดเซสชันวิดีโอไปยังที่เก็บข้อมูลในคลาวด์ นอกจากนี้ยังตั้งค่าข้อมูลที่จำเป็นเพื่อให้ WorkManager ทำการอัปโหลดได้อย่างถูกต้อง รายละเอียดเพิ่มเติมมีในส่วนที่ 3.3.5 % TODO: อ้างอิงไปยังส่วนที่ถูกต้อง  
+        \item \textbf{Progress Isolate Manager}: Provider ดังกล่าวดึงข้อมูลความคืบหน้าในการอัปโหลดของแต่ละเซสชันวิดีโอจากที่เก็บข้อมูลของอุปกรณ์ เนื่องจากกระบวนการอัปโหลดจะถูกจัดการโดย WorkManager ในสภาพแวดล้อมที่แยกออกจากกัน ซึ่งจะไม่แบ่งปันหน่วยความจำกับแอปพลิเคชันหลัก และไม่สามารถส่งข้อมูลความคืบหน้าในการอัปโหลดโดยอัตโนมัติ จึงเกิด Provider ดังกล่าวที่จะเชื่อมต่อช่องโหว่ของการส่งข้อมูลนั้น
+    \end{enumerate}
+    
+    \item \textbf{Services}: Services คือโมดูลที่ใช้ในการสร้างฟังก์ชันซับซ้อนหรือสามารถนำกลับมาใช้ใหม่ในหลาย ๆ ที่และช่วยสนับสนุนการคำรวณให้ Providers แต่ต่างที่ Services มีจุดประสงค์ที่กว้างและมีความโมดูลาร์กว่า Providers ซึ่งช่วยให้ Services สามารถถูหใช้งานซ้ำได้ในส่วนต่าง ๆ ของแอปพลิเคชัน\enskip Services จัดการกับการร้องขอและตอบกลับจาก API และเป็นตัวแทนของคลาสที่ซับซ้อน และยังสามารถติดต่อกับเคอร์เนลของอุปกรณ์ เช่น การบันทึกไฟล์ และอาจช่วยในการจัดการข้อมูล ตัวอย่าง Services หลักในแอปพลิเคชันมีดังดังกล่าว:
+    \begin{enumerate}  
+        \item \textbf{Authentication Service}: Service ดังกล่าวจัดการการร้องขอ API ที่เกี่ยวข้องกับการยืนยันตัวตน รวมถึงการเข้าสู่ระบบผู้ใช้และการดึงโทเค็นจากเซิร์ฟเวอร์  
+        \item \textbf{Video Session Service}: Service ดังกล่าวจัดการกับการโต้ตอบกับ API ที่เกี่ยวข้องกับเซสชันวิดีโอ เช่น การสร้างเซสชันวิดีโอใหม่ในฐานข้อมูลของบริการหลังบ้านและการร้องขออัปโหลดไปยัง Azure Blob Storage  
+        \item \textbf{Location Recorder}: Service ดังกล่าวรับผิดชอบในการจัดการกระบวนการบันทึกตำแหน่ง 
+        \item \textbf{Directory Upload Client}: Service ดังกล่าวจัดการการอัปโหลดเซสชันวิดีโอไปยัง Azure Blob Storage โดยใช้ Tus upload client เนื่องจาก Tus client สามารถติดตามสถานะการอัปโหลดไฟล์เดียวเท่านั้น Service ดังกล่าวจึงประสานงานกระบวนการอัปโหลดสำหรับไฟล์ทั้งหมดในเซสชันวิดีโอ  
+        \item \textbf{Secure Storage Cache}: แอปพลิเคชันมือถือมักจะเก็บข้อมูลที่ละเอียดอ่อน อย่างโทเค็น ในพื้นที่เก็บข้อมูลที่ปลอดภัยของอุปกรณ์ เพื่อที่จะเพิ่มประสิทธิภาพ Service ดังกล่าวจะเก็บข้อมูลที่ละเอียดอ่อนจากที่เก็บข้อมูลที่ปลอดภัยไปยังหน่วยความจำของแอปพลิเคชันเพื่อลดความล่าช้าในการถอดรหัสระหว่างการดึงข้อมูล  
+        \item \textbf{Directory Upload State Store}: Service ดังกล่าวเก็บสถานะของกระบวนการอัปโหลดเซสชันวิดีโอในพื้นที่เก็บข้อมูลของอุปกรณ์ โดยจะมีสามองค์ประกอบได้แก่ ไฟล์ที่ได้อัปโหลดแล้ว ไฟล์ที่กำลังอัปโหลด และไฟล์ที่รอต่อคิวเพื่ออัปโหลด สิ่งดังกล่าวช่วยให้มั่นใจได้ว่ากระบวนการอัปโหลดจะสามารถดำเนินการต่อได้หากเกิดการขัดจังหวะ  
+        \item \textbf{Progress File Store}: Service ดังกล่าวเก็บข้อมูลความคืบหน้าการอัปโหลดของแต่ละเซสชันวิดีโอในรูปเปอร์เซ็นต์ ซึ่งก็คือตัวไฟล์ที่ Progress Isolate Manager อ่านเพื่อนำข้อมูลความคืบหน้าการอัปโหลดของแต่ละเซสชันมาแสดงผล
+    \end{enumerate}  
+    
+    \item \textbf{Assets}: Assets คือทรัพยากรที่ไม่เปลี่ยนแปลงซึ่งแอปพลิเคชันใช้ เช่น รูปภาพ ฟอนต์ ไอคอน และไฟล์สื่ออื่น ๆ ทรัพยากรเหล่าดังกล่าวจะถูกเข้าถึงโดยส่วนประกอบและหน้า การจัดระเบียบ Assets อย่างมีโครงสร้างช่วยให้การดึงข้อมูลและการใช้งานซ้ำในแอปพลิเคชัน
+\end{enumerate}
+\fi

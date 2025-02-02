@@ -1,11 +1,16 @@
 \subsection{\ifenglish Mobile Application Use Cases \else การใช้งานแอปพลิเคชั่นโทรศัพท์ \fi}
+\ifenglish
 The mobile application serves as the platform for recording and uploading the necessary data for the object detection process. The system encompasses four primary use cases: login, recording video sessions, uploading video sessions, and deleting video sessions, which are illustrated in the following diagram.
+\else
+แอปพลิเคชันมือถือเป็นแพลตฟอร์มสำหรับบันทึก และอัปโหลดข้อมูลที่จำเป็นสำหรับกระบวนการตรวจจับวัตถุ ระบบประกอบด้วยกรณีการใช้งานหลักสี่ประการ ได้แก่ การเข้าสู่ระบบ การบันทึกเซสชันวิดีโอ การอัปโหลดเซสชันวิดีโอ และการลบเซสชันวิดีโอ ซึ่งแสดงไว้ในแผนภาพต่อไปนี้
+\fi
 
 \insertPDFfigure
 {resources/mobile-app/mobile-app-use-cases.pdf}
-{\ifenglish Mobile Application Use Case Diagram \else แผนภาพการใช้งานแอปพลิเคชันมือถือ\fi}
+{\ifenglish Mobile Application Use Case Diagram \else แผนภาพการใช้งานแอปพลิเคชันมือถือ \fi}
 {mobile app use case diagram}
 
+\ifenglish
 \begin{enumerate}
     \item \textbf{Login Use Case}: This use case enables the user to log in to the mobile application by invoking the login API provided by the backend service. Note that user registration cannot be performed through the mobile application. Details about the sign-up process are explained in Section 3.2.2. % TODO, reference
     \item \textbf{Record Video Session Use Case}: This use case allows the user to record a video session on their device. A video session encapsulates the data required for processing billboards and their locations, including the video files, location records, and timestamps. This use case is divided into three sub-use cases:  
@@ -14,10 +19,28 @@ The mobile application serves as the platform for recording and uploading the ne
         \item \textbf{Pause Recording}: This sub-use case pauses the video session recording. The user can resume the recording later by invoking the Start Recording sub-use case. Pausing helps reduce the size of the video session, conserving device storage and minimizing computation time for the object detection service.  
         \item \textbf{Stop Recording}: This sub-use case stops and finalizes the video session recording, making the session ready for upload.  
     \end{enumerate}
-    \item \textbf{Upload Video Session Use Case}: This use case enables the user to upload video sessions to Azure Blob Storage using the tusd resumable upload protocol. With this protocol, uploads can be resumed if interrupted (e.g., due to network issues) without data loss. Once a video session is successfully uploaded, the object detection service will automatically retrieve and process the data from the cloud storage.  
+    \item \textbf{Upload Video Session Use Case}: This use case enables the user to upload video sessions to Azure Blob Storage using the Tus resumable upload protocol. With this protocol, uploads can be resumed if interrupted (e.g., due to network issues) without data loss. Once a video session is successfully uploaded, the object detection service will automatically retrieve and process the data from the cloud storage.  
     \item \textbf{Delete Video Session Use Case}: This use case allows the user to delete video sessions from their mobile device. This functionality is helpful for freeing up storage space. While users are encouraged to delete video sessions only after they have been successfully uploaded to the cloud, they are still allowed to delete sessions even if the upload process is incomplete or has not started.  
 \end{enumerate}
+\else
+\begin{enumerate}
+    \item \textbf{กรณีใช้งานการเข้าสู่ระบบ}: กรณีใช้งานนี้ช่วยให้ผู้ใช้สามารถเข้าสู่ระบบแอปพลิเคชันมือถือโดยเรียกใช้ API การเข้าสู่ระบบที่ให้บริการโดยเซิร์ฟเวอร์หลังบ้าน ซึ่งการลงทะเบียนผู้ใช้นั้นจะไม่สามารถทำได้ผ่านแอปพลิเคชันมือถือ รายละเอียดเกี่ยวกับกระบวนการลงทะเบียนมีอธิบายในส่วน 3.2.2 % TODO, reference
+    \item \textbf{กรณีใช้งานการบันทึกเซสชันวิดีโอ}: กรณีใช้งานนี้ช่วยให้ผู้ใช้สามารถบันทึกเซสชันวิดีโอบนอุปกรณ์ เซสชันวิดีโอจะเป็นกลุ่มของข้อมูลที่จำเป็นสำหรับการประมวลผลป้ายโฆษณาและหาตำแหน่ง รวมถึงไฟล์วิดีโอ  ไฟล์การบันทึกตำแหน่ง และการประทับเวลาต่าง ๆ กรณีใช้งานนี้แบ่งออกเป็นสามกรณีย่อย:
+    \begin{enumerate}
+        \item \textbf{เริ่มบันทึก}: กรณีย่อยนี้เริ่มต้นหรือทำการบันทึกเซสชันวิดีโอต่อ  
+        \item \textbf{หยุดชั่วคราว}: กรณีย่อยนี้หยุดบันทึกเซสชันวิดีโอชั่วคราว ผู้ใช้สามารถดำเนินการบันทึกต่อได้ในภายหลังด้วยการเริ่มบันทึกใหม่ การหยุดชั่วคราวช่วยลดขนาดของเซสชันวิดีโอ ประหยัดพื้นที่เก็บข้อมูลของอุปกรณ์ และลดเวลาการประมวลผลของบริการตรวจจับวัตถุ  
+        \item \textbf{หยุดบันทึก}: กรณีย่อยนี้หยุดเซสชันวิดีโอ และทำการเตรียมข้อมูลเซสชันสำหรับการอัปโหลด  
+    \end{enumerate}
+    \item \textbf{กรณีใช้งานการอัปโหลดเซสชันวิดีโอ}: กรณีใช้งานนี้ช่วยให้ผู้ใช้สามารถอัปโหลดเซสชันวิดีโอไปยังบน Azure Blob Storage โดยใช้ Tus เป็น โปรโตคอลการอัปโหลดแบบกลับคืนใหม่ได้ (Resumable Upload) ซึ่งช่วยให้อัปโหลดได้อย่างต่อเนื่องหากมีการขัดจังหวะ (เช่น ปัญหาเครือข่าย) โดยไม่สูญเสียข้อมูล เมื่อเซสชันวิดีโออัปโหลดสำเร็จแล้ว บริการตรวจจับวัตถุจะดึงและประมวลผลข้อมูลจากที่เก็บข้อมูลบนคลาวด์โดยอัตโนมัติ  
+    \item \textbf{กรณีใช้งานการลบเซสชันวิดีโอ}: กรณีใช้งานนี้ช่วยให้ผู้ใช้สามารถลบเซสชันวิดีโอออกจากอุปกรณ์มือถือของตนได้ ฟังก์ชันนี้มีประโยชน์สำหรับการเพิ่มพื้นที่ว่างของอุปกรณ์ แม้ว่าผู้ใช้จะได้รับการแนะนำให้ลบเซสชันวิดีโอหลังจากที่อัปโหลดเสร็จสมบูรณ์แล้ว แต่ก็ยังสามารถลบเซสชันได้แม้ว่ากระบวนการอัปโหลดจะยังไม่เสร็จสมบูรณ์หรือยังไม่ได้เริ่มต้น
+\end{enumerate}
+\fi
+
+\ifenglish
 The following state diagram illustrates the sequence of transitions from starting a video recording to deleting it, including both ideal and non-ideal states. Solid lines represent ideal transitions, while dashed lines indicate non-ideal transitions.
+\else
+แผนภาพสถานะต่อไปนี้แสดงลำดับขั้นตอนการใช้งานแอปพลิเคชันจากการเริ่มบันทึกวิดีโอไปจนถึงการลบ รวมถึงสถานะที่เหมาะสมและไม่เหมาะสม เส้นทึบแสดงถึงลำดับขั้นตอนที่เหมาะหม ส่วนเส้นประแสดงถึงการขั้นตอนที่ไม่เหมาะสม
+\fi
 
 \insertPDFfigure
 {resources/mobile-app/mobile-app-state-diagram.pdf}
