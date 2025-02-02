@@ -1,4 +1,4 @@
-\subsection{\ifenglish Upload Process\else กระดำเนินการอัปโหลด\fi}
+\subsection{\ifenglish Upload Process\else การดำเนินการอัปโหลด\fi}
 The Upload Process serves as the final stage in the object detection pipeline, ensuring that both image data and metadata are stored. This process is responsible for handling the processed frames and corresponding object location data, transferring them to their respective storage destinations.
 
 The workflow begins by retrieving the processed detection data from the queue. Each detection consists of a video frame and its associated metadata, including the object's timestamped location (tloc). The image frame is first encoded into a JPEG format before being converted into a byte stream, preparing it for upload.
@@ -6,3 +6,8 @@ The workflow begins by retrieving the processed detection data from the queue. E
 % TODO what structure convention
 % What special link metadata
 The encoded image is then stored in Azure Blob Storage under a structured naming convention that includes the video name and frame index. Simultaneously, the object's metadata—including its latitude, longitude, and the timestamp at which the frame was recorded—is stored in a database. Each uploaded image is referenced within this metadata, ensuring a direct link between the visual representation and its recorded spatial data.
+
+\insertPDFfigure
+{resources/detection/detection-upload-process.pdf}
+{\ifenglish Upload Process Workflow\else ขั้นตอนการทำงานการดำเนินการอัปโหลด\fi}
+{upload process workflow}
