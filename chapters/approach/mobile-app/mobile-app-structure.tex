@@ -1,19 +1,10 @@
 \subsection{\ifenglish Mobile Application Structure \else สถาปัตยกรรมระบบแอปพลิเคชั่นโทรศัพท์ \fi}
 
 \ifenglish
-For mobile application structure, the application components are divided into 5 major types as shown in the following diagram.
+Mobile applications consist of different components, each responsible for a specific part of the application’s operation. These components are divided into five major types, which handle various functions such as user interaction, data processing, and network communication.
 \else
-ในส่วนของสถาปัตยกรรมแอปพลิเคชันมือถือ ส่วนประกอบของแอปพลิเคชันถูกแบ่งออกเป็น 5 ประเภทหลักตามที่แสดงในแผนภาพด้านล่าง
+แอปพลิเคชันมือถือประกอบด้วยส่วนประกอบต่างๆ ที่รับผิดชอบในแต่ละด้านของการทำงานของแอปพลิเคชัน โดยระบบดังกล่าวจะถูกแบ่งออกเป็น 5 ประเภทหลัก ซึ่งทำหน้าที่ต่างๆ เช่น การโต้ตอบกับผู้ใช้ การประมวลผลข้อมูล และการสื่อสารเครือข่าย
 \fi
-
-\begin{figure}[ht]
-    \begin{center}
-    \text{Add Components Diagram Here}
-    \end{center}
-    \newcommand{\MobileAppComponentDiagram}{\ifenglish Mobile Application Component Diagram \else แผนภาพองค์ประกอบของแอปพลิเคชันมือถือ \fi}
-    \caption[\MobileAppComponentDiagram]{\MobileAppComponentDiagram}
-    \label{fig:mobile app component diagram}
-\end{figure}
 
 \ifenglish
 \begin{enumerate}
@@ -90,3 +81,8 @@ For mobile application structure, the application components are divided into 5 
     \item \textbf{Assets}: Assets คือทรัพยากรที่ไม่เปลี่ยนแปลงซึ่งแอปพลิเคชันใช้ เช่น รูปภาพ ฟอนต์ ไอคอน และไฟล์สื่ออื่น ๆ ทรัพยากรเหล่าดังกล่าวจะถูกเข้าถึงโดยส่วนประกอบและหน้า การจัดระเบียบ Assets อย่างมีโครงสร้างช่วยให้การดึงข้อมูลและการใช้งานซ้ำในแอปพลิเคชัน
 \end{enumerate}
 \fi
+
+\insertPDFfigure
+{resources/mobile-app/mobile-app-structure.pdf}
+{\ifenglish Overview of Mobile Application Structure \else ภาพรวมโครงสร้างแอปพลิเคชันมือถือ \fi}
+{mobile app component diagram}
