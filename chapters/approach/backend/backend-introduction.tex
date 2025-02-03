@@ -1,0 +1,45 @@
+\ifenglish
+The backend system, or Main service, is part of the red frame that can be seen in Figure \ref{fig:system-architecture}. The backend system plays a crucial role in processing and managing all data related to providing services to users. It acts as an intermediary for communication between users and the database, as well as ensuring the security of the data.
+
+The backend system consists of several components that work together to provide various services to users, including:
+\begin{itemize}
+    \item Database: Used to store all data
+    \item Server: Processes user requests
+    \item API: Acts as an intermediary for communication between different systems
+    \item Security: Prevents unauthorized access to data
+\end{itemize}
+
+The technologies used in this backend system include:
+\begin{itemize}
+    \item Programming language: Typescript
+    \item Database: PostgreSQL
+    \item Tool: Docker, Git
+    \item Framework: ElysiaJs
+    \item ORM: Dizzle
+    \item Cache: Redis
+\end{itemize}
+
+The operation of this backend system starts with receiving user requests through the API. The server then processes the requests and retrieves data from the database, and finally sends the results back to the user.
+\else 
+ระบบหลังบ้านหรือก็คือ Main service ที่เป็นส่วนหนึ่งของกรอบสีแดงที่สามารถเห็นได้ในรูป \ref{fig:system-architecture} โดยในระบบหลังบ้านนี้มีบทบาทสำคัญในการประมวลผลและจัดการข้อมูลทั้งหมดที่เกี่ยวข้องกับการให้บริการแก่ผู้ใช้ โดยทำหน้าที่เป็นตัวกลางในการสื่อสารระหว่างผู้ใช้และฐานข้อมูล รวมถึงการรักษาความปลอดภัยของข้อมูล
+
+ระบบหลังบ้านประกอบด้วยหลายส่วนที่ทำงานร่วมกันเพื่อให้บริการต่าง ๆ แก่ผู้ใช้ ซึ่งรวมถึง:
+\begin{itemize}
+    \item ฐานข้อมูล: ใช้สำหรับเก็บข้อมูลทั้งหมด
+    \item เซิร์ฟเวอร์: ทำหน้าที่ประมวลผลคำขอจากผู้ใช้
+    \item API: เป็นตัวกลางในการสื่อสารระหว่างระบบต่าง ๆ
+    \item ระบบรักษาความปลอดภัย: เพื่อป้องกันการเข้าถึงข้อมูลโดยไม่ได้รับอนุญาต
+\end{itemize}
+
+เทคโนโลยีที่ใช้ในระบบหลังบ้านนี้ประกอบด้วย:
+\begin{itemize}
+    \item ภาษาโปรแกรม: Typescript
+    \item ฐานข้อมูล: PostgreSQL
+    \item เครื่องมือ: Docker, Git
+    \item เฟรมเวิร์ก: ElysiaJs
+    \item ORM: Dizzle
+    \item แคช: Redis
+\end{itemize}
+
+การทำงานของระบบหลังบ้านนี้จะเริ่มจากการรับคำขอจากผู้ใช้ ผ่านทาง API จากนั้นเซิร์ฟเวอร์จะประมวลผลคำขอและดึงข้อมูลจากฐานข้อมูล แล้วส่งผลลัพธ์กลับไปยังผู้ใช้
+\fi

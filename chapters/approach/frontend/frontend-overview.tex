@@ -1,0 +1,24 @@
+\clearpage
+\section{\ifenglish Web Application \else เว็บไซต์ \fi}
+\ifenglish * \else
+ในส่วนนี้จะได้อธิบายถึงการใช้งานของเว็บไซต์ ซึ่งเป็นส่วนที่ใช้ในการตรวจสอบป้ายที่ผ่านการทำ Object Dectection มาแล้วจึงได้ผลลัพธ์ออกมาแสดงผลให้ผู้ใช้งานได้เห็นว่า ป้ายที่ผ่านการตรวจสอบจากระบบมานั้นอยู่ในตำแหน่งใด
+และเป็นป้ายที่สามารถจัดเก็บภาษีได้หรือไม่ โดยจากที่กล่าวมาจะเป็นส่วนของการใช้งานจากกลุ่มผู้ใช้งานระบบทั่วไป มากไปกว่านั้นยังมีส่วนของการใช้งานของผู้ดูแลระบบด้วย ซึ่งในที่นี้หมายถึงผู้ที่ดูแลและพัฒนาระบบ ดังนั้นเองเว็บไซต์ของโ๕รงานนี้จึงจะประกอบไปด้วย 2 ส่วนหลัก ๆ ได้แก่
+\begin{itemize}
+    \item ส่วนของผู้ดูแลระบบ
+    \item ส่วนของผู้ใช้งานทั่วไป
+\end{itemize}
+\fi
+
+อย่างไรก็ตามทั้งสองส่วนการใช้งานก็จะมีหน้าที่ใช้งานร่วมกันเช่น หน้าแรกเมื่อเข้าใช้งาน หน้าที่ใช้เข้าสู่ระบบ และหน้าที่ใช้ในการสมัครบัญชีผู้ใช้ ซึ่งได้แสดงไว้แล้วในรูป
+\ref{fig:home-no-login}, \ref{fig:home-login}, \ref{fig:signin}, \ref{fig:register} ตามลำดับ
+
+\insertPDFfigure{resources/frontend/landing-page.png}{\ifenglish Homepage when accessing the system (not yet signed in) \else หน้าแรกเมื่อเข้าใช้งานระบบ (ยังไม่ได้ลงชื่อเข้าใช้งาน)\fi}{home-no-login}
+\insertPDFfigure{resources/frontend/landing-page-logedin.png}{\ifenglish Homepage when accessing the system (already signed in) \else หน้าแรกเมื่อเข้าใช้งานระบบ (ลงชื่อเข้าใช้งานแล้ว)\fi}{home-login}
+\insertPDFfigure{resources/frontend/signin.png}{\ifenglish signin page \else หน้าลงชื่อเข้าใช้ \fi}{signin}
+\insertPDFfigure{resources/frontend/register.png}{\ifenglish register page \else สมัครบัญชี \fi}{register}
+
+
+\clearpage
+
+\import{chapters/approach/frontend}{frontend-owner.tex}
+\import{chapters/approach/frontend}{frontend-org.tex}

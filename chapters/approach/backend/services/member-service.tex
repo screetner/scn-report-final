@@ -1,0 +1,41 @@
+\subsubsection{Member Service}
+
+\ifenglish
+\else
+บริการสมาชิก (Member Service) ใช้สำหรับการดึงข้อมูลของสมาชิกในองค์กร และใช้สำหรับการเชิญสมาชิกเข้าร่วมองค์กร
+
+ฟังก์ชันใน Member Service ประกอบด้วย
+
+\begin{itemize}
+    \item \textbf{getRecentMember(
+        organizationId: string,
+        limit?: number
+      ): \\Promise<getRecentMember[]>} ใช้สำหรับการดึงข้อมูลสมาชิกทั้งหมดขององค์กรที่เลือกเอาไว้ \\โดยจะเรียงจากวันที่เข้าร่วมล่าสุดก่อน และสามารถกำหนดจำนวนสมาชิกที่ต้องการดึงได้
+    \item \textbf{checkEmailExist(emails: string[]): Promise<void>} ใช้สำหรับการตรวจสอบว่าอีเมลที่ส่งเข้ามามีอยู่ในระบบหรือไม่
+    \item \textbf{addInviteToDatabase(
+        userId: string,
+        organizationId: string,
+        emailAndTokens: sendInviteToken[]
+      ): Promise<void>} ใช้สำหรับการเพิ่มข้อมูลการเชิญเข้าร่วมองค์กรลงในฐานข้อมูล
+    \item \textbf{sendInviteEmail(
+        sendInviteTokens: sendInviteToken[]
+      ): Promise<void>} ใช้สำหรับการส่งอีเมลเชิญเข้าร่วมองค์กร
+\end{itemize}
+
+ข้อมูลใน getRecentMember ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    "userId": string,
+    "username": string,
+    "email": string,
+    "roleName": string | null,
+    "createdAt": Date | null,
+\end{lstlisting}
+
+ข้อมูลใน sendInviteToken ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    "email": string,
+    "token": string,
+\end{lstlisting}
+\fi
+
+\clearpage
