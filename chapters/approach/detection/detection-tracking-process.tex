@@ -1,0 +1,17 @@
+\subsection{\ifenglish Object Tracking Process\else การดำเนินการติดตามวัตถุ\fi}
+The Tracking Process focuses on performing object detection and tracking across video frames using Ultralytics' YOLO model. The process is designed to identify objects in each frame and assign a unique tracking ID to each object. This ensures consistent tracking of objects across multiple frames. The output from this process includes several key components: the detected frame object from YOLO, the Unix timestamp indicating when the frame was recorded, and a list of detected objects. Each object is accompanied by its tracking ID and bounding box coordinates, allowing for precise identification and localization within the frame.
+\begin{lstlisting}
+{
+    "frame": object,
+    "recordedAt": long,
+    "trackingBoxes": {
+        "trackId": number, 
+        "box": (int, int, int, int) 
+    }[],
+}
+\end{lstlisting}
+
+\insertPDFfigure
+{resources/detection/detection-tracking-process.pdf}
+{\ifenglish Tracking Process Workflow\else ขั้นตอนการทำงานของการดำเนินการติดตามวัตถุ\fi}
+{tracking process workflow}

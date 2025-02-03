@@ -1,0 +1,30 @@
+\subsubsection{Python Service}
+
+\ifenglish
+\else
+บริการ Python ในแอปพลิเคชันของเรามีหน้าที่จัดการกับทรัพย์สินที่ประมวลผลออกมาได้จากวิดีโอโดยใช้โมเดลที่เราสร้างขึ้น และทำการจัดเก็บข้อมูลเกี่ยวกับทรัพย์สินที่ต้องมีในลงไปในฐานข้อมูล โดยใช้งานร่วมกับชั้นบริการอื่น ๆ ที่เราได้กล่าวถึงไว้ก่อนหน้า 
+
+ฟังก์ชันใน Python Service ประกอบด้วย
+
+\begin{itemize}
+    \item \textbf{postAsset(data: assetList): Promise<void>}: ให้ใช้งานสำหรับในส่วนของการประมวลผลวิดีโอ ทำการจัดเก็บข้อมูลลงไปในฐานข้อมูล
+\end{itemize}
+\fi
+
+ข้อมูลใน assetList ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    "recordedUserId": string,
+    "assets": [
+        {
+            "assetTypeId": string,
+            "geoCoordinate": {
+                "lat": number,
+                "lng": number
+            },
+            "imageFileName": string,
+            "recordedAt": Date
+        }
+    ]
+\end{lstlisting}
+
+\clearpage

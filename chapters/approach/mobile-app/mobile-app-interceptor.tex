@@ -1,0 +1,31 @@
+\subsection{\ifenglish API Request Flow and Error Handling \else กระบวนการเรียกใช้งาน API และการจัดการข้อผิดพลาด \fi}
+
+\ifenglish
+When using token authentication for API requests, tokens may occasionally expire, creating potential disruptions for users. Manually handling token refreshes can degrade the user experience. To streamline this, the application implements automatic token refreshment. This functionality is achieved using Dio’s interceptors, which enable seamless handling of API requests and responses. The interceptors are designed as follows:
+\else
+เมื่อทำการยืนยันตัวตนด้วยโทเคนสำหรับการเรียกใช้งาน API โทเคนอาจหมดอายุเป็นครั้งคราว ซึ่งอาจทำให้เกิดความไม่สะดวกต่อผู้ใช้ การจัดการการต่ออายุโทเคนด้วยตนเองอาจส่งผลกระทบต่อประสบการณ์ใช้งานของผู้ใช้ เพื่อแก้ไขปัญหานี้ แอปพลิเคชันจึงใช้การต่ออายุโทเคนอัตโนมัติ ฟังก์ชันนี้ทำงานผ่านตัวดักจับ (interceptor) ของ Dio ซึ่งช่วยให้สามารถจัดการคำขอและการตอบกลับ API ได้อย่างราบรื่น โดยมีการออกแบบตัวดักจับดังนี้:
+\fi
+
+\begin{enumerate}
+    \item \textbf{\ifenglish Request Interceptor \else ตัวดักจับคำขอ \fi}: 
+
+    \ifenglish
+    Before sending an API request, the request interceptor verifies whether the access token has expired. If the token is valid, the request proceeds as usual. If the token has expired, the interceptor automatically refreshes it by invoking the refresh token API. Upon successfully retrieving a new token, the interceptor updates the access token and resumes the request. In cases where both the access token and refresh token have expired, the application redirects the user to the login page. This process is depicted in the accompanying diagram.
+    \else
+    ก่อนส่งคำขอ API ตัวดักจับคำขอจะตรวจสอบว่าโทเคนหมดอายุหรือไม่ หากโทเคนยังใช้ได้ คำขอจะถูกส่งตามปกติ แต่หากโทเคนหมดอายุ ตัวดักจับจะทำการต่ออายุโดยอัตโนมัติผ่าน API ต่ออายุโทเคน เมื่อได้รับโทเคนใหม่สำเร็จ ตัวดักจับจะอัปเดตโทเคนและดำเนินการส่งคำขอต่อไป หากทั้งโทเคนและโทเคนสำหรับต่ออายุหมดอายุแล้ว แอปพลิเคชันจะนำผู้ใช้ไปยังหน้าล็อกอิน กระบวนการนี้แสดงอยู่ในไดอะแกรมที่แนบมา
+    \fi
+
+    \insertPDFfigure[page=1,width=140mm]
+    {resources/mobile-app/mobile-app-on-request.pdf}
+    {\ifenglish API Request Interceptor Workflow \else ขั้นตอนการทำงานของตัวดักจับคำขอ API \fi}
+    {mobile app request interceptor}
+
+    % \item \textbf{\ifenglish Response Interceptor \else ตัวดักจับการตอบกลับ \fi}: 
+
+    % \ifenglish
+    % After receiving an API response, the response interceptor checks the status code to determine if it indicates an expired token. If the token is expired and the refresh token is still valid, the interceptor automatically refreshes the access token by invoking the refresh token API. Once a new token is obtained, the interceptor updates the access token and resends the original request. This seamless process ensures that user requests are handled without disruption. The steps involved in this process are illustrated in the accompanying diagram.
+    % \else
+    % หลังจากได้รับการตอบกลับจาก API ตัวดักจับการตอบกลับจะตรวจสอบรหัสสถานะเพื่อตรวจสอบว่ามีการแจ้งเตือนว่าโทเคนหมดอายุหรือไม่ หากโทเคนหมดอายุแต่โทเคนสำหรับต่ออายุยังใช้ได้ ตัวดักจับจะทำการต่ออายุโทเคนอัตโนมัติผ่าน API ต่ออายุโทเคน เมื่อได้รับโทเคนใหม่สำเร็จ ตัวดักจับจะอัปเดตโทเคนและส่งคำขอเดิมอีกครั้ง กระบวนการนี้ช่วยให้มั่นใจได้ว่าคำขอของผู้ใช้จะถูกดำเนินการอย่างต่อเนื่องโดยไม่มีสะดุด ขั้นตอนที่เกี่ยวข้องกับกระบวนการนี้แสดงอยู่ในไดอะแกรมที่แนบมา
+    % \fi
+
+\end{enumerate}

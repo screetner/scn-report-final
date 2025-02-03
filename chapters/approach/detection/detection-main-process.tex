@@ -1,0 +1,7 @@
+\subsection{\ifenglish Main Process\else กระดำเนินการหลัก\fi}
+The main process serves as the controller of the workflow. First, it downloads the necessary files from Azure Blob Storage. For each image location data in the video session, it launches three subprocesses to handle different tasks concurrently. These subprocesses include the Detection Process, the Object Tracking Process, and the Upload Process. These subprocesses interact through a buffered queue, following the producer-consumer pattern. This concurrent execution allows for efficient processing and handling of video frames.
+
+\insertPDFfigure
+{resources/detection/detection-main-process.pdf}
+{\ifenglish Detection Service Components \else องค์ประกอบระบบตรวจจับวัตถุ\fi}
+{detection service components}
