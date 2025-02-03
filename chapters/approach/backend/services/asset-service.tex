@@ -8,6 +8,7 @@
 \begin{itemize}
     \item \textbf{findAssetByIds(assetId: string): Promise<assetData>}: ดึงรายละเอียดทรัพย์สินตามรหัสทรัพย์สินจากฐานข้อมูล
     \item \textbf{findAssetsByOrgId(orgId: string): Promise<assetData[]>}: ดึงรายละเอียดทรัพย์สินทั้งหมดขององค์กรจากรหัสองค์กรที่มีอยู่ในฐานข้อมูล
+    \item \textbf{deleteAssetById(assetId: string, orgId: string): Promise<void>}: ใช้สำหรับการลบข้อมูลรูปภาพในฐานข้อมูลและใน blob storage
     \item \textbf{countAssetsByOrgId(orgId: string): Promise<\{total: number\}[]>}: นับจำนวนทรัพย์สินทั้งหมดขององค์กรจากรหัสองค์กรที่มีอยู่ในฐานข้อมูล
     \item \textbf{generateSAS(dirName: string): Promise<string>}: สร้างลิงก์ลงชื่อลงเวลา (SAS) ที่ใช้ในการเข้าถึงรูปภาพทรัพย์สิน
     \item \textbf{generateAssetImageUrl(sas: string,

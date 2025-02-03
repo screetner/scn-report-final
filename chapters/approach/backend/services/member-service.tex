@@ -22,20 +22,24 @@
       ): Promise<void>} ใช้สำหรับการส่งอีเมลเชิญเข้าร่วมองค์กร
 \end{itemize}
 
+\clearpage
+
 ข้อมูลใน getRecentMember ถูกจัดเก็บในรูปแบบดังนี้:
 \begin{lstlisting}
-    "userId": string,
-    "username": string,
-    "email": string,
-    "roleName": string | null,
-    "createdAt": Date | null,
+    {  
+        "userId": string,
+        "username": string,
+        "email": string,
+        "roleName": string | null,
+        "createdAt": Date | null,
+    }
 \end{lstlisting}
 
 ข้อมูลใน sendInviteToken ถูกจัดเก็บในรูปแบบดังนี้:
 \begin{lstlisting}
-    "email": string,
-    "token": string,
+    {
+        "email": string,
+        "token": string,
+    }
 \end{lstlisting}
 \fi
-
-\clearpage
