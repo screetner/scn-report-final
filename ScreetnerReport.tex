@@ -48,10 +48,15 @@
     % So don't delete these 3 lines, please.
 }
 
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
 \newcommand{\insertPDFfigure}[4][page=1,width=140mm]{
   \begin{figure}[ht]
     \begin{center}
-      \includegraphics[#1]{#2}
+      \setlength{\fboxsep}{0pt}  % Space between border and image
+      \setlength{\fboxrule}{0.5pt}  % Border thickness
+      \fbox{\includegraphics[#1]{#2}}
     \end{center}
     \caption[#3]{#3}
     \label{fig:#4}

@@ -1,0 +1,64 @@
+\subsubsection{VideoSession Service}
+
+\ifenglish
+\else
+บริการ VideoSession นั้นใช้สำหรับการจัดการวิดีโอที่กำลังถูกอัพโหลดจากผู้ใช้งาน และรวมถึงมีส่วนที่ถูกใช้งานสำหรับการประมวลผลรูปภาพด้วย
+
+ฟังก์ชันใน VideoSession Service ประกอบไปด้วย
+\begin{itemize}
+    \item \textbf{postVideoSession(
+        userId: string,
+        postData: {
+          uploadProgress: number
+          videoNames: string[]
+          videoSessionName: string
+        },
+    ): Promise<\{videoSessionId: string\}>}:
+    ฟังก์ชันนี้ใช้สำหรับการสร้าง VideoSession ใหม่ โดยจะมีชุดของ video ที่อยู่ใน session นี้และส่งค่า videoSessionId กลับไปให้ผู้ใช้งาน
+    \item \textbf{updateVideoSession(
+        videoSessionId: string,
+        uploadProgress: number,
+        \\userId: string,
+    ): Promise<boolean>}: ฟังก์ชันนี้ใช้สำหรับการอัพเดทค่า uploadProgress ของ videoSession ที่กำลังอัพโหลดอยู่
+    \item \textbf{updateVideoSessionHelper(
+        videoSessionId: string,
+        uploadProgress: number,
+        \\state: videoSessionStateEnum,
+    ): Promise<\{videoSessionId: string\}[]>}: ฟังก์ชันนี้ใช้สำหรับการอัพเดทค่า uploadProgress และ state ของ videoSession ที่กำลังอัพโหลดอยู่ ซึ่งจะถูกเรียกโดยฟังก์ชันข้างต้น เพราะว่าในส่วนนี้จะถูกนำไปใช้ที่อื่นอยู่ จึงมีการแยกส่วนนี้ออกมาเป็นฟังก์ชันใหม่
+    \item \textbf{removeVideoSession(videoSessionId: string): Promise<\{videoSessionId: string\}>}: ฟังก์ชันนี้ใช้สำหรับการลบ videoSession ที่สามารถลบได้เท่านั้น
+    \item \textbf{getVideoSession(videoSessionId: string): Promise<\{videoSessionName: string\}>}: ฟังก์ชันนี้ใช้สำหรับการดึงข้อมูล videoSession จากฐานข้อมูล
+    \item \textbf{generateSessionFolderPath(
+        data: GenerateVideoSession,
+      ): \\Promise<RequestPythonDetection>}:
+    \\ฟังก์ชันนี้ใช้สำหรับการสร้างสิ่งที่จำเป็นในการทำงานของ python ในการประมวลผลวิดีโอ
+\end{itemize}
+
+ข้อมูลใน videoSessionStateEnum ประกอบไปด้วย
+\begin{lstlisting}
+    {
+        UPLOADING = 'uploading',
+        PROCESSING = 'processing',
+        CAN_DELETE = 'canDelete',
+    }
+\end{lstlisting}
+
+ข้อมูลใน GenerateVideoSession ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "videoSessionId": string,
+        "organizationId": string[],
+        "organizationName": string
+    }
+\end{lstlisting}
+
+\clearpage
+
+ข้อมูลใน RequestPythonDetection ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "sessionId": string,
+        "session_folder_path": string[],
+        "session_detected_folder_path": string
+    }
+\end{lstlisting}
+\fi

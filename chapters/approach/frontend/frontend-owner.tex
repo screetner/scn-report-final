@@ -1,0 +1,44 @@
+\subsection{\ifenglish Owner Web Application\else เว็บไซตส่วนของผู้ดูแลระบบ\fi}
+\ifenglish \else
+ส่วนของผู้ดูแลระบบจะประกอบไปด้วยความสามารถในการจัดการผู้ใช้งานทั่วไป รวมไปถึงการสังเกตุการทำงานของระบบหลังบ้านไม่ว่าจะเป็นปริมาณการใช้งานระบบในส่วนต่าง ๆ และข้อมูลมาตรวัดอื่น ๆ ที่เกี่ยวข้องกับระบบ
+โดยส่วนของการสังเกตุการทำงานของระบบ จะอยู่ในหน้าแรกหลังจากลงชื่อเข้าใช้ระบบในนามของผู้ดูแลระบบดังรูป \ref{fig:owner-dashboard}
+\fi
+
+\insertPDFfigure{resources/frontend/owner-dashboard.png}{\ifenglish System Dashboard \else ส่วนแสดงการทำงานของระบบ \fi}{owner-dashboard}
+
+\subsubsection{\ifenglish User Management\else การจัดการผู้ใช้งาน\fi}
+\ifenglish \else
+ในส่วนต่อไปนี้คือส่วนที่ผู้ดูแลระบบจะใช้ในการจัดการองค์กรที่เป็นลูกค้าที่เข้ามาใช้งานระบบ โดยในหน้าแรกหลังจากดเข้ามาก็จะเจอกับตารางที่แสดง ข้อมูลว่ามีองค์กรมี่ใช้งานทั้งหมดเท่าใด และแต่ละองค์กรมีการใช้งานระบบอย่างไร ดังรูป \ref{fig:owner-user-management-table} โดยตารางจะแสดงข้อมูลดังนี้ 
+\begin{itemize}
+    \item ชื่อขององค์กร
+    \item จำนวนผู้ใช้งานทั้งหมดขององค์กรนั้นๆ
+    \item จำนวนป้ายที่ผ่านการทำ Object Detection แล้ว
+\end{itemize}
+
+ทั้งนี้ผู้ดูแลระบบสามารถสร้างองค์กรใหม่โดยการกดปุ่ม "Create Organization" ที่อยู่ด้านบนขวาของตาราง หลังจากกดสร้างก็จะปรากฏหน้าต่างใหม่ขึ้นมาเพื่อกรอกข้อมูลทั่วไปขององค์กรที่ต้องการสร้างดังรูปที่ \ref{fig:owner-create-org} ซึ่งประกอบไปด้วย
+\begin{itemize}
+    \item ชื่อขององค์กร
+    \item email ของแอดมินขององค์กร (กรอกได้มากกว่า 1 คนและสามารถเพิ่มเพิ่มได้หลังจากสร้างองค์กรแล้ว)
+\end{itemize}
+\fi
+
+\insertPDFfigure{resources/frontend/owner-user-management-table.png}{\ifenglish User Table \else แสดงข้อมูลทั่วไปข้อผู้ใช้งานระบบ \fi}{owner-user-management-table}
+\insertPDFfigure{resources/frontend/owner-create-org.png}{\ifenglish Create organization modal form \else หน้าต่างกรอกข้อมูลทั่วขององค์กรที่จะสร้าง \fi}{owner-create-org}
+
+\clearpage
+
+\ifenglish \else
+นอกเหนือจากการสร้างองค์กรแล้ว ผู้ดูแลระบบยังสามารถดูข้อมูลขององค์กรที่มีอยู่แล้วได้ โดยการกดที่ชื่อขององค์กรที่ต้องการดูข้อมูล หลังจากกดแล้วจะปรากฏหน้าต่างใหม่ขึ้นมาแสดงข้อมูลขององค์กรนั้น ๆ ดังรูป \ref{fig:owner-org-detail} ซึ่งประกอบไปด้วย
+\begin{itemize}
+    \item วันที่กดสร้างองค์กร
+    \item ลิสต์ของบทบาทหลักที่องค์กรนั้น ๆ มี
+    \item ตารางแสดงข้อมูลของผู้ใช้งานทั้งหมดขององค์กรนั้น ๆ
+    \item แผยที่แสดงขอบเขตขององค์กรนั้น ๆ
+\end{itemize}
+ทั้งนี้จากรูป \ref{fig:owner-org-detail} ในส่วนของตารางแสดงข้อมูลของผู้ใช้งานทั้งหมดขององค์กร ผู้ดูแลระบบสามารถเชิญแอดมินที่ดูแลองค์กรนั้น ๆ เพิ่มเติมได้โดยการกดปุ่ม "Invite Admin" ที่อยู่ด้านบนขวาของตาราง หลังจากกดแล้วจะปรากฏหน้าต่างใหม่ขึ้นมาเพื่อกรอก email ของแอดมินที่ต้องการเชิญเข้ามาดูแลองค์กรนั้น ๆ ดังรูป \ref{fig:owner-invite-admin}
+\fi
+
+
+\clearpage
+\insertPDFfigure{resources/frontend/owner-org-detail.png}{\ifenglish Organization detail modal \else แสดงข้อมูลขององค์กรที่เลือกดู \fi}{owner-org-detail}
+\insertPDFfigure{resources/frontend/owner-invite-admin.png}{\ifenglish Invite admin modal \else เชิญแอดมิน \fi}{owner-invite-admin}
