@@ -1,5 +1,6 @@
 \subsection{\ifenglish Upload Directory Resolution On Azure Blob Storage\else การระบุไดเรกทอรีสำหรับการอัปโหลดบน Azure Blob Storage\fi}
 
+\ifenglish
 The Tusd server provides a hook system that triggers user-defined actions in response to specific events, such as when an upload is initiated or completed. This system supports various use cases, including logging, validation, authorization, and post-processing of uploaded files.
 
 One key feature of the Tusd hook system is that the server awaits a response from the service receiving the hook. This is particularly useful for our needs, as we require the Tusd server to receive a response from the processing service before proceeding.
@@ -7,10 +8,23 @@ One key feature of the Tusd hook system is that the server awaits a response fro
 By default, Tusd servers store all uploaded files in a single directory, which does not align with our requirement to organize uploads based on individual users and their respective organizations. To address this, we developed a custom hook that dynamically assigns upload directories according to the user's ID and organization ID.
 
 In our implementation, clients initiate an upload resource without specifying the target directory, ensuring they cannot influence the file path on Azure Blob Storage. Instead, users are required to provide a token during session creation to prevent them from encoding malicious information. Since the Tusd server lacks the secret key to decode user tokens, our custom hook communicates with the backend service to decode the token, retrieving the necessary user and organization identifiers.
+\else
+เซิร์ฟเวอร์ Tusd มีระบบฮุก (Hook) ที่กระตุ้นการกระทำที่ผู้ใช้กำหนดเพื่อตอบสนองต่อเหตุการณ์เฉพาะ เช่น เมื่อเริ่มต้นหรือเสร็จสิ้นการอัปโหลด ระบบนี้รองรับการใช้งานต่าง ๆ อย่างเช่นการบันทึก การตรวจสอบ การอนุญาต และการประมวลผลหลังการอัปโหลดไฟล์
+
+คุณสมบัติสำคัญอย่างหนึ่งของระบบฮุกของ Tusd คือเซิร์ฟเวอร์สามารถรอการตอบกลับจากบริการที่ได้รับฮุก ซึ่งมีประโยชน์สำหรับความต้องการของระบบดดยรวม เนื่องจากเราต้องการให้เซิร์ฟเวอร์ Tusd ได้รับการตอบกลับจากบริการประมวลผลก่อนดำเนินการต่อ
+
+โดยปกติ เซิร์ฟเวอร์ Tusd จะจัดเก็บไฟล์ที่อัปโหลดทั้งหมดในไดเรกทอรีเดียว ซึ่งไม่สอดคล้องกับความต้องการของเราในการจัดระเบียบการอัปโหลดตามผู้ใช้แต่ละรายและองค์กรของผู้ใช้งาน เพื่อแก้ไขปัญหานี้ ระบบจึงกำหนดไดเรกทอรีในการอัปโหลดตาม ID ผู้ใช้และ ID องค์กรอย่างอัตโนมัติ
+
+ในการดำเนินการของระบบ ผู้ใช้งานจะเริ่มต้นด้วยแนบข้อมูลสำหรับการอัปโหลดโดยไม่ระบุไดเรกทอรีเป้าหมาย เพื่อให้แน่ใจว่าผู้ใช้งานไม่สามารถมีอิทธิพลต่อเส้นทางไฟล์บน Azure Blob Storage ได้ แต่ผู้ใช้จะต้องให้โทเค็นในระหว่างการสร้างเซสชันเพื่อป้องกันไม่ให้ผู้ใช้งานเข้ารหัสข้อมูลที่เป็นอันตราย แต่เนื่องจากเซิร์ฟเวอร์ Tusd ไม่มีคีย์ลับในการถอดรหัสโทเค็นของผู้ใช้ ฮุกที่กำหนดเองของเราจึงสื่อสารกับบริการหลังบ้านเพื่อถอดรหัสโทเค็นและดึงข้อมูลผู้ใช้และองค์กรที่จำเป็น
+\fi
 
 \insertPDFfigure
 {resources/tusd/tusd-upload-process.pdf}
-{\ifenglish File Upload Sequence of Tusd Service\else ขั้นนตอนการอัปโหลดไฟล์ของ Tusd\fi}
+{\ifenglish File Upload Sequence of Tusd Service\else ขั้นตอนการอัปโหลดไฟล์ของ Tusd\fi}
 {tusd upload progress}
 
+\ifenglish
 Traditionally, the Tusd hook system operates by sending event notifications to an external service specified by the developer. This external service then processes the events accordingly. In contrast, our implementation integrates event message handling directly within the Tusd server, eliminating the need for a separate service and simplifying the architecture.
+\else
+โดยทั่วไปแล้ว ระบบฮุกของ Tusd จะทำงานโดยการส่งการแจ้งเตือนเหตุการณ์ไปยังบริการภายนอกที่ผู้พัฒนาระบุ จากนั้นบริการภายนอกนี้จะประมวลผลเหตุการณ์ตามนั้น แต่ในระบบของเราจะดำเนินการจัดการเหตุการณ์ไว้ภายในเซิร์ฟเวอร์ Tusd โดยตรง จึงทำให้ไม่มีบริการแยกออกต่างหากและทำให้สถาปัตยกรรมง่ายขึ้น
+\fi
