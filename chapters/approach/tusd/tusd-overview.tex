@@ -1,10 +1,18 @@
 \section{\ifenglish Tusd Resumable Upload Service\else บริการอัปโหลดแบบต่อเนื่องของ Tusd\fi}
+\ifenglish
 Tusd is an open-source service designed to handle resumable file uploads, providing a reliable solution for large files and scenarios with unstable network connections.\enskip A key feature of Tusd is its native integration with cloud storage solutions, such as Azure Blob Storage. This built-in capability allows uploaded files to be rerouted directly to cloud storage without requiring custom implementation. This simplifies the upload process and ensures secure and efficient file storage.
 
 The resumable upload functionality of Tusd works by splitting files into smaller chunks on the client side and uploading them individually. Each chunk is tracked, enabling interrupted uploads to resume without restarting from the beginning. Only the remaining chunks need to be uploaded.
 
 By combining resumable upload functionality with robust cloud integration, Tusd delivers a seamless and efficient upload experience. These features make it a powerful tool for applications where reliability and performance are critical.
+\else
+Tusd เป็นระยยโอเพนซอร์สที่ออกแบบมาเพื่อจัดการการอัปโหลดไฟล์แบบต่อเนื่อง ซึ่งเหมาะสมกับสถานการณ์ที่่จะต่องการอัปโหลดไฟล์ขนาดใหญ่หรืออุปกรณ์มีการเชื่อมต่อเครือข่ายที่ไม่เสถียร หนึ่งในคุณสมบัติสำคัญของ Tusd คือการจัดเก็บข้อมูลบนคลาวด์ เช่น Azure Blob Storage ความสามารถในตัวนี้ช่วยให้ไฟล์ที่อัปโหลดถูกส่งตรงไปยังการจัดเก็บข้อมูลบนคลาวด์โดยไม่ต้องใช้การปรับแต่งเอง ซึ่งช่วยให้กระบวนการอัปโหลดต่อเนื่องขึ้น
 
-\newcommand{\dir}{chapters/approach/tusd}
-\import{\dir}{tusd-hook.tex}
-\import{\dir}{tusd-blob-structure.tex}
+ฟังก์ชันการอัปโหลดแบบต่อเนื่องของ Tusd ทำงานโดยการแบ่งไฟล์ออกเป็นชิ้นเล็ก ๆ ที่ฝั่งผู้ใช้งานและอัปโหลดทีละชิ้น แต่ละชิ้นจะถูกติดตาม ทำให้การอัปโหลดที่ถูกขัดจังหวะสามารถดำเนินการต่อได้โดยไม่ต้องเริ่มต้นใหม่ตั้งแต่ต้น ต้องอัปโหลดเฉพาะชิ้นที่เหลือเท่านั้น
+
+การรวมฟังก์ชันการอัปโหลดแบบต่อเนื่องกับการผสานรวมกับคลาวด์ของ Tusd ช่วยให้การอัปโหลดมีความราบรื่นและมีประสิทธิภาพ คุณสมบัติเหล่านี้ทำให้มันเหมาะสมสำหรับแอปพลิเคชันที่ต้องการความน่าเชื่อถือและประสิทธิภาพสูง
+\fi
+
+\newcommand{\tusdDir}{chapters/approach/tusd}
+\import{\tusdDir}{tusd-hook.tex}
+\import{\tusdDir}{tusd-blob-structure.tex}
