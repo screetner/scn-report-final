@@ -1,11 +1,23 @@
 \subsection{\ifenglish Upload Process\else การดำเนินการอัปโหลด\fi}
+\ifenglish
 The Upload Process serves as the final stage in the object detection pipeline, ensuring that both image data and metadata are stored. This process is responsible for handling the processed frames and corresponding object location data, transferring them to their respective storage destinations.
+\else
+การดำเนินการอัปโหลดทำหน้าที่เป็นขั้นตอนสุดท้ายในกระบวนการตรวจจับวัตถุ เพื่อให้แน่ใจว่าทั้งรูปภาพและข้อมูลของวัตุจะถูกจัดเก็บ กระบวนการนี้มีหน้าที่ในการจัดการเฟรมที่ประมวลผลแล้วและข้อมูลตำแหน่งของวัตถุที่เกี่ยวข้องด้วยการส่งข้อมูลแต่ละส่วนไปยังจุดหมายปลายทางตามกำหนด
+\fi
 
+\ifenglish
 The workflow begins by retrieving the processed detection data from the queue. Each detection consists of a video frame and its associated metadata, including the object's timestamped location (tloc). The image frame is first encoded into a JPEG format before being converted into a byte stream, preparing it for upload.
+\else
+ขั้นตอนการทำงานเริ่มต้นด้วยการดึงข้อมูลการตรวจจับที่ประมวลผลแล้วจากคิว โดยการตรวจจับแต่ละครั้งประกอบด้วยเฟรมวิดีโอและข้อมูลการตรวจจับที่เกี่ยวข้อง รวมถึงตำแหน่งที่มีการประทับเวลาของวัตถุ (tloc) เฟรมภาพจะถูกเข้ารหัสเป็นรูปแบบ JPEG ก่อนที่จะถูกแปลงเป็นสตรีมไบต์ เพื่อเตรียมพร้อมสำหรับการอัปโหลด
+\fi
 
 % TODO what structure convention
 % What special link metadata
+\ifenglish
 The encoded image is then stored in Azure Blob Storage under a structured naming convention that includes the video name and frame index. Simultaneously, the object's metadata—including its latitude, longitude, and the timestamp at which the frame was recorded—is stored in a database. Each uploaded image is referenced within this metadata, ensuring a direct link between the visual representation and its recorded spatial data.
+\else
+ภาพที่เข้ารหัสแล้วจะถูกจัดเก็บใน Azure Blob Storage โดยจะกำหนดชื่อไฟล์เป็นการผสมชื่อวิดีโอและดัชนีของเฟรม ในขณะเดียวกัน ข้อมูลการตรวจจับของวัตถุ รวมถึงละติจูด ลองจิจูด เวลาที่บันทึกเฟรม และลิงก์ที่อยู่ของไฟล์ จะถูกจัดเก็บในฐานข้อมูล 
+\fi
 
 \insertPDFfigure
 {resources/detection/detection-upload-process.pdf}

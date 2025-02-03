@@ -1,7 +1,13 @@
 \section{\ifenglish Detection Service \else ระบบการตรวจจับวัตถุ \fi}
+\ifenglish
 The Detection Service is a component of the application responsible for identifying objects within a video stream. It operates by downloading a video session directory from Azure Blob Storage, processing the video for object detection, and finally converting the results into structured records for storage in a database. 
 
 This pipeline is implemented in Python using Ultralytics' YOLO for object detection and tracking. The entire process consists of three sub-processes, orchestrated by the main process.
+\else
+ระบบการตรวจจับวัตถุเป็นส่วนประกอบของระบบทั้งหมดที่รับผิดชอบในการระบุวัตถุภายในวิดีโอ ระบบดังกล่าวทำงานโดยการดาวน์โหลดไดเรกทอรีเซสชันวิดีโอจาก Azure Blob Storage จากนั้นประมวลผลวิดีโอเพื่อการตรวจจับวัตถุ และสุดท้ายแปลงผลลัพธ์ที่ได้มาเป็นข้อมูลที่มีโครงสร้างเพื่อจัดเก็บในฐานข้อมูลได
+
+กระบวนการดังกล่าวถูกพัฒยาด้วยภาษา Python โดยใช้ YOLO ของ Ultralytics สำหรับการตรวจจับและติดตามวัตถุ โดยกระบวนการทำงานของระบบทั้งหมดประกอบด้วยสามกระบวนการย่อยที่ถูกจัดการโดยหนึ่งกระบวนการหลัก
+\fi
 
 \newcommand{\detectionDir}{chapters/approach/detection}
 \import{\detectionDir}{detection-main-process.tex}
