@@ -1,5 +1,9 @@
-\subsection{\ifenglish Main Process\else กระดำเนินการหลัก\fi}
-The main process serves as the controller of the workflow. First, it downloads the necessary files from Azure Blob Storage. For each image location data in the video session, it launches three subprocesses to handle different tasks concurrently. These subprocesses include the Detection Process, the Object Tracking Process, and the Upload Process. These subprocesses interact through a buffered queue, following the producer-consumer pattern. This concurrent execution allows for efficient processing and handling of video frames.
+\subsection{\ifenglish Main Process\else การดำเนินการหลัก\fi}
+\ifenglish
+The main process serves as the controller of the workflow. First, it downloads the necessary files from Azure Blob Storage. For each image location data in the video session, it launches three subprocesses to handle different tasks concurrently. These subprocesses include the Object Tracking Process, the Object Association Process, and the Upload Process. These subprocesses interact through a buffered queue, following the producer-consumer pattern. This concurrent execution allows for efficient processing and handling of video frames.
+\else
+การดำเนินการหลักทำหน้าที่เป็นตัวควบคุมของทั้งเวิร์กโฟลว์การประมวลผล ซึ่งเริ่มต้นด้วยการดาวน์โหลดไฟล์ที่จำเป็นต่อการประมวลผลทั้งหมดจาก Azure Blob Storage จากนั้น สำหรับแต่ละ image-location record ในเซสชันวิดีโอ การดำเนินการหลักจะสร้างกระบวนการย่อยทั้งสามกระบวนการ ซึ่งจะเริ่มการทำงานพร้อมกัน กระบวนการย่อยเหล่านี้จะรวมไปด้วย กระบวนการติดตามวัตถุ กระบวนการเชื่อมโยงวัตถุ และกระบวนการอัปโหลด กระบวนการย่อยเหล่านี้จะสื่อสารกันผ่านคิวบัฟเฟอร์ โดยปฏิบัติตามรูปแบบผู้ผลิต-ผู้บริโภค (producer-consumer pattern) ซึ่งช่วยให้การประมวลผลโดยรวมและการจัดการแต่ละเฟรมวิดีโอสำเร็จได้รวดเร็วยิ่งขั้น
+\fi
 
 \insertPDFfigure
 {resources/detection/detection-main-process.pdf}
