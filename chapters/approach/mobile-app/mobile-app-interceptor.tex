@@ -10,9 +10,9 @@ When using token authentication for API requests, tokens may occasionally expire
     \item \textbf{\ifenglish Request Interceptor \else ตัวดักจับคำขอ \fi}: 
 
     \ifenglish
-    Before sending an API request, the request interceptor verifies whether the access token has expired. If the token is valid, the request proceeds as usual. If the token has expired, the interceptor automatically refreshes it by invoking the refresh token API. Upon successfully retrieving a new token, the interceptor updates the access token and resumes the request. In cases where both the access token and refresh token have expired, the application redirects the user to the login page. This process is depicted in the accompanying diagram.
+    Before sending an API request, the request interceptor verifies whether the access token has expired. If the token is valid, the request proceeds as usual. If the token has expired, the interceptor automatically refreshes it by invoking the refresh token API. Upon successfully retrieving a new token, the interceptor updates the access token and resumes the request. In cases where both the access token and refresh token have expired, the application redirects the user to the login page. This process is depicted in \ref{fig:video session record state diagram}.
     \else
-    ก่อนส่งคำขอ API ตัวดักจับคำขอจะตรวจสอบว่าโทเคนหมดอายุหรือไม่ หากโทเคนยังใช้ได้ คำขอจะถูกส่งตามปกติ แต่หากโทเคนหมดอายุ ตัวดักจับจะทำการต่ออายุโดยอัตโนมัติผ่าน API ต่ออายุโทเคน เมื่อได้รับโทเคนใหม่สำเร็จ ตัวดักจับจะอัปเดตโทเคนและดำเนินการส่งคำขอต่อไป หากทั้งโทเคนและโทเคนสำหรับต่ออายุหมดอายุแล้ว แอปพลิเคชันจะนำผู้ใช้ไปยังหน้าล็อกอิน กระบวนการนี้แสดงอยู่ในไดอะแกรมที่แนบมา
+    ก่อนส่งคำขอ API ตัวดักจับคำขอจะตรวจสอบว่าโทเคนหมดอายุหรือไม่ หากโทเคนยังใช้ได้ คำขอจะถูกส่งตามปกติ แต่หากโทเคนหมดอายุ ตัวดักจับจะทำการต่ออายุโดยอัตโนมัติผ่าน API ต่ออายุโทเคน เมื่อได้รับโทเคนใหม่สำเร็จ ตัวดักจับจะอัปเดตโทเคนและดำเนินการส่งคำขอต่อไป หากทั้งโทเคนและโทเคนสำหรับต่ออายุหมดอายุแล้ว แอปพลิเคชันจะนำผู้ใช้ไปยังหน้าล็อกอิน กระบวนการนี้แสดงอยู่ในแผนภาพ \ref{fig:mobile app request interceptor}
     \fi
 
     \insertPDFfigure[page=1,width=140mm]
