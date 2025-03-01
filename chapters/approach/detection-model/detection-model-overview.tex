@@ -13,10 +13,17 @@
 \subsection{\ifenglish Model Accuracy \else ความแม่นยำของโมเดล \fi}
 \ifenglish \else
 \begin{itemize}
-    \item Precision ≈ 54.4\% (ค่าที่โมเดลทำนายว่าเป็น "billboard" มีถูกต้องประมาณ 54.4%)
-    \item Recall ≈ 70.0\% (จากทั้งหมดที่เป็น "billboard" จริง โมเดลสามารถจับได้ 70\%)
+    \item Precision จากรูป \ref{fig:confusion_matrix} จะสามารถคำนวณได้จาก \\
+        \[
+            \text{Precision} = \frac{TP}{TP + FP} = \frac{173}{173 + 145} \approx 0.544
+        \]
+    \item Recall จากรูป \ref{fig:confusion_matrix} จะสามารถคำนวณได้จาก \\
+        \[
+            \text{Recall} = \frac{TP}{TP + FN} = \frac{173}{173 + 74} \approx 0.70
+        \]
     \item จากรูป \ref{fig:PR_curve} จะเห็นว่า mPA (ค่าเฉลี่ยของค่า Average Precision (AP)) ของโมเดลนี้คือ 0.64 หรือ 64\%
 \end{itemize}
 \fi
 
+\insertPDFfigure{resources/detection-model/confusion_matrix.png}{\ifenglish Confusion Matrix \else Confusion Matrix \fi}{confusion_matrix}
 \insertPDFfigure{resources/detection-model/PR_curve.png}{\ifenglish Precision-Recall Curve \else กราฟ Precision-Recall \fi}{PR_curve}
