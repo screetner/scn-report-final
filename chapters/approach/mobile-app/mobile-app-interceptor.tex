@@ -1,9 +1,9 @@
 \subsection{\ifenglish API Request Flow and Error Handling \else กระบวนการเรียกใช้งาน API และการจัดการข้อผิดพลาด \fi}
 
 \ifenglish
-When using token authentication for API requests, tokens may occasionally expire, creating potential disruptions for users. Manually handling token refreshes can degrade the user experience. To streamline this, the application implements automatic token refreshment. This functionality is achieved using Dio’s interceptors, which enable seamless handling of API requests and responses. The interceptors are designed as follows:
+When using token authentication for API requests, tokens may occasionally expire, creating potential disruptions for users. Manually handling token refreshes can degrade the user experience. To streamline this, the application implements automatic token refreshment. This functionality is achieved using Dio’s interceptors \cite{dio-doc}, which enable seamless handling of API requests and responses. The interceptors are designed as follows:
 \else
-เมื่อทำการยืนยันตัวตนด้วยโทเคนสำหรับการเรียกใช้งาน API โทเคนอาจหมดอายุเป็นครั้งคราว ซึ่งอาจทำให้เกิดความไม่สะดวกต่อผู้ใช้ การจัดการการต่ออายุโทเคนด้วยตนเองอาจส่งผลกระทบต่อประสบการณ์ใช้งานของผู้ใช้ เพื่อแก้ไขปัญหานี้ แอปพลิเคชันจึงใช้การต่ออายุโทเคนอัตโนมัติ ฟังก์ชันนี้ทำงานผ่านตัวดักจับ (interceptor) ของ Dio ซึ่งช่วยให้สามารถจัดการคำขอและการตอบกลับ API ได้อย่างราบรื่น โดยมีการออกแบบตัวดักจับดังนี้:
+เมื่อทำการยืนยันตัวตนด้วยโทเคนสำหรับการเรียกใช้งาน API โทเคนอาจหมดอายุเป็นครั้งคราว ซึ่งอาจทำให้เกิดความไม่สะดวกต่อผู้ใช้ การจัดการการต่ออายุโทเคนด้วยตนเองอาจส่งผลกระทบต่อประสบการณ์ใช้งานของผู้ใช้ เพื่อแก้ไขปัญหานี้ แอปพลิเคชันจึงใช้การต่ออายุโทเคนอัตโนมัติ ฟังก์ชันนี้ทำงานผ่านตัวดักจับ (interceptor) ของ Dio \cite{dio-doc} ซึ่งช่วยให้สามารถจัดการคำขอและการตอบกลับ API ได้อย่างราบรื่น โดยมีการออกแบบตัวดักจับดังนี้:
 \fi
 
 \begin{enumerate}
