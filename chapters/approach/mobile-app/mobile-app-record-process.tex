@@ -1,19 +1,19 @@
 \subsection{\ifenglish Video Session Record Process \else กระบวนการบันทึกเซสชันวิดีโอ \fi}
 
 \ifenglish
-After starting the recording, the application invokes the \textbf{Image Location Record Controller} to begin recording both the video and its corresponding location data. These two processes—video recording and location recording—operate independently and simultaneously. The overall workflow for this recording process is illustrated in \autoref{fig:video session recording work flow}. 
+After starting the recording, the application invokes the Image Location Record Controller to begin recording both the video and its corresponding location data. These two processes—video recording and location recording—operate independently and simultaneously. The overall workflow for this recording process is illustrated in \autoref{fig:video session recording work flow}. 
 
-The location recording is handled by the \textbf{Location Recorder service}, which creates a record whenever the device detects a change in location through the \textbf{Geolocator library} (via the \texttt{getPositionStream} function). The video recording, on the other hand, is managed by the camera library.
+The location recording is handled by the Location Recorder service, which creates a record whenever the device detects a change in location through the Geolocator library (via the \texttt{getPositionStream} function) \cite{geolocator-doc}. The video recording, on the other hand, is managed by the camera library \cite{camera-doc}.
 \else
-เมื่อเริ่มบันทึก แอปพลิเคชันจะเรียกใช้ \textbf{Image Location Record Controller} เพื่อเริ่มบันทึกทั้งวิดีโอและข้อมูลตำแหน่งที่เกี่ยวข้อง กระบวนการบันทึกวิดีโอและการบันทึกตำแหน่งจะทำงานแยกจากกันและดำเนินการพร้อมกัน เวิร์กโฟลว์โดยรวมของกระบวนการบันทึกนี้แสดงอยู่ใน \autoref{fig:video session recording work flow} 
+เมื่อเริ่มบันทึก แอปพลิเคชันจะเรียกใช้ Image Location Record Controller เพื่อเริ่มบันทึกทั้งวิดีโอและข้อมูลตำแหน่งที่เกี่ยวข้อง กระบวนการบันทึกวิดีโอและการบันทึกตำแหน่งจะทำงานแยกจากกันและดำเนินการพร้อมกัน เวิร์กโฟลว์โดยรวมของกระบวนการบันทึกนี้แสดงอยู่ใน \autoref{fig:video session recording work flow} 
 
-การบันทึกตำแหน่งถูกจัดการโดย \textbf{Location Recorder service} ซึ่งสร้างบันทึกเมื่ออุปกรณ์ตรวจพบการเปลี่ยนแปลงของตำแหน่งผ่านทาง \textbf{Geolocator library} (โดยใช้ฟังก์ชัน \texttt{getPositionStream}) ในขณะที่การบันทึกวิดีโอถูกจัดการโดยไลบรารีกล้อง
+การบันทึกตำแหน่งถูกจัดการโดย Location Recorder service ซึ่งสร้างบันทึกเมื่ออุปกรณ์ตรวจพบการเปลี่ยนแปลงของตำแหน่งผ่านทาง Geolocator library (โดยใช้ฟังก์ชัน \texttt{getPositionStream}) \cite{geolocator-doc} ในขณะที่การบันทึกวิดีโอถูกจัดการโดยไลบรารีกล้อง \cite{camera-doc}
 \fi
 
 \ifenglish
-We refer to the combination of video and location data as an \textbf{image-location record}. Since both processes independently record their respective data, the system associates a timestamp with each location record. This timestamp is essential for the object detection service to match detected objects with their corresponding locations. This protocol of recording timestamp-location pairs is called a \textbf{Tloc file}.
+We refer to the combination of video and location data as an image-location record. Since both processes independently record their respective data, the system associates a timestamp with each location record. This timestamp is essential for the object detection service to match detected objects with their corresponding locations. This protocol of recording timestamp-location pairs is called a Tloc file.
 \else
-เราเรียกข้อมูลที่รวมระหว่างวิดีโอและตำแหน่งที่บันทึกว่า \textbf{image-location record} เนื่องจากทั้งสองกระบวนการบันทึกข้อมูลของตนเองแยกจากกัน ระบบจึงต้องแนบค่าเวลาที่บันทึก (timestamp) ไว้กับแต่ละตำแหน่งที่บันทึกไว้ ค่าเวลานี้มีส่วนเกี่ยวข้องกับตรวจจับวัตถุเพื่อให้สามารถจับคู่วัตถุที่ตรวจพบกับตำแหน่งที่เกี่ยวข้องได้ โดยโปรโตคอลการบันทึกคู่ของเวลาและตำแหน่งนี้เรียกว่า \textbf{Tloc file}
+โดยข้อมูลที่รวมระหว่างวิดีโอและตำแหน่งที่บันทึกจะเรียกว่า image-location record เนื่องจากทั้งสองกระบวนการบันทึกข้อมูลของตนเองแยกจากกัน ระบบจึงต้องแนบค่าเวลาที่บันทึก (timestamp) ไว้กับแต่ละตำแหน่งที่บันทึกไว้ ค่าเวลานี้มีส่วนเกี่ยวข้องกับตรวจจับวัตถุเพื่อให้สามารถจับคู่วัตถุที่ตรวจพบกับตำแหน่งที่เกี่ยวข้องได้ โดยโปรโตคอลการบันทึกคู่ของเวลาและตำแหน่งนี้เรียกว่า Tloc file
 \fi
 
 \ifenglish
@@ -73,7 +73,7 @@ However, each video session may have multiple image-location records. As for eac
 \ifenglish
 \begin{itemize}
     \item \textbf{\texttt{videoCount}}: The total number of videos in the session (integer).
-    \item \textbf{\texttt{sessionStartTime}}: The start time of the session in UTC in ISO 8601 format.
+    \item \textbf{\texttt{sessionStartTime}}: The start time of the session in UTC in ISO 8601 format \cite{iso8601}.
     \item \textbf{\texttt{videoTlocTuples}}: An array of objects mapping video names to Tloc names.
     \begin{itemize}
         \item \textbf{\texttt{videoName}}: The name of the video file.
@@ -84,7 +84,7 @@ However, each video session may have multiple image-location records. As for eac
 \else
 \begin{itemize}
     \item \textbf{\texttt{videoCount}}: จำนวนวิดีโอทั้งหมดในเซสชัน (จำนวนเต็ม)
-    \item \textbf{\texttt{sessionStartTime}}: เวลาที่เริ่มเซสชันในรูปแบบ UTC ตามมาตรฐาน ISO 8601
+    \item \textbf{\texttt{sessionStartTime}}: เวลาที่เริ่มเซสชันในรูปแบบ UTC ตามมาตรฐาน ISO 8601 \cite{iso8601}
     \item \textbf{\texttt{videoTlocTuples}}: อาร์เรย์ของอ็อบเจ็กต์ที่เชื่อมโยงชื่อวิดีโอกับชื่อไฟล์ Tloc
     \begin{itemize}
         \item \textbf{\texttt{videoName}}: ชื่อไฟล์วิดีโอ

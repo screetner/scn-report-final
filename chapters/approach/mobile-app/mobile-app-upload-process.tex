@@ -1,9 +1,9 @@
 \subsection{\ifenglish Video Session Upload Process \else กระบวนการอัปโหลดเซสชันวิดีโอ \fi}
 
 \ifenglish
-When the user chooses to upload a video session, the \textbf{Directory Upload Manager} initializes a background process using the WorkManager, which handles the upload process in a headless manner. The upload manager ensures that all necessary application context is provided to manage the processes, including the file upload process handled by the \textbf{Directory Upload Client} and the device notification process managed by the \textbf{Notification Manager}.
+When the user chooses to upload a video session, the Directory Upload Manager initializes a background process using the Workmanager, which handles the upload process in a headless manner as shown in \autoref{fig:workmanager instantiation}. The upload manager ensures that all necessary application context is provided to manage the processes, including the file upload process handled by the Directory Upload Client and the device notification process managed by the Notification Manager.
 \else
-เมื่อผู้ใช้เลือกที่จะทำการอัปโหลดเซสชันวิดีโอ \textbf{Directory Upload Manager} จะเริ่มกระบวนการเบื้องหลังโดยใช้ WorkManager ซึ่งจัดการการอัปโหลดโดยขาดส่วนติดต่อกับผู้ใช้โดยตรง Directory Upload Manager จึงต้อง ทำให้มั่นใจว่ามีการจัดเตรียมคอนเท็กซ์ของแอปพลิเคชันที่จำเป็นทั้งหมดก่อนที่จะสร้าง WorkManager รวมถึงการเริ่มต้นกระบวนการอัปโหลดไฟล์ที่ดำเนินการโดย \textbf{Directory Upload Client} และกระบวนการแจ้งเตือนอุปกรณ์ที่จัดการโดย \textbf{Notification Manager}
+เมื่อผู้ใช้เลือกที่จะทำการอัปโหลดเซสชันวิดีโอ ตัว Directory Upload Manager จะเริ่มกระบวนการเบื้องหลังโดยใช้ Workmanager ซึ่งจัดการการอัปโหลดโดยขาดส่วนติดต่อกับผู้ใช้โดยตรง Directory Upload Manager ตาม \autoref{fig:workmanager instantiation} จึงต้อง ทำให้มั่นใจว่ามีการจัดเตรียมคอนเท็กซ์ของแอปพลิเคชันที่จำเป็นทั้งหมดก่อนที่จะสร้าง Workmanager รวมถึงการเริ่มต้นกระบวนการอัปโหลดไฟล์ที่ดำเนินการโดย Directory Upload Client และกระบวนการแจ้งเตือนอุปกรณ์ที่จัดการโดย Notification Manager
 \fi
 
 \insertPDFfigure[page=1,width=100mm]
@@ -12,9 +12,9 @@ When the user chooses to upload a video session, the \textbf{Directory Upload Ma
 {workmanager instantiation}
 
 \ifenglish
-The directory upload process utilizes a resumable upload mechanism. The underlying technology used is the Tus protocol, which involves a Tus server on the receiving end. This server handles incoming file packets from the mobile application and routes them into Azure Blob Storage. The mobile application streams the file in smaller chunks and tracks the upload progress locally. This process is managed by the Tus client.
+The directory upload process utilizes a resumable upload mechanism. The underlying technology used is the Tus protocol \cite{tus-doc}, which involves a Tus server on the receiving end. This server handles incoming file packets from the mobile application and routes them into Azure Blob Storage. The mobile application streams the file in smaller chunks and tracks the upload progress locally. This process is managed by the Tus client, as shown in \autoref{fig:file upload sequence}.
 \else
-กระบวนการอัปโหลดไดเรกทอรีใช้กลไกการอัปโหลดที่สามารถกลับมาอัปโหลดต่อได้ เทคโนโลยีพื้นฐานที่ใช้คือโปรโตคอล Tus ซึ่งต้องมีเซิร์ฟเวอร์ Tus ฝั่งรับ เซิร์ฟเวอร์นี้จะจัดการแพ็กเก็ตไฟล์ที่ส่งเข้ามาจากแอปพลิเคชันมือถือและส่งไปยัง Azure Blob Storage โดยแอปพลิเคชันมือถือจะสตรีมไฟล์เป็นส่วนเล็ก ๆ และติดตามความคืบหน้าของการอัปโหลดในเครื่อง ซึ่งกระบวนการดังกล่าวจะถูกจัดการโดย Tus client
+กระบวนการอัปโหลดไดเรกทอรีใช้กลไกการอัปโหลดที่สามารถกลับมาอัปโหลดต่อได้ เทคโนโลยีพื้นฐานที่ใช้คือโปรโตคอล Tus \cite{tus-doc} ซึ่งต้องมีเซิร์ฟเวอร์ Tus ฝั่งรับ เซิร์ฟเวอร์นี้จะจัดการแพ็กเก็ตไฟล์ที่ส่งเข้ามาจากแอปพลิเคชันมือถือและส่งไปยัง Azure Blob Storage โดยแอปพลิเคชันมือถือจะสตรีมไฟล์เป็นส่วนเล็ก ๆ และติดตามความคืบหน้าของการอัปโหลดในเครื่อง ซึ่งกระบวนการดังกล่าวจะถูกจัดการโดย Tus client ตามแผนภาพ \autoref{fig:file upload sequence}
 \fi
 
 \insertPDFfigure[page=1,width=100mm]
@@ -23,9 +23,9 @@ The directory upload process utilizes a resumable upload mechanism. The underlyi
 {file upload sequence}
 
 \ifenglish
-However, the Tus client only supports resumable uploads for a single file at a time. To handle uploads for an entire directory, the application employs a wrapper called the \textbf{Directory Upload Client}. This client iterates over each file in the directory, managing their individual upload processes while tracking which files are uploaded, in progress, or pending upload. Additionally, the client tracks the overall progress of the video session upload through the \textbf{Progress File Store} service, which provides the data necessary to display upload progress on the home page.
+However, the Tus client only supports resumable uploads for a single file at a time. To handle uploads for an entire directory, the application employs a wrapper called the Directory Upload Client. This client iterates over each file in the directory, managing their individual upload processes while tracking which files are uploaded, in progress, or pending upload. Additionally, the client tracks the overall progress of the video session upload through the Progress File Store service, which provides the data necessary to display upload progress on the home page, as shown in \autoref{fig:directory upload sequence}.
 \else
-อย่างไรก็ตาม Tus client รองรับการอัปโหลดต่อเนื่องได้เพียงหนึ่งไฟล์ต่อครั้งเท่านั้น เพื่อให้สามารถอัปโหลดทุกไฟล์ในไดเรกทอรี แอปพลิเคชันใช้ตัวจัดการที่เรียกว่า \textbf{Directory Upload Client} ซึ่งจะทำการค้นหาแต่ละไฟล์ในไดเรกทอรี ควบคุมกระบวนการอัปโหลดของแต่ละไฟล์ พร้อมติดตามสถานะการอัปโหลดว่า ไฟล์ใดอัปโหลดแล้ว กำลังอัปโหลด หรือยังรอการอัปโหลด นอกจากนี้ยังติดตามความคืบหน้าทั้งหมดของเซสชันวิดีโอผ่านบริการ \textbf{Progress File Store} ซึ่งให้ข้อมูลที่จำเป็นสำหรับการแสดงผลความคืบหน้าบนหน้าแรกของแอป
+อย่างไรก็ตาม Tus client รองรับการอัปโหลดต่อเนื่องได้เพียงหนึ่งไฟล์ต่อครั้งเท่านั้น เพื่อให้สามารถอัปโหลดทุกไฟล์ในไดเรกทอรี แอปพลิเคชันใช้ตัวจัดการที่เรียกว่า Directory Upload Client ซึ่งจะทำการค้นหาแต่ละไฟล์ในไดเรกทอรี ควบคุมกระบวนการอัปโหลดของแต่ละไฟล์ พร้อมติดตามสถานะการอัปโหลดว่า ไฟล์ใดอัปโหลดแล้ว กำลังอัปโหลด หรือยังรอการอัปโหลด นอกจากนี้ยังติดตามความคืบหน้าทั้งหมดของเซสชันวิดีโอผ่านบริการ Progress File Store ซึ่งให้ข้อมูลที่จำเป็นสำหรับการแสดงผลความคืบหน้าบนหน้าแรกของแอป ตามแผนภาพ \autoref{fig:directory upload sequence}
 \fi
 
 \insertPDFfigure[page=1,width=100mm]
@@ -34,27 +34,27 @@ However, the Tus client only supports resumable uploads for a single file at a t
 {directory upload sequence}
 
 \ifenglish
-It is essential to understand that a WorkManager task operates independently of the main application once it is initialized. WorkManager utilizes its own memory space, separate from the main application, which prevents direct communication between the two.
+It is essential to understand that a Workmanager task operates independently of the main application once it is initialized. Workmanager utilizes its own memory space, separate from the main application, which prevents direct communication between the two.
 \else
-แต่ว่า WorkManager ทำงานแยกจากแอปพลิเคชันหลักเมื่อเริ่มต้นการทำงาน หมายความว่า WorkManager จะใช้พื้นที่หน่วยความจำของตัวเอง ซึ่งแยกออกจากแอปพลิเคชันหลัก และไม่สามารถสื่อสารกันโดยตรงได้
+แต่ว่า Workmanager ทำงานแยกจากแอปพลิเคชันหลักเมื่อเริ่มต้นการทำงาน หมายความว่า Workmanager จะใช้พื้นที่หน่วยความจำของตัวเอง ซึ่งแยกออกจากแอปพลิเคชันหลัก และไม่สามารถสื่อสารกันโดยตรงได้
 \fi
 
 \ifenglish
-However, the application's home page requires the upload progress to be displayed in real time. To address this, the \textbf{Progress Isolate Manager} is employed. This component retrieves upload progress data from the \textbf{Progress File Store}, where WorkManager tasks save progress information. The manager then communicates this progress to the home page.
+However, the application's home page requires the upload progress to be displayed in real time. To address this, the Progress Isolate Manager is employed. This component retrieves upload progress data from the Progress File Store, where Workmanager tasks save progress information. The manager then communicates this progress to the home page.
 \else
-อย่างไรก็ตาม หน้าหลักของแอปพลิเคชันจะต้องแสดงความคืบหน้าของการอัปโหลดแบบเรียลไทม์ ระบบจึงจะใช้ \textbf{Progress Isolate Manager} เพื่อดึงข้อมูลความคืบหน้าจาก \textbf{Progress File Store} ซึ่งเป็นที่จัดเก็บข้อมูลคืบหน้าในการอัปโหลดของ WorkManager จากนั้นตัวจัดการดังกล่าวจะสื่อสารข้อมูลไปยังหน้าแรกของแอปพลิเคชัน
+อย่างไรก็ตาม หน้าหลักของแอปพลิเคชันจะต้องแสดงความคืบหน้าของการอัปโหลดแบบเรียลไทม์ ระบบจึงจะใช้ Progress Isolate Manager เพื่อดึงข้อมูลความคืบหน้าจาก Progress File Store ซึ่งเป็นที่จัดเก็บข้อมูลคืบหน้าในการอัปโหลดของ Workmanager จากนั้นตัวจัดการดังกล่าวจะสื่อสารข้อมูลไปยังหน้าแรกของแอปพลิเคชัน
 \fi
 
 \ifenglish
-One challenge arises because the Progress Isolate Manager is unaware of when the WorkManager task updates the progress file in storage. Consequently, it must poll the storage for updated progress data—a process that is computationally expensive and inefficient for the main application.
+One challenge arises because the Progress Isolate Manager is unaware of when the Workmanager task updates the progress file in storage. Consequently, it must poll the storage for updated progress data—a process that is computationally expensive and inefficient for the main application.
 \else
-ปัญหาหนึ่งที่เกิดขึ้นคือ Progress Isolate Manager ไม่สามารถรู้ได้ว่าเมื่อใดที่ WorkManager อัปเดตไฟล์ความคืบหน้าในที่เก็บข้อมูล ตัวจัดการดังกล่าวเลยจึงต้องดึงข้อมูลจากที่เก็บเป็นระยะ ซึ่งเป็นกระบวนการที่ใช้ทรัพยากรสูงและไม่มีประสิทธิภาพสำหรับแอปพลิเคชันหลัก
+ปัญหาหนึ่งที่เกิดขึ้นคือ Progress Isolate Manager ไม่สามารถรู้ได้ว่าเมื่อใดที่ Workmanager อัปเดตไฟล์ความคืบหน้าในที่เก็บข้อมูล ตัวจัดการดังกล่าวเลยจึงต้องดึงข้อมูลจากที่เก็บเป็นระยะ ซึ่งเป็นกระบวนการที่ใช้ทรัพยากรสูงและไม่มีประสิทธิภาพสำหรับแอปพลิเคชันหลัก
 \fi
 
 \ifenglish
-To mitigate this inefficiency, the system leverages the concept of \textbf{isolates}. An isolate functions similarly to a thread but operates with its own dedicated memory, separate from the main thread (referred to as the main isolate). Unlike WorkManager tasks, isolates can communicate with one another, including with the main isolate, making them an effective solution for bridging the gap between WorkManager tasks and the main application.
+To mitigate this inefficiency, the system leverages the concept of isolates. An isolate functions similarly to a thread but operates with its own dedicated memory, separate from the main thread (referred to as the main isolate). Unlike Workmanager tasks, isolates can communicate with one another, including with the main isolate, making them an effective solution for bridging the gap between Workmanager tasks and the main application, as shown in \autoref{fig:upload progress polling}.
 \else
-ระบบจึงใช้แนวคิดของ \textbf{isolates} ซึ่งมีการทำงานคล้ายกับเธรด (Thread)แต่ใช้หน่วยความจำของตัวเองที่แยกจากเธรดหลัก (เรียกว่า main isolate) แต่จะแตกต่างจากงานของ WorkManager isolates ที่ว่า isolates จะสามารถสื่อสารกันเองและกับ main isolate ได้ จึงเป็นช่องทางในการเชื่อมโยงระหว่างข้อมูลจาก WorkManager และแอปพลิเคชันหลัก
+ระบบจึงใช้แนวคิดของ isolates ซึ่งมีการทำงานคล้ายกับเธรด (Thread)แต่ใช้หน่วยความจำของตัวเองที่แยกจากเธรดหลัก (เรียกว่า main isolate) แต่จะแตกต่างจากงานของ Workmanager isolates ที่ว่า isolates จะสามารถสื่อสารกันเองและกับ main isolate ได้ จึงเป็นช่องทางในการเชื่อมโยงระหว่างข้อมูลจาก Workmanager และแอปพลิเคชันหลักตามที่แสดงใน \autoref{fig:upload progress polling}
 \fi
 
 \insertPDFfigure
