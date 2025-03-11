@@ -1,31 +1,28 @@
 \subsection{\ifenglish Video Session Record Process \else กระบวนการบันทึกเซสชันวิดีโอ \fi}
 
 \ifenglish
-After starting the recording, the application invokes the Image Location Record Controller to begin recording both the video and its corresponding location data. These two processes—video recording and location recording—operate independently and simultaneously. The overall workflow for this recording process is illustrated in \autoref{fig:video session recording work flow}. 
+After starting the recording, the application invokes the Image Location Record Controller to begin recording both the video and its corresponding location data. These two processes, video recording and location recording, operate independently and simultaneously. The overall workflow for this recording process is illustrated in \autoref{fig:video session recording work flow}. 
 
 The location recording is handled by the Location Recorder service, which creates a record whenever the device detects a change in location through the Geolocator library (via the \texttt{getPositionStream} function) \cite{geolocator-doc}. The video recording, on the other hand, is managed by the camera library \cite{camera-doc}.
+
+We refer to the combination of video and location data as an image-location record. Since both processes independently record their respective data, the system associates a timestamp with each location record. This timestamp is essential for the object detection service to match detected objects with their corresponding locations. This protocol of recording timestamp location pairs is called a Tloc file.
+
+The Tloc file is named identically to the video file. For example, \texttt{1725683830.tloc} corresponds to the location data for the video file \texttt{1725683830.mp4}. The structure of a Tloc file is as follows:
 \else
 เมื่อเริ่มบันทึก แอปพลิเคชันจะเรียกใช้ Image Location Record Controller เพื่อเริ่มบันทึกทั้งวิดีโอและข้อมูลตำแหน่งที่เกี่ยวข้อง กระบวนการบันทึกวิดีโอและการบันทึกตำแหน่งจะทำงานแยกจากกันและดำเนินการพร้อมกัน เวิร์กโฟลว์โดยรวมของกระบวนการบันทึกนี้แสดงอยู่ใน \autoref{fig:video session recording work flow} 
 
 การบันทึกตำแหน่งถูกจัดการโดย Location Recorder service ซึ่งสร้างบันทึกเมื่ออุปกรณ์ตรวจพบการเปลี่ยนแปลงของตำแหน่งผ่านทาง Geolocator library (โดยใช้ฟังก์ชัน \texttt{getPositionStream}) \cite{geolocator-doc} ในขณะที่การบันทึกวิดีโอถูกจัดการโดยไลบรารีกล้อง \cite{camera-doc}
-\fi
 
-\ifenglish
-We refer to the combination of video and location data as an image-location record. Since both processes independently record their respective data, the system associates a timestamp with each location record. This timestamp is essential for the object detection service to match detected objects with their corresponding locations. This protocol of recording timestamp-location pairs is called a Tloc file.
-\else
-โดยข้อมูลที่รวมระหว่างวิดีโอและตำแหน่งที่บันทึกจะเรียกว่า image-location record เนื่องจากทั้งสองกระบวนการบันทึกข้อมูลของตนเองแยกจากกัน ระบบจึงต้องแนบค่าเวลาที่บันทึก (timestamp) ไว้กับแต่ละตำแหน่งที่บันทึกไว้ ค่าเวลานี้มีส่วนเกี่ยวข้องกับตรวจจับวัตถุเพื่อให้สามารถจับคู่วัตถุที่ตรวจพบกับตำแหน่งที่เกี่ยวข้องได้ โดยโปรโตคอลการบันทึกคู่ของเวลาและตำแหน่งนี้เรียกว่า Tloc file
-\fi
+ข้อมูลที่รวมวิดีโอและตำแหน่งที่บันทึกเข้าด้วยกันจะเรียกว่า image-location record เนื่องจากทั้งสองกระบวนการบันทึกข้อมูลของตนเองแยกจากกัน ระบบจึงต้องแนบค่าเวลาที่บันทึก (timestamp) ไว้กับแต่ละตำแหน่ง ค่าเวลานี้มีส่วนเกี่ยวข้องกับการตรวจจับวัตถุเพื่อให้สามารถจับคู่วัตถุที่ตรวจพบกับตำแหน่งที่เกี่ยวข้องได้ โดยโปรโตคอลการบันทึกคู่ของเวลาและตำแหน่งนี้เรียกว่า Tloc file
 
-\ifenglish
-The Tloc file is named identically to the video file. For example, \texttt{1725683830.tloc} corresponds to the location data for the video file \texttt{1725683830.mp4}. The structure of a Tloc file is as follows:
-\else
 ไฟล์ Tloc จะถูกตั้งชื่อให้เหมือนกับไฟล์วิดีโอ ตัวอย่างเช่น \texttt{1725683830.tloc} เป็นข้อมูลตำแหน่งของไฟล์วิดีโอ \texttt{1725683830.mp4} โครงสร้างของไฟล์ Tloc มีดังนี้:
 \fi
+
 \ifenglish
 \begin{enumerate}
     \item \textbf{Header (\texttt{4 bytes})}. This section contains an integer:
     \begin{itemize}
-        \item \textbf{\texttt{n} (Number of Timestamp-Locations)}: Represents the number of timestamp-location entries.
+        \item \textbf{\texttt{n} (Number of Timestamp-Location entries)}: Represents the number of timestamp-location entries.
     \end{itemize}
     
     \item \textbf{Location Data (\texttt{n * 24 bytes})}. This section contains n blocks, each 24 bytes long, representing the timestamp and geographic location of each location entry. Each block consists of three numbers:
@@ -51,11 +48,10 @@ The Tloc file is named identically to the video file. For example, \texttt{17256
 \end{enumerate}
 \fi
 
-
 \ifenglish
-However, each video session may have multiple image-location records. As for each video session pausing and stopping, will generate an image-location record. After the user decides to stop, the application will finalize all image-location records and combine them into a single video session. Each video session contains an information JSON file, which represents the order and details of the image-location records. The structure of the information JSON file is as follows:
+After each video session may have multiple image-location records. Every time a video session is paused or stopped, a new image-location record is generated. After the user decides to stop recording, the application finalizes all image-location records and combines them into a single video session. Each video session contains an information JSON file, which represents the order and details of the image-location records. The structure of the information JSON file is as follows:
 \else
-นอกจากนี้ แต่ละเซสชันวิดีโออาจมีหลาย image-location record โดยทุกครั้งที่มีการหยุดชั่วคราวหรือหยุดการบันทึกเซสชัน แอปพลิเคชันสร้างหนึ่ง image-location record ใหม่ หลังจากที่ผู้ใช้ตัดสินใจหยุดบันทึก แอปพลิเคชันจะทำการรวม image-location record ทั้งหมดเข้าเป็นเซสชันวิดีโอเดียว ซึ่งแต่ละเซสชันวิดีโอจะมีไฟล์ JSON ข้อมูลที่แสดงลำดับและรายละเอียดของ image-location record โครงสร้างของไฟล์ JSON มีดังนี้:
+นอกจากนี้ แต่ละเซสชันวิดีโออาจมีหลาย image-location record โดยทุกครั้งที่มีการหยุดชั่วคราวหรือหยุดการบันทึกเซสชัน แอปพลิเคชันจะสร้าง image-location record ใหม่ หลังจากที่ผู้ใช้ตัดสินใจหยุดบันทึก แอปพลิเคชันจะทำการรวม image-location record ทั้งหมดเข้าเป็นเซสชันวิดีโอเดียว ซึ่งแต่ละเซสชันวิดีโอจะมีไฟล์ JSON ข้อมูลที่แสดงลำดับและรายละเอียดของ image-location record โครงสร้างของไฟล์ JSON มีดังนี้:
 \fi
 
 \begin{lstlisting}
@@ -114,18 +110,18 @@ Example of the information JSON file:
 \end{lstlisting}
 
 \ifenglish
-And the Image Location Record Controller stores all files of a video session in the application's storage, which has the following structure:
+And the image-location Record Controller stores all files of a video session in the application's storage, which has the following structure:
 \else
-และ Image Location Record Controller จะจัดเก็บไฟล์ทั้งหมดของเซสชันวิดีโอไว้ในที่เก็บข้อมูลของแอปพลิเคชัน โดยมีโครงสร้างดังนี้:
+และ image-location Record Controller จะจัดเก็บไฟล์ทั้งหมดของเซสชันวิดีโอไว้ในที่เก็บข้อมูลของแอปพลิเคชัน โดยมีโครงสร้างดังนี้:
 \fi
 
 \begin{lstlisting}
     . app_flutter
     |-records
-    | |-${videoSessionName}     #e.g., 1725683830
-    | | |-${video1}.mp4         #e.g., 1725683830.mp4
+    | |-${videoSessionName}     # e.g., 1725683830
+    | | |-${video1}.mp4         # e.g., 1725683830.mp4
     | | |-${video2}.mp4
-    | | |-${video1}.tloc        #e.g., 1725683830.tloc
+    | | |-${video1}.tloc        # e.g., 1725683830.tloc
     | | |-${video2}.tloc
     | | |-information.json
 \end{lstlisting}
