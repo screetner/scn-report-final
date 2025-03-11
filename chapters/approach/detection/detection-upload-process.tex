@@ -11,12 +11,18 @@ The workflow begins by retrieving the processed detection data from the queue. E
 ขั้นตอนการทำงานเริ่มต้นด้วยการดึงข้อมูลการตรวจจับที่ประมวลผลแล้วจากคิว โดยการตรวจจับแต่ละครั้งประกอบด้วยเฟรมวิดีโอและข้อมูลการตรวจจับที่เกี่ยวข้อง รวมถึงตำแหน่งที่มีการประทับเวลาของวัตถุ (tloc) เฟรมภาพจะถูกเข้ารหัสเป็นรูปแบบ JPEG ก่อนที่จะถูกแปลงเป็นสตรีมไบต์ เพื่อเตรียมพร้อมสำหรับการอัปโหลด
 \fi
 
-% TODO what structure convention
-% What special link metadata
 \ifenglish
-The encoded image is then stored in Azure Blob Storage under a structured naming convention that includes the video name and frame index. Simultaneously, the object's metadata—including its latitude, longitude, and the timestamp at which the frame was recorded—is stored in a database. Each uploaded image is referenced within this metadata, ensuring a direct link between the visual representation and its recorded spatial data.
+The encoded image is then stored in Azure Blob Storage under a structured naming convention that includes the video name and frame index. The naming convention follows the format: 
+\begin{lstlisting}
+file_name = detection_${video_name}_${detection_number}.jpg
+\end{lstlisting}
+Simultaneously, the object's metadata, including its latitude, longitude, and the timestamp at which the frame was recorded, is stored in a database. Each uploaded image is referenced within this metadata, ensuring a direct link between the visual representation and its recorded spatial data.
 \else
-ภาพที่เข้ารหัสแล้วจะถูกจัดเก็บใน Azure Blob Storage โดยจะกำหนดชื่อไฟล์เป็นการผสมชื่อวิดีโอและดัชนีของเฟรม ในขณะเดียวกัน ข้อมูลการตรวจจับของวัตถุ รวมถึงละติจูด ลองจิจูด เวลาที่บันทึกเฟรม และลิงก์ที่อยู่ของไฟล์ จะถูกจัดเก็บในฐานข้อมูล 
+ภาพที่เข้ารหัสแล้วจะถูกจัดเก็บใน Azure Blob Storage โดยจะกำหนดชื่อไฟล์เป็นการผสมชื่อวิดีโอและดัชนีของเฟรม รูปแบบการตั้งชื่อไฟล์คือ:
+\begin{lstlisting}
+file_name = detection_${video_name}_${detection_number}.jpg
+\end{lstlisting}
+ในขณะเดียวกัน ข้อมูลการตรวจจับของวัตถุ รวมถึงละติจูด ลองจิจูด เวลาที่บันทึกเฟรม และลิงก์ที่อยู่ของไฟล์ จะถูกจัดเก็บในฐานข้อมูล 
 \fi
 
 \insertPDFfigure
