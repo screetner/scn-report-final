@@ -1,0 +1,29 @@
+\clearpage
+
+\section{\ifenglish Detection Model \else โมเดลการตรวจจับวัตถุ \fi}
+\ifenglish \else
+โมเดลการตรวจจับวัตถุ (ป้าย) ที่โครงการนี้ได้นำมาใช้งานคือ YOLOV8 ซึ่งตัวโมเดลเองไม่มีคลาสของการตรวจจับป้ายโฆษณาแบบที่ประเทศไทยใช้มาได้ จึงต้องทำ fine tuning ในส่วนของโมเดลการตรวจจับวัตถุเพื่อให้สามารถตรวจจับป้ายโฆษณาได้ โดยการใช้ข้อมูลภาพที่มีป้ายโฆษณาอยู่ในภาพ และทำการ train โมเดลใหม่เพื่อให้สามารถตรวจจับป้ายโฆษณาได้โดยที่จะ train เป็นเวลา 20 epochs โดยที่จะใช้รูปภาพทั้งหมด 721 รูปภาพ แบ่งออกเป็น
+\begin{itemize}
+    \item ชุดข้อมูลสำหรับการฝึก (Training): 545 รูปภาพ
+    \item ชุดข้อมูลสำหรับการตรวจสอบความถูกต้อง (Validation): 103 รูปภาพ
+    \item ชุดข้อมูลสำหรับการทดสอบ (Testing): 74 รูปภาพ
+\end{itemize}
+\fi
+
+\subsection{\ifenglish Model Accuracy \else ความแม่นยำของโมเดล \fi}
+\ifenglish \else
+\begin{itemize}
+    \item Precision จากรูป \ref{fig:confusion_matrix} จะสามารถคำนวณได้จาก \\
+        \[
+            \text{Precision} = \frac{TP}{TP + FP} = \frac{173}{173 + 145} \approx 0.544
+        \]
+    \item Recall จากรูป \ref{fig:confusion_matrix} จะสามารถคำนวณได้จาก \\
+        \[
+            \text{Recall} = \frac{TP}{TP + FN} = \frac{173}{173 + 74} \approx 0.70
+        \]
+    \item จากรูป \ref{fig:PR_curve} จะเห็นว่า mPA (ค่าเฉลี่ยของค่า Average Precision (AP)) ของโมเดลนี้คือ 0.64 หรือ 64\%
+\end{itemize}
+\fi
+
+\insertPDFfigure{resources/detection-model/confusion_matrix.png}{\ifenglish Confusion Matrix \else Confusion Matrix \fi}{confusion_matrix}
+\insertPDFfigure{resources/detection-model/PR_curve.png}{\ifenglish Precision-Recall Curve \else กราฟ Precision-Recall \fi}{PR_curve}

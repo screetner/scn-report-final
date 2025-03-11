@@ -1,0 +1,29 @@
+\subsection{Email Service}
+
+\ifenglish
+\else
+บริการอีเมล (Email Service) ใช้สำหรับการส่งอีเมลการแจ้งเตือนภายในองค์กร และใช้สำหรับการส่งอีเมลเชิญสมาชิกเข้าร่วมองค์กร
+
+ฟังก์ชันใน Email Service ประกอบด้วย
+
+\begin{itemize}
+    \item \textbf{sendAlertEmail(
+        userId: string,
+        isCanSend: boolean,
+        videoSessionName?: string,
+        countAsset?: number,
+      ): Promise<void>} ใช้สำหรับการส่งอีเมลการแจ้งเตือนในส่วนของการอัพโหลดวิดีโอและการประมวลผลวิดีโอว่าสำเร็จไปด้วยดีหรือไม่
+    \item \textbf{sendInviteEmail(
+        sendInviteTokens: sendInviteToken[]
+      ): Promise<void>} ใช้สำหรับการส่งอีเมลเชิญเข้าร่วมองค์กร
+    \item \textbf{uploadFailCase(videoSessionId: string): Promise<void>} ใช้สำหรับการแปลงข้อมูลให้เป็นในรูปแบบของอีเมลแจ้งเตือนในกรณีที่การอัพโหลดวิดีโอไม่สำเร็จก่อนที่จะส่งให้กับฟังก์ชัน \\sendAlertEmail
+\end{itemize}
+
+ข้อมูลใน sendInviteToken ถูกจัดเก็บในรูปแบบดังนี้:
+\begin{lstlisting}
+    {
+        "email": string,
+        "token": string,
+    }
+\end{lstlisting}
+\fi
