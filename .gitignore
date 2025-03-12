@@ -20,4 +20,5 @@
 __latexindent*
 /svg-inkscape/
 *.DS_Store
+*.idea
 # sampleReport.pdf
