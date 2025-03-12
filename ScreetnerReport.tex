@@ -20,6 +20,7 @@
 
 %% Some possible packages to include:
 \usepackage[final]{graphicx} % for including graphics
+\usepackage{float} % for controlling figure placement with [H]
 
 %% Add bookmarks and hyperlinks in the document.
 \PassOptionsToPackage{hyphens}{url}
@@ -33,6 +34,8 @@
 
 \usepackage{listings} % For Code block
 \usepackage{svg}      % For including svg images
+
+\usepackage{xparse}
 
 \newcommand{\figureSettings}{page=1,width=140mm}
 \newcommand{\figureSettingsSmall}{page=1,width=100mm}
@@ -60,6 +63,18 @@
     \end{center}
     \caption[#3]{#3}
     \label{fig:#4}
+  \end{figure}
+}
+
+\NewDocumentCommand{\insertPDFfigureManual}{O{page=1,width=140mm} O{ht} m m m}{
+  \begin{figure}[#2]
+    \begin{center}
+      \setlength{\fboxsep}{0pt}  % Space between border and image
+      \setlength{\fboxrule}{0.5pt}  % Border thickness
+      \fbox{\includegraphics[#1]{#3}}
+    \end{center}
+    \caption{#4}
+    \label{fig:#5}
   \end{figure}
 }
 

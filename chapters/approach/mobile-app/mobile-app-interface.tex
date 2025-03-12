@@ -1,1 +1,210 @@
+\newcommand{\hbarWidth}{6.6cm}
+
+\newcommand{\horizontalScreenshotWidth}{100mm}
+\newcommand{\verticalScreenshotWidth}{40mm}
+
+\newcommand{\pageLoginEmpty}{
+    \insertPDFfigure[page=1,width=\verticalScreenshotWidth]
+    {resources/mobile-app/page-login-default.png}
+    {\ifenglish Login Page \else หน้าเข้าสู่ระบบ \fi}
+    {page-login-default}
+}
+
+\newcommand{\pageLoginDefault}{\insertPDFfigureManual[page=1,width=\verticalScreenshotWidth][H]{resources/mobile-app/page-login-default.png}{\ifenglish Login Page  \else หน้าเข้าสู่ระบบ \fi}{page-login-default}} 
+
+\newcommand{\pageLoginException}{\insertPDFfigureManual[page=1,width=\verticalScreenshotWidth][H]{resources/mobile-app/page-login-exception.png}{\ifenglish Login Page with Incorrect Credentials \else หน้าเข้าสู่ระบบเมื่อกรอกข้อมูลผู้ใช้ผิด \fi}{page-login-exception}} 
+
+\newcommand{\pageHomeEmpty}{\insertPDFfigureManual[page=1,width=\verticalScreenshotWidth][H]{resources/mobile-app/page-home-empty.png}{\ifenglish Home Page without video sessions \else หน้าแรกโดยไม่มีเซสชันวิดีโอ \fi}{page-home-empty}}
+
+\newcommand{\pageHomePreUpload}{\insertPDFfigureManual[page=1,width=\verticalScreenshotWidth][H]{resources/mobile-app/page-home-pre-upload.png}{\ifenglish Home Page with video sessions \else หน้าแรกโดยมีเซสชันวิดีโอ \fi}{page-home-pre-upload}}
+
+\newcommand{\pageHomeExtendedCard}{\insertPDFfigureManual[page=1,width=\verticalScreenshotWidth][H]{resources/mobile-app/page-home-extended-card.png}{\ifenglish Home Page with extended card \else หน้าแรกโดยมีการ์ดที่ขยาย \fi}{page-home-extended-card}}
+
+\newcommand{\pageHomeUploading}{\insertPDFfigureManual[page=1,width=\verticalScreenshotWidth][H]{resources/mobile-app/page-home-uploading.png}{\ifenglish Home Page with uploading session \else หน้าแรกโดยมีการ์ดที่กำลังอัปโหลด \fi}{page-home-uploading}}
+
+\newcommand{\pageHomeUploadingNotificaiton}{\insertPDFfigureManual[page=1,width=60mm][H]{resources/mobile-app/page-home-uploading-notification.png}{\ifenglish Uploading notification \else การแจ้งเตือนการอัปโหลด \fi}{page-home-uploading-notification}}
+
+\newcommand{\pageHomePostUpload}{\insertPDFfigureManual[page=1,width=\verticalScreenshotWidth][H]{resources/mobile-app/page-home-post-upload.png}{\ifenglish Home Page after uploading \else หน้าแรกหลังจากอัปโหลด \fi}{page-home-post-upload}}
+
+\newcommand{\pageRecordDefault}{\insertPDFfigureManual[page=1,width=\horizontalScreenshotWidth][H]{resources/mobile-app/page-record-default.png}{\ifenglish Record Page before recording \else หน้าบันทึกวิดีโอก่อนการบันทึกวิดีโอ \fi}{page-record-default}} 
+
+\newcommand{\pageRecordRecording}{\insertPDFfigureManual[page=1,width=\horizontalScreenshotWidth][H]{resources/mobile-app/page-record-recording.png}{\ifenglish Record Page during recording \else หน้าบันทึกวิดีโอขณะการบันทึกวิดีโอ \fi}{page-record-recording}} 
+
+\newcommand{\pageRecordPause}{\insertPDFfigureManual[page=1,width=\horizontalScreenshotWidth][H]{resources/mobile-app/page-record-pause.png}{\ifenglish Record Page during pausing \else หน้าบันทึกวิดีโอขณะหยุดชั่วคราว \fi}{page-record-pause}} 
+
+\newcommand{\pageInfoDefault}{\insertPDFfigureManual[page=1,width=\verticalScreenshotWidth][H]{resources/mobile-app/page-info-default.png}{\ifenglish Information Page \else ข้อมูลผู้ใช้ \fi}{page-info-default}} 
+
 \subsection{\ifenglish Mobile Application Interface \else หน้าการใช้งานแอปพลิเคชันมือถือ \fi}
+\ifenglish
+In this section, we describe the user interface of the mobile application, detailing how users interact with the system through various pages and providing guidelines on using different functions.
+\else
+ในส่วนนี้อธิบายหน้าตาของแอปพลิเคชันมือถือ โดยระบุวิธีที่ผู้ใช้สื่อสารกับระบบผ่านหน้าต่างต่าง ๆ และให้คำแนะนำในการใช้ฟังก์ชันต่าง ๆ
+\fi
+
+\subsubsection{\ifenglish Login Page \else หน้าเข้าสู่ระบบ \fi}
+\ifenglish
+\textbf{Purpose:} Allows users to log in by providing credentials.\\
+\textbf{Usage:} 
+\begin{itemize}
+    \item Display of input fields for username and password.
+    \item Error notifications for invalid credentials.
+    \item Navigation to the Home Page upon successful login.
+\end{itemize}
+\else
+\textbf{จุดประสงค์:} ให้ผู้ใช้เข้าสู่ระบบโดยกรอกข้อมูลประจำตัว\\
+\textbf{วิธีใช้งาน:} 
+\begin{itemize}
+    \item แสดงช่องกรอกข้อมูลสำหรับชื่อผู้ใช้และรหัสผ่าน
+    \item แจ้งเตือนเมื่อข้อมูลไม่ถูกต้อง
+    \item นำทางไปยังหน้าแรกหลังจากเข้าสู่ระบบสำเร็จ
+\end{itemize}
+\fi
+
+\pageLoginDefault
+
+\ifenglish
+    As shown in \ref{fig:page-login-default}, the login page features text input fields for the username and password. After entering their credentials, users can click the login button to proceed.
+\else
+    ดังที่แสดงใน \ref{fig:page-login-default} หน้าจอเข้าสู่ระบบมีช่องกรอกข้อมูลสำหรับชื่อผู้ใช้และรหัสผ่าน หลังจากกรอกข้อมูลเสร็จสิ้น ผู้ใช้สามารถคลิกปุ่มเข้าสู่ระบบเพื่อดำเนินการต่อ
+\fi
+
+\pageLoginException
+
+\ifenglish
+    As shown in \ref{fig:page-login-exception}, if the user enters incorrect credentials, an error message will be displayed, prompting the user to try again.
+\else
+    ดังที่แสดงใน \ref{fig:page-login-exception} หากผู้ใช้กรอกข้อมูลไม่ถูกต้อง จะมีข้อความแสดงข้อผิดพลาดและให้ผู้ใช้ลองอีกครั้ง
+\fi
+
+\subsubsection{\ifenglish Home Page \else หน้าแรก \fi}
+\ifenglish
+\textbf{Purpose:} Lists all stored video sessions and enables users to upload or delete sessions.\\
+\textbf{Usage:}
+\begin{itemize}
+    \item Display of video session thumbnails and metadata.
+    \item Options to upload or delete a selected session.
+    \item Display upload progress.
+\end{itemize}
+\else
+\textbf{จุดประสงค์:} แสดงรายการเซสชันวิดีโอที่ถูกเก็บไว้ในอุปกรณ์ พร้อมทั้งให้ผู้ใช้ทำการอัปโหลดและลบเซสชัน\\
+\textbf{วิธีใช้งาน:}
+\begin{itemize}
+    \item แสดงภาพย่อและข้อมูลประกอบของเซสชันวิดีโอ
+    \item มีตัวเลือกสำหรับอัปโหลดหรือลบเซสชันที่เลือก
+    \item แสดงความคืบหน้าของการอัปโหลด
+\end{itemize}
+\fi
+
+\pageHomeEmpty
+
+\ifenglish
+    As shown in \ref{fig:page-home-empty}, when the device doesn't have any video sessions, the page displays a message indicating that there are no sessions available.
+\else
+    ดังที่แสดงใน \ref{fig:page-home-empty} เมื่ออุปกรณ์ไม่มีเซสชันวิดีโอ หน้าจะแสดงข้อความแสดงว่าไม่มีเซสชันที่ใช้ได้
+\fi 
+
+\pageHomePreUpload
+
+\ifenglish
+    As shown in \ref{fig:page-home-pre-upload}, if the device has video sessions, the page displays a list of cards, each representing a video session. The card contains a thumbnail, title, and metadata.
+\else
+    ดังที่แสดงใน \ref{fig:page-home-pre-upload} หากอุปกรณ์มีเซสชันวิดีโอ หน้าจะแสดงรายการของการ์ด ซึ่งแต่ละการ์ดแทนเซสชันวิดีโอและประกอบด้วยภาพย่อ ชื่อ และข้อมูลประกอบ
+\fi
+
+\pageHomeExtendedCard
+
+\ifenglish
+    As shown in \ref{fig:page-home-extended-card}, when a card is selected, it expands to show additional options, that are uploading and deleting the session.
+\else
+    ดังที่แสดงใน \ref{fig:page-home-extended-card} เมื่อการ์ดถูกเลือก มันจะขยายเพื่อแสดงตัวเลือกเพิ่มเติม ซึ่งคือการอัปโหลดและลบเซสชัน
+\fi
+
+\pageHomeUploading
+
+\ifenglish
+    As shown in \ref{fig:page-home-uploading}, when a session is being uploaded, the card displays upload progress.
+\else
+    ดังที่แสดงใน \ref{fig:page-home-uploading} เมื่อเซสชันกำลังถูกอัปโหลด การ์ดจะแสดงความคืบหน้าของการอัปโหลด
+\fi 
+
+\pageHomeUploadingNotificaiton
+
+\ifenglish
+    As shown in \ref{fig:page-home-uploading-notification}, the upload process also sends notifications about the upload progress.
+\else
+    ดังที่แสดงใน \ref{fig:page-home-uploading-notification} กระบวนการอัปโหลดยังส่งการแจ้งเตือนเกี่ยวกับความคืบหน้าของการอัปโหลด
+\fi
+
+\pageHomePostUpload
+
+\ifenglish
+    As shown in \ref{fig:page-home-post-upload}, after the upload is complete, the card displays a completion message and only the delete option will be shown.
+\else
+    ดังที่แสดงใน \ref{fig:page-home-post-upload} เมื่อการอัปโหลดเสร็จสิ้น การ์ดจะแสดงข้อความเสร็จสิ้นและจะแสดงเฉพาะตัวเลือกลบเท่านั้น
+\fi 
+
+\subsubsection{\ifenglish Recording Page \else หน้าบันทึกวิดีโอ \fi}
+\ifenglish
+\textbf{Purpose:} Responsible for the recording of video sessions, including starting, pausing, and stopping the recording.\\
+\textbf{Usage:}
+\begin{itemize}
+    \item Button controls for Start Recording, Pause Recording, and Stop Recording.
+    \item Display of functions available based on recording status.
+\end{itemize}
+\else
+\textbf{จุดประสงค์:} รับผิดชอบในการบันทึกเซสชันวิดีโอ ได้แก่การเริ่มต้น หยุดชั่วคราว และหยุดการบันทึก\\
+\textbf{วิธีใช้งาน:}
+\begin{itemize}
+    \item ปุ่มควบคุมสำหรับเริ่มบันทึก หยุดชั่วคราว และหยุดบันทึก
+    \item แสดงฟังก์ชันที่สามารถทำได้ตามสถานะการบันทึก
+\end{itemize}
+\fi
+
+\pageRecordDefault
+
+\ifenglish
+    As shown in \ref{fig:page-record-default}, on the recording page, users can start recording by clicking the red circular button.
+\else
+    ดังที่แสดงใน \ref{fig:page-record-default} บนหน้าบันทึกวิดีโอ ผู้ใช้สามารถเริ่มต้นการบันทึกโดยคลิกปุ่มวงกลมสีแดง
+\fi
+
+\pageRecordRecording
+
+\ifenglish
+    As shown in \ref{fig:page-record-recording}, during recording, users can pause by clicking the pause icon or stop recording by clicking the square icon.
+\else
+    ดังที่แสดงใน \ref{fig:page-record-recording} ในระหว่างการบันทึก ผู้ใช้สามารถหยุดชั่วคราวโดยคลิกไอคอนหยุดชั่วคราว หรือหยุดการบันทึกโดยคลิกไอคอนรูปสี่เหลี่ยม
+\fi
+
+\pageRecordPause
+
+\ifenglish
+    As shown in \ref{fig:page-record-pause}, when the recording is paused, users can resume by clicking the red circular button or stop the recording by clicking the square icon.
+\else
+    ดังที่แสดงใน \ref{fig:page-record-pause} เมื่อการบันทึกหยุดชั่วคราว ผู้ใช้สามารถดำเนินการบันทึกต่อโดยคลิกปุ่มวงกลมสีแดง หรือหยุดการบันทึกโดยคลิกไอคอนรูปสี่เหลี่ยม
+\fi
+
+\subsubsection{\ifenglish Information Page \else หน้าข้อมูลผู้ใช้ \fi}
+\ifenglish
+\textbf{Purpose:} Displays user information and provides a log-out option.\\
+\textbf{Usage:}
+\begin{itemize}
+    \item Display of user profile details.
+    \item Option to log out.
+\end{itemize}
+\else
+\textbf{จุดประสงค์:} แสดงข้อมูลผู้ใช้และมีตัวเลือกให้ผู้ใช้ออกจากระบบ\\
+\textbf{วิธีใช้งาน:}
+\begin{itemize}
+    \item แสดงรายละเอียดของโปรไฟล์ผู้ใช้
+    \item มีตัวเลือกสำหรับออกจากระบบ
+\end{itemize}
+\fi
+
+\pageInfoDefault
+
+\ifenglish
+    As shown in \ref{fig:page-info-default}, in the information page, the user can log out by clicking the log out button.
+\else
+    ดังที่แสดงใน \ref{fig:page-info-default} ในหน้าข้อมูลผู้ใช้ ผู้ใช้สามารถออกจากระบบโดยคลิกปุ่มออกจากระบบ
+\fi
