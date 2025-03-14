@@ -25,5 +25,12 @@
 \end{itemize}
 \fi
 
+\subsection{\ifenglish Areas for Improvement \else สิ่งที่ควรปรับปรุง \fi}
+\begin{itemize}
+    \item จากรูป \ref{fig:confusion_matrix} จะเห็นได้ว่าโมเดลไม่มามารถทำนายสิ่งที่เป็น TN (True Negative) ได้เลย ซึ่งอาจจะเกิดจากข้อมูลที่ใช้ในการฝึกโมเดลไม่เพียงพอหรือมีความหลากหลายไม่เพียงพอ จึงต้องทำส่งผลให้โมเดลจะมีความแม่นยำของโมเดลต่ำลง
+    \item ข้อมูลที่ใช้ในการฝึกโมเดลไม่เพียงพอ ซึ่งอาจจะทำให้โมเดลไม่สามารถทำนายป้ายโฆษณาที่มีลักษณะที่แตกต่างออกไปจากข้อมูลที่ใช้ในการฝึกได้ ดังนั้นควรมีข้อมูลที่หลากหลายมากขึ้น
+\end{itemize}
+
+
 \insertPDFfigure{resources/detection-model/confusion_matrix.png}{\ifenglish Confusion Matrix \else Confusion Matrix \fi}{confusion_matrix}
 \insertPDFfigure{resources/detection-model/PR_curve.png}{\ifenglish Precision-Recall Curve \else กราฟ Precision-Recall \fi}{PR_curve}
